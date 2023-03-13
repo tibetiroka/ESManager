@@ -1,9 +1,9 @@
-Name: Release CD
+name: Release CD
 
 on:
   push:
     tags:
-      - *
+      - '*'
 
 jobs:
   release_linux:
