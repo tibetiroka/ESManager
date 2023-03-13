@@ -45,13 +45,18 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 
 ### Custom theming
   You can customize the theme of the launcher using css. It comes with two built-in themes: dark and light. You can choose between these in `Settings -> Launcher -> Theme`.
+  
   You can also add your own themes. For this, navigate to the [data directory](#data-directory), and create a new subdirectory called `themes`. Any css file in this directory will be available as a launcher theme in the settings menu. You might have to restart the application for the new theme to be detected, but applying themes is instantaneous.
+  
   *Please note that the css files don't have the same entries that you might be used to from HTML. Follow the [JavaFX CSS Guide](https://openjfx.io/javadoc/19/javafx.graphics/javafx/scene/doc-files/cssref.html) or have a look at the [default themes](src/main/resources/tibetiroka/esmanager/ui/themes) for more details.*
+  
   Feel free to look at the [fxml files](src/main/resources/tibetiroka/esmanager/ui) to see which style classes apply to certain components. 
   
 ### Localization
   Pretty much all text you see in the launcher is localized. The application ships with a single English locale, but you can define your own locales as well. You can choose between locales in `Settings -> Launcher -> Language`.
+  
   To add a new language, navigate to the [data directory](#data-directory), and create a new subdirectory called `locales`. You can put your own locale files in this directory. Locale files are always named `ui_language.properties`, like `ui_hu.properties` or `ui_en_US.properties`. These locales will become available in the launcher after it is restarted.
+  
   Locales are applied instantly to all components except log messages. Old log messages will continue to use their own locale, but new log messages are created with the new locale.
 
 ### Important options
@@ -82,9 +87,9 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 - macOS: `$user.home/Library/Application Support/ESManager/logs`
 
 ## Licensing
-  Any code I wrote is licensed under GNU General Public License v3.0, the same license that is used in Endless Sky (GPL-3.0-or-later).
-  Some auto-generated project files are licensed under the Apache License.
-  Dependencies and the bundled Java Development Kit use various open-source licenses.
-  The launcher music is taken from [sounds-of-endless-sky](https://github.com/samrocketman/sounds-of-endless-sky), licensed under CC-BY-4.0. I modified the files to contain ID3v2 metadata with the artists' name and the songs' title, and these are displayed on the main screen.
-  The plugin banner images are not stored in this application, and have unknown licenses (probably the same as the plugins themselves). Plugins might use a variety of licenses.
-  For the license used for any specific file, refer to the copyright header of the file in question.
+- Any code I wrote is licensed under GNU General Public License v3.0, the same license that is used in Endless Sky (GPL-3.0-or-later).
+- Some auto-generated project files are licensed under the Apache License.
+- Dependencies and the bundled Java Development Kit use various open-source licenses.
+- The launcher music is taken from [sounds-of-endless-sky](https://github.com/samrocketman/sounds-of-endless-sky), licensed under CC-BY-4.0. I modified the files to contain ID3v2 metadata with the artists' name and the songs' title, and these are displayed on the main screen.
+- The plugin banner images are not stored in this application, and have unknown licenses (probably the same as the plugins themselves). Plugins might use a variety of licenses.
+- For the license used for any specific file, refer to the copyright header of the file in question.
