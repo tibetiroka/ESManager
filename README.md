@@ -58,6 +58,10 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   To add a new language, navigate to the [data directory](#data-directory), and create a new subdirectory called `locales`. You can put your own locale files in this directory. Locale files are always named `ui_language.properties`, like `ui_hu.properties` or `ui_en_US.properties`. These locales will become available in the launcher after it is restarted.
   
   Locales are applied instantly to all components except log messages. Old log messages will continue to use their own locale, but new log messages are created with the new locale.
+  
+  Please have a look at the [default locale file](src/main/resources/tibetiroka/esmanager/config/locales/ui_en.properties) to see what localization entries are used, and how messages are formatted. Please note that internally [MessageFormat](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/text/MessageFormat.html) is used to format these messages, which uses `'` as an escape character.
+  
+  You don't have to specify every entry in a locale, missing entries will be resolved from the default locale.
 
 ### Important options
 - `Settings -> Game -> Preserve manually installed plugins`
