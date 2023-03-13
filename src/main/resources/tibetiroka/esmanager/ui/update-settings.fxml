@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.UpdateSettingsController">
+    <styleClass>
+        <String fx:value="setting-vbox" />
+        <String fx:value="setting-update-vbox" />
+    </styleClass>
+    <children>
+        <CheckBox fx:id="instanceUpdate" cache="true" cacheHint="SPEED" mnemonicParsing="false" text="update.instance.autoupdate.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-update-instance-update-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="update.instance.autoupdate.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-update-instance-update-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <CheckBox fx:id="pluginUpdate" cache="true" cacheHint="SPEED" mnemonicParsing="false" text="update.plugin.autoupdate.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-update-plugin-update-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="update.plugin.autoupdate.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-update-plugin-update-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <CheckBox fx:id="launcherUpdate" cache="true" cacheHint="SPEED" mnemonicParsing="false" text="update.launcher.autoupdate.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-update-launcher-update-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="update.launcher.autoupdate.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-update-launcher-update-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+    </children>
+    <padding>
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+    </padding>
+</VBox>

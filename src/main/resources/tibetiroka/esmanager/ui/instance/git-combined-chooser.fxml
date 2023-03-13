@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="tibetiroka.esmanager.ui.instance.GitCombinedChooserController">
+    <styleClass>
+        <String fx:value="instance-wizard-vbox"/>
+        <String fx:value="instance-wizard-vbox-git-combined-chooser"/>
+    </styleClass>
+    <Label text="instance.add.git.text">
+        <styleClass>
+            <String fx:value="instance-wizard-title"/>
+            <String fx:value="instance-wizard-title-git-combined-chooser"/>
+        </styleClass>
+        <font>
+            <Font name="System Bold" size="24.0"/>
+        </font>
+        <padding>
+            <Insets bottom="14.0"/>
+        </padding>
+        <VBox.margin>
+            <Insets/>
+        </VBox.margin>
+    </Label>
+    <Button mnemonicParsing="false" onAction="#addSource" text="instance.add.git.add.button">
+        <styleClass>
+            <String fx:value="instance-wizard-button"/>
+            <String fx:value="instance-wizard-button-add-source"/>
+        </styleClass>
+    </Button>
+    <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308"
+                maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent;" VBox.vgrow="ALWAYS">
+        <styleClass>
+            <String fx:value="instance-wizard-scroll-pane"/>
+            <String fx:value="instance-wizard-scoll-pane-git-combined-chooser"/>
+        </styleClass>
+        <content>
+            <VBox fx:id="sources" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="7.0">
+                <styleClass>
+                    <String fx:value="instance-wizard-vbox"/>
+                    <String fx:value="instance-wizard-scroll-box-pane"/>
+                    <String fx:value="instance-wizard-git-combined-chooser-source-vbox"/>
+                </styleClass>
+            </VBox>
+        </content>
+    </ScrollPane>
+    <Label fx:id="errorLabel" text="instance.add.git.fail" visible="false">
+        <styleClass>
+            <String fx:value="instance-wizard-error-label"/>
+            <String fx:value="instance-wizard-error-label-git-combined-chooser"/>
+        </styleClass>
+    </Label>
+    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+        <styleClass>
+            <String fx:value="instance-wizard-bottom-pane"/>
+            <String fx:value="instance-wizard-bottom-pane-git-combined-chooser"/>
+        </styleClass>
+        <bottom>
+            <Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
+                    BorderPane.alignment="BOTTOM_RIGHT">
+                <styleClass>
+                    <String fx:value="instance-wizard-button"/>
+                    <String fx:value="instance-wizard-bottom-button"/>
+                    <String fx:value="instance-wizard-next-button"/>
+                    <String fx:value="instance-wizard-next-button-git-combined-chooser"/>
+                </styleClass>
+            </Button>
+        </bottom>
+        <padding>
+            <Insets top="14.0"/>
+        </padding>
+    </BorderPane>
+    <padding>
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+    </padding>
+</VBox>

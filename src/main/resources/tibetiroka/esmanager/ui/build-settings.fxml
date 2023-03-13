@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.BuildSettingsController">
+    <styleClass>
+        <String fx:value="setting-gridpane" />
+        <String fx:value="setting-build-gridpane" />
+    </styleClass>
+    <children>
+        <Label fx:id="buildSystemLabel" cache="true" cacheHint="SPEED" text="build.buildsystem.setting">
+            <styleClass>
+                <String fx:value="setting-explanation-label" />
+                <String fx:value="setting-build-build-system-explanation-label" />
+            </styleClass>
+        </Label>
+        <ChoiceBox fx:id="buildSystem" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-build-build-system-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="build.buildsystem.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-build-build-system-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </ChoiceBox>
+    </children>
+    <padding>
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+    </padding>
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+    </rowConstraints>
+</GridPane>

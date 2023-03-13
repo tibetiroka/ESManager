@@ -1,0 +1,72 @@
+.scroll-pane:focused {
+	-fx-background-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
+
+.tab-pane:focused {
+	-fx-focus-color: transparent;
+}
+
+.button:focused {
+	-fx-focus-color: #039ED3;
+	-fx-faint-focus-color: #039ED322;
+}
+
+.split-menu-button:focused {
+	-fx-focus-color: #039ED3;
+	-fx-faint-focus-color: #039ED322;
+}
+
+.title-pane:focused {
+	-fx-focus-color: #039ED3;
+	-fx-faint-focus-color: #039ED322;
+}
+
+.text-field:error {
+	-fx-focus-color: red;
+	-fx-text-box-border: red;
+}
+
+.error-label {
+	-fx-text-fill: red;
+}
+
+.log-text {
+	-fx-fill: black;
+}
+
+.log-text:debug {
+	-fx-fill: yellow;
+}
+
+.log-text:info {
+	-fx-fill: black;
+}
+
+.log-text:warning {
+	-fx-fill: darkorange;
+}
+
+.log-text:error {
+	-fx-fill: red;
+}
+
+.audio-button {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+	-fx-border-color: transparent;
+	-fx-background-color: transparent;
+}
+
+.delete-button-graphic {
+	-fx-icon-color: red;
+}
+
+.instance-delete-button-graphic {
+	-fx-icon-color: red;
+}
+
+.warning-node-graphic {
+	-fx-icon-color: red;
+    -fx-font-size: 26pt;
+}

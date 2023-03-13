@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.GameSettingsController">
+    <styleClass>
+        <String fx:value="setting-vbox" />
+        <String fx:value="setting-game-vbox" />
+    </styleClass>
+    <children>
+        <CheckBox fx:id="debug" cache="true" cacheHint="SPEED" mnemonicParsing="false" text="game.debug.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-game-debug-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="game.debug.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-game-debug-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <CheckBox fx:id="preservePlugins" cache="true" cacheHint="SPEED" layoutX="24.0" layoutY="24.0" mnemonicParsing="false" text="game.plugins.preserve.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-game-preserve-plugins-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="game.plugins.preserve.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-game-preserve-plugins-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+    </children>
+    <padding>
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+    </padding>
+</VBox>

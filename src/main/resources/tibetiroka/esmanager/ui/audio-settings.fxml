@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.AudioSettingsController">
+    <styleClass>
+        <String fx:value="setting-vbox" />
+        <String fx:value="setting-audio-vbox" />
+    </styleClass>
+    <children>
+        <CheckBox fx:id="autoplay" mnemonicParsing="false" text="audio.autoplay.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-audio-autoplay-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="audio.autoplay.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-audio-autoplay-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <CheckBox fx:id="autopause" mnemonicParsing="false" text="audio.autopause.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-audio-autopause-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="audio.autopause.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-audio-autopause-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <CheckBox fx:id="builtin" mnemonicParsing="false" text="audio.play.builtin.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-audio-builtin-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="audio.play.builtin.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-audio-builtin-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <CheckBox fx:id="custom" mnemonicParsing="false" text="audio.play.custom.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-audio-custom-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="audio.play.custom.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-audio-custom-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+        <Separator maxWidth="1.7976931348623157E308">
+            <styleClass>
+                <String fx:value="setting-separator" />
+                <String fx:value="setting-audio-separator" />
+            </styleClass>
+        </Separator>
+        <HBox spacing="14.0">
+            <styleClass>
+                <String fx:value="setting-audio-volume-hbox" />
+            </styleClass>
+            <children>
+                <Label fx:id="volumeLabel" text="audio.volume.setting">
+                    <styleClass>
+                        <String fx:value="setting-explanation-label" />
+                        <String fx:value="setting-audio-volume-slider-explanation-label" />
+                    </styleClass>
+                </Label>
+                <Slider fx:id="volume" blockIncrement="0.01" majorTickUnit="0.25" max="1.0" showTickMarks="true" snapToTicks="true">
+                    <styleClass>
+                        <String fx:value="setting-slider" />
+                        <String fx:value="setting-audio-volume-slider" />
+                    </styleClass>
+                    <tooltip>
+                        <Tooltip text="audio.volume.setting.tooltip">
+                            <styleClass>
+                                <String fx:value="setting-tooltip" />
+                                <String fx:value="setting-audio-volume-slider-tooltip" />
+                            </styleClass>
+                        </Tooltip>
+                    </tooltip>
+                </Slider>
+            </children>
+        </HBox>
+        <CheckBox fx:id="mute" mnemonicParsing="false" text="audio.mute.setting">
+            <styleClass>
+                <String fx:value="setting-button" />
+                <String fx:value="setting-audio-mute-button" />
+            </styleClass>
+            <tooltip>
+                <Tooltip text="audio.mute.setting.tooltip">
+                    <styleClass>
+                        <String fx:value="setting-tooltip" />
+                        <String fx:value="setting-audio-mute-button-tooltip" />
+                    </styleClass>
+                </Tooltip>
+            </tooltip>
+        </CheckBox>
+    </children>
+    <padding>
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+    </padding>
+</VBox>

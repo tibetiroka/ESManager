@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ This file is part of ESManager.
+  ~
+  ~ GameDemo is free software: you can redistribute it and/or modify it under the terms of
+  ~ the GNU General Public License as published by the Free Software Foundation, either
+  ~ version 3 of the License, or (at your option) any later version.
+  ~
+  ~ GameDemo is distributed in the hope that it will be useful, but WITHOUT ANY
+  ~ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+  ~ A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this
+  ~ program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<Configuration status="WARN" packages="tibetiroka.esmanager,javafx">
+    <Appenders>
+        <RollingRandomAccessFile name="File" fileName="${sys:esmanager.log.directory}/latest.log"
+                                 filePattern="${sys:esmanager.log.directory}/%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+        </RollingRandomAccessFile>
+        <DisplayAppender name="Display">
+            <PatternLayout pattern="[%level]: %msg%n"/>
+        </DisplayAppender>
+    </Appenders>
+    <Loggers>
+        <Logger name="tibetiroka.esmanager" level="debug"/>
+        <Logger name="javafx" level="info"/>
+        <Root level="all">
+            <AppenderRef ref="File" level="all"/>
+            <AppenderRef ref="Display" level="info"/>
+        </Root>
+    </Loggers>
+</Configuration>

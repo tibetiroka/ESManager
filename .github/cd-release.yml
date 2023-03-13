@@ -1,0 +1,71 @@
+Name: Release CD
+
+on:
+  push:
+    tags:
+      - *
+
+jobs:
+  release_linux:
+    name: Release - Linux
+    runs-on: ubuntu-latest
+    env:
+      ARCH: x86_64
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '19'
+          cache: 'maven'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            target/ESManager.AppImage
+
+  release_windows:
+    name: Release - Windows
+    runs-on: windows-latest
+    env:
+      ARCH: x86_64
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '19'
+          cache: 'maven'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            target/ESManager.exe
+
+  release_macos:
+    name: Release - macOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '19'
+          cache: 'maven'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            target/ESManager.dmg
