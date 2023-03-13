@@ -115,11 +115,11 @@ public class Launcher {
 	public Launcher() {
 		LAUNCHER = this;
 		//
-		builtinBundles = getResourceBundles(Launcher.class.getPackageName() + ".launcher.ui", Thread.currentThread().getContextClassLoader());
+		builtinBundles = getResourceBundles(Launcher.class.getPackageName() + ".locales.ui", Thread.currentThread().getContextClassLoader());
 		try {
-			File file = new File(AppConfiguration.CONFIG_HOME, "locales");
+			File file = new File(AppConfiguration.DATA_HOME, "locales");
 			if(file.exists()) {
-				customBundles = getResourceBundles(Launcher.class.getPackageName() + ".launcher.ui", new URLClassLoader(new URL[]{file.toURI().toURL()}));
+				customBundles = getResourceBundles("ui", new URLClassLoader(new URL[]{file.toURI().toURL()}));
 			} else {
 				customBundles = new HashMap<>();
 			}
