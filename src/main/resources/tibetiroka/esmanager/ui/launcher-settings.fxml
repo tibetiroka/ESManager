@@ -10,67 +10,69 @@
   ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<GridPane cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.LauncherSettingsController">
+<?import java.lang.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0"
+          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.LauncherSettingsController">
     <styleClass>
-        <String fx:value="setting-gridpane" />
-        <String fx:value="setting-launcher-gridpane" />
+        <String fx:value="setting-gridpane"/>
+        <String fx:value="setting-launcher-gridpane"/>
     </styleClass>
     <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
     </padding>
     <children>
         <Label fx:id="localeLabel" cache="true" cacheHint="SPEED" text="launcher.locale.setting">
             <styleClass>
-                <String fx:value="setting-explanation-label" />
-                <String fx:value="setting-launcher-locale-explanation-label" />
+                <String fx:value="setting-explanation-label"/>
+                <String fx:value="setting-launcher-locale-explanation-label"/>
             </styleClass>
         </Label>
-        <ChoiceBox fx:id="locale" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+        <ChoiceBox fx:id="locale" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                   GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
             <styleClass>
-                <String fx:value="setting-button" />
-                <String fx:value="setting-launcher-locale-button" />
+                <String fx:value="setting-button"/>
+                <String fx:value="setting-launcher-locale-button"/>
             </styleClass>
             <tooltip>
                 <Tooltip text="launcher.locale.setting.tooltip">
                     <styleClass>
-                        <String fx:value="setting-tooltip" />
-                        <String fx:value="setting-launcher-locale-button-tooltip" />
+                        <String fx:value="setting-tooltip"/>
+                        <String fx:value="setting-launcher-locale-button-tooltip"/>
                     </styleClass>
                 </Tooltip>
             </tooltip>
         </ChoiceBox>
         <Label fx:id="themeLabel" cache="true" cacheHint="SPEED" text="launcher.theme.setting" GridPane.rowIndex="1">
             <styleClass>
-                <String fx:value="setting-explanation-label" />
-                <String fx:value="setting-launcher-theme-explanation-label" />
+                <String fx:value="setting-explanation-label"/>
+                <String fx:value="setting-launcher-theme-explanation-label"/>
             </styleClass>
         </Label>
-        <ChoiceBox fx:id="theme" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+        <ChoiceBox fx:id="theme" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                   GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
             <styleClass>
-                <String fx:value="setting-button" />
-                <String fx:value="setting-launcher-theme-button" />
+                <String fx:value="setting-button"/>
+                <String fx:value="setting-launcher-theme-button"/>
             </styleClass>
             <tooltip>
                 <Tooltip text="launcher.theme.setting.tooltip">
                     <styleClass>
-                        <String fx:value="setting-tooltip" />
-                        <String fx:value="setting-launcher-theme-button-tooltip" />
+                        <String fx:value="setting-tooltip"/>
+                        <String fx:value="setting-launcher-theme-button-tooltip"/>
                     </styleClass>
                 </Tooltip>
             </tooltip>
         </ChoiceBox>
     </children>
     <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints />
+        <ColumnConstraints/>
+        <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
+        <RowConstraints/>
+        <RowConstraints/>
     </rowConstraints>
 </GridPane>

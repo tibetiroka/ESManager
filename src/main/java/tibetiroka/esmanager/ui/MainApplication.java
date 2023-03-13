@@ -57,7 +57,7 @@ public class MainApplication extends Application {
 	public static boolean createDialog(String message, boolean isYesNo) {
 		Phaser p = new Phaser(2);
 		AtomicBoolean value = new AtomicBoolean();
-		Platform.runLater(()->{
+		Platform.runLater(() -> {
 			Dialog<ButtonType> dialog = new Dialog<>();
 			MainApplication.STYLE_SHEET_LISTS.add(dialog.getDialogPane().getStylesheets());
 			dialog.setTitle(localize(message + ".title"));
@@ -207,7 +207,7 @@ public class MainApplication extends Application {
 						try {
 							SelfUpdater.update();
 							createDialog("launcher.update.done", false);
-						}catch(Exception e){
+						} catch(Exception e) {
 							createDialog("launcher.update.fail", false);
 							throw e;
 						}

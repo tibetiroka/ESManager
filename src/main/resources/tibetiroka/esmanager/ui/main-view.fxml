@@ -10,69 +10,85 @@
   ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<VBox cache="true" cacheHint="SPEED" prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.MainController">
+<?import javafx.scene.text.TextFlow?>
+<?import java.lang.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" prefHeight="500.0" prefWidth="500.0"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.MainController">
     <styleClass>
-        <String fx:value="main-vbox" />
+        <String fx:value="main-vbox"/>
     </styleClass>
     <children>
         <TabPane fx:id="tabs" cache="true" cacheHint="SPEED" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
             <styleClass>
-                <String fx:value="main-tabpane" />
+                <String fx:value="main-tabpane"/>
             </styleClass>
             <tabs>
                 <Tab closable="false" text="tab.instances">
                     <styleClass>
-                        <String fx:value="main-tab" />
-                        <String fx:value="main-tab-instances" />
+                        <String fx:value="main-tab"/>
+                        <String fx:value="main-tab-instances"/>
                     </styleClass>
                     <content>
-                        <AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent;">
+                        <AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                                    style="-fx-box-border: transparent;">
                             <styleClass>
-                                <String fx:value="main-tab-pane" />
-                                <String fx:value="main-tab-pane-instances" />
+                                <String fx:value="main-tab-pane"/>
+                                <String fx:value="main-tab-pane-instances"/>
                             </styleClass>
                             <children>
-                                <VBox cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="14.0" style="-fx-box-border: transparent; -fx-focus-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <VBox cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308"
+                                      maxWidth="1.7976931348623157E308" spacing="14.0"
+                                      style="-fx-box-border: transparent; -fx-focus-color: transparent;"
+                                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <styleClass>
-                                        <String fx:value="tab-instances-vbox" />
+                                        <String fx:value="tab-instances-vbox"/>
                                     </styleClass>
                                     <children>
-                                        <Button fx:id="newInstanceButton" cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#onNewInstanceButtonClick" text="instance.add.button">
+                                        <Button fx:id="newInstanceButton" cache="true" cacheHint="SPEED"
+                                                mnemonicParsing="false" onAction="#onNewInstanceButtonClick"
+                                                text="instance.add.button">
                                             <styleClass>
-                                                <String fx:value="main-button" />
-                                                <String fx:value="new-instance-button" />
+                                                <String fx:value="main-button"/>
+                                                <String fx:value="new-instance-button"/>
                                             </styleClass>
                                             <tooltip>
                                                 <Tooltip text="instance.add.button.tooltip">
                                                     <styleClass>
-                                                        <String fx:value="main-button-tooltip" />
-                                                        <String fx:value="new-instance-button-tooltip" />
+                                                        <String fx:value="main-button-tooltip"/>
+                                                        <String fx:value="new-instance-button-tooltip"/>
                                                     </styleClass>
                                                 </Tooltip>
                                             </tooltip>
                                         </Button>
-                                        <ScrollPane cache="true" cacheHint="SPEED" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent; -fx-focus-color: transparent;">
+                                        <ScrollPane cache="true" cacheHint="SPEED" fitToHeight="true" fitToWidth="true"
+                                                    maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                                    style="-fx-box-border: transparent; -fx-focus-color: transparent;">
                                             <styleClass>
-                                                <String fx:value="main-scroll-pane" />
-                                                <String fx:value="instance-scroll-pane" />
+                                                <String fx:value="main-scroll-pane"/>
+                                                <String fx:value="instance-scroll-pane"/>
                                             </styleClass>
                                             <content>
-                                                <AnchorPane cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent; -fx-focus-color: transparent;">
+                                                <AnchorPane cache="true" cacheHint="SPEED"
+                                                            maxHeight="1.7976931348623157E308"
+                                                            maxWidth="1.7976931348623157E308"
+                                                            style="-fx-box-border: transparent; -fx-focus-color: transparent;">
                                                     <styleClass>
-                                                        <String fx:value="scroll-pane-pane" />
-                                                        <String fx:value="instance-scroll-pane-pane" />
+                                                        <String fx:value="scroll-pane-pane"/>
+                                                        <String fx:value="instance-scroll-pane-pane"/>
                                                     </styleClass>
                                                     <children>
-                                                        <VBox fx:id="instanceListBox" alignment="CENTER_LEFT" cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent; -fx-focus-color: transparent;">
+                                                        <VBox fx:id="instanceListBox" alignment="CENTER_LEFT"
+                                                              cache="true" cacheHint="SPEED"
+                                                              maxHeight="1.7976931348623157E308"
+                                                              maxWidth="1.7976931348623157E308"
+                                                              style="-fx-box-border: transparent; -fx-focus-color: transparent;">
                                                             <styleClass>
-                                                                <String fx:value="main-list-box" />
-                                                                <String fx:value="instance-list-box" />
+                                                                <String fx:value="main-list-box"/>
+                                                                <String fx:value="instance-list-box"/>
                                                             </styleClass>
                                                         </VBox>
                                                     </children>
@@ -83,39 +99,47 @@
                                 </VBox>
                             </children>
                             <padding>
-                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
                             </padding>
                         </AnchorPane>
                     </content>
                 </Tab>
                 <Tab closable="false" text="tab.plugins">
                     <styleClass>
-                        <String fx:value="main-tab" />
-                        <String fx:value="main-tab-plugins" />
+                        <String fx:value="main-tab"/>
+                        <String fx:value="main-tab-plugins"/>
                     </styleClass>
                     <content>
-                        <AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent;">
+                        <AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                                    style="-fx-box-border: transparent;">
                             <styleClass>
-                                <String fx:value="main-tab-pane" />
-                                <String fx:value="main-tab-pane-plugins" />
+                                <String fx:value="main-tab-pane"/>
+                                <String fx:value="main-tab-pane-plugins"/>
                             </styleClass>
                             <children>
-                                <ScrollPane cache="true" cacheHint="SPEED" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <ScrollPane cache="true" cacheHint="SPEED" fitToHeight="true" fitToWidth="true"
+                                            maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                                            style="-fx-box-border: transparent;" AnchorPane.bottomAnchor="0.0"
+                                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                            AnchorPane.topAnchor="0.0">
                                     <styleClass>
-                                        <String fx:value="main-scroll-pane" />
-                                        <String fx:value="plugin-scroll-pane" />
+                                        <String fx:value="main-scroll-pane"/>
+                                        <String fx:value="plugin-scroll-pane"/>
                                     </styleClass>
                                     <content>
-                                        <AnchorPane cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                        <AnchorPane cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308"
+                                                    maxWidth="1.7976931348623157E308">
                                             <styleClass>
-                                                <String fx:value="scroll-pane-pane" />
-                                                <String fx:value="plugin-scroll-pane-pane" />
+                                                <String fx:value="scroll-pane-pane"/>
+                                                <String fx:value="plugin-scroll-pane-pane"/>
                                             </styleClass>
                                             <children>
-                                                <VBox fx:id="pluginListBox" cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="14.0">
+                                                <VBox fx:id="pluginListBox" cache="true" cacheHint="SPEED"
+                                                      maxHeight="1.7976931348623157E308"
+                                                      maxWidth="1.7976931348623157E308" spacing="14.0">
                                                     <styleClass>
-                                                        <String fx:value="main-list-box" />
-                                                        <String fx:value="plugin-list-box" />
+                                                        <String fx:value="main-list-box"/>
+                                                        <String fx:value="plugin-list-box"/>
                                                     </styleClass>
                                                 </VBox>
                                             </children>
@@ -124,132 +148,149 @@
                                 </ScrollPane>
                             </children>
                             <padding>
-                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
                             </padding>
                         </AnchorPane>
                     </content>
                 </Tab>
                 <Tab closable="false" text="tab.settings">
                     <styleClass>
-                        <String fx:value="main-tab" />
-                        <String fx:value="main-tab-plugins" />
+                        <String fx:value="main-tab"/>
+                        <String fx:value="main-tab-plugins"/>
                     </styleClass>
                     <content>
-                        <AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent;">
+                        <AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                                    style="-fx-box-border: transparent;">
                             <styleClass>
-                                <String fx:value="main-tab-pane" />
-                                <String fx:value="main-tab-pane-settings" />
+                                <String fx:value="main-tab-pane"/>
+                                <String fx:value="main-tab-pane-settings"/>
                             </styleClass>
                             <children>
-                                <ScrollPane cache="true" cacheHint="SPEED" fitToWidth="true" style="-fx-box-border: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <ScrollPane cache="true" cacheHint="SPEED" fitToWidth="true"
+                                            style="-fx-box-border: transparent;" AnchorPane.bottomAnchor="0.0"
+                                            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                            AnchorPane.topAnchor="0.0">
                                     <styleClass>
-                                        <String fx:value="main-scroll-pane" />
-                                        <String fx:value="settings-scroll-pane" />
+                                        <String fx:value="main-scroll-pane"/>
+                                        <String fx:value="settings-scroll-pane"/>
                                     </styleClass>
                                     <content>
                                         <Accordion cache="true" cacheHint="SPEED" style="-fx-box-border: transparent;">
                                             <styleClass>
-                                                <String fx:value="settings-accordion" />
+                                                <String fx:value="settings-accordion"/>
                                             </styleClass>
                                             <panes>
-                                                <TitledPane fx:id="audio" cache="true" cacheHint="SPEED" expanded="false" text="audio.setting">
+                                                <TitledPane fx:id="audio" cache="true" cacheHint="SPEED"
+                                                            expanded="false" text="audio.setting">
                                                     <styleClass>
-                                                        <String fx:value="setting-pane" />
-                                                        <String fx:value="setting-pane-audio" />
+                                                        <String fx:value="setting-pane"/>
+                                                        <String fx:value="setting-pane-audio"/>
                                                     </styleClass>
                                                     <content>
-                                                        <AnchorPane fx:id="audioSettings" cache="true" cacheHint="SPEED">
+                                                        <AnchorPane fx:id="audioSettings" cache="true"
+                                                                    cacheHint="SPEED">
                                                             <styleClass>
-                                                                <String fx:value="setting-pane-pane" />
-                                                                <String fx:value="setting-pane-pane-audio" />
+                                                                <String fx:value="setting-pane-pane"/>
+                                                                <String fx:value="setting-pane-pane-audio"/>
                                                             </styleClass>
                                                             <padding>
-                                                                <Insets bottom="0" />
+                                                                <Insets bottom="0"/>
                                                             </padding>
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane fx:id="update" cache="true" cacheHint="SPEED" expanded="false" layoutX="10.0" layoutY="10.0" text="update.setting">
+                                                <TitledPane fx:id="update" cache="true" cacheHint="SPEED"
+                                                            expanded="false" layoutX="10.0" layoutY="10.0"
+                                                            text="update.setting">
                                                     <styleClass>
-                                                        <String fx:value="setting-pane" />
-                                                        <String fx:value="setting-pane-update" />
+                                                        <String fx:value="setting-pane"/>
+                                                        <String fx:value="setting-pane-update"/>
                                                     </styleClass>
                                                     <content>
-                                                        <AnchorPane fx:id="updateSettings" cache="true" cacheHint="SPEED">
+                                                        <AnchorPane fx:id="updateSettings" cache="true"
+                                                                    cacheHint="SPEED">
                                                             <styleClass>
-                                                                <String fx:value="setting-pane-pane" />
-                                                                <String fx:value="setting-pane-pane-update" />
+                                                                <String fx:value="setting-pane-pane"/>
+                                                                <String fx:value="setting-pane-pane-update"/>
                                                             </styleClass>
                                                             <padding>
-                                                                <Insets bottom="0" />
+                                                                <Insets bottom="0"/>
                                                             </padding>
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane fx:id="git" cache="true" cacheHint="SPEED" expanded="false" layoutX="10.0" layoutY="58.0" text="git.setting">
+                                                <TitledPane fx:id="git" cache="true" cacheHint="SPEED" expanded="false"
+                                                            layoutX="10.0" layoutY="58.0" text="git.setting">
                                                     <styleClass>
-                                                        <String fx:value="setting-pane" />
-                                                        <String fx:value="setting-pane-git" />
+                                                        <String fx:value="setting-pane"/>
+                                                        <String fx:value="setting-pane-git"/>
                                                     </styleClass>
                                                     <content>
                                                         <AnchorPane fx:id="gitSettings" cache="true" cacheHint="SPEED">
                                                             <styleClass>
-                                                                <String fx:value="setting-pane-pane" />
-                                                                <String fx:value="setting-pane-pane-git" />
+                                                                <String fx:value="setting-pane-pane"/>
+                                                                <String fx:value="setting-pane-pane-git"/>
                                                             </styleClass>
                                                             <padding>
-                                                                <Insets bottom="0" />
+                                                                <Insets bottom="0"/>
                                                             </padding>
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane fx:id="build" cache="true" cacheHint="SPEED" expanded="false" layoutX="10.0" layoutY="62.0" text="build.setting">
+                                                <TitledPane fx:id="build" cache="true" cacheHint="SPEED"
+                                                            expanded="false" layoutX="10.0" layoutY="62.0"
+                                                            text="build.setting">
                                                     <styleClass>
-                                                        <String fx:value="setting-pane" />
-                                                        <String fx:value="setting-pane-build" />
+                                                        <String fx:value="setting-pane"/>
+                                                        <String fx:value="setting-pane-build"/>
                                                     </styleClass>
                                                     <content>
-                                                        <AnchorPane fx:id="buildSettings" cache="true" cacheHint="SPEED">
+                                                        <AnchorPane fx:id="buildSettings" cache="true"
+                                                                    cacheHint="SPEED">
                                                             <styleClass>
-                                                                <String fx:value="setting-pane-pane" />
-                                                                <String fx:value="setting-pane-pane-build" />
+                                                                <String fx:value="setting-pane-pane"/>
+                                                                <String fx:value="setting-pane-pane-build"/>
                                                             </styleClass>
                                                             <padding>
-                                                                <Insets bottom="0" />
+                                                                <Insets bottom="0"/>
                                                             </padding>
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane fx:id="game" cache="true" cacheHint="SPEED" expanded="false" layoutX="10.0" layoutY="110.0" text="game.setting">
+                                                <TitledPane fx:id="game" cache="true" cacheHint="SPEED" expanded="false"
+                                                            layoutX="10.0" layoutY="110.0" text="game.setting">
                                                     <styleClass>
-                                                        <String fx:value="setting-pane" />
-                                                        <String fx:value="setting-pane-game" />
+                                                        <String fx:value="setting-pane"/>
+                                                        <String fx:value="setting-pane-game"/>
                                                     </styleClass>
                                                     <content>
                                                         <AnchorPane fx:id="gameSettings" cache="true" cacheHint="SPEED">
                                                             <styleClass>
-                                                                <String fx:value="setting-pane-pane" />
-                                                                <String fx:value="setting-pane-pane-game" />
+                                                                <String fx:value="setting-pane-pane"/>
+                                                                <String fx:value="setting-pane-pane-game"/>
                                                             </styleClass>
                                                             <padding>
-                                                                <Insets bottom="0" />
+                                                                <Insets bottom="0"/>
                                                             </padding>
                                                         </AnchorPane>
                                                     </content>
                                                 </TitledPane>
-                                                <TitledPane fx:id="launcher" cache="true" cacheHint="SPEED" expanded="false" layoutX="10.0" layoutY="114.0" text="launcher.setting">
+                                                <TitledPane fx:id="launcher" cache="true" cacheHint="SPEED"
+                                                            expanded="false" layoutX="10.0" layoutY="114.0"
+                                                            text="launcher.setting">
                                                     <styleClass>
-                                                        <String fx:value="setting-pane" />
-                                                        <String fx:value="setting-pane-launcher" />
+                                                        <String fx:value="setting-pane"/>
+                                                        <String fx:value="setting-pane-launcher"/>
                                                     </styleClass>
                                                     <content>
-                                                        <AnchorPane fx:id="launcherSettings" cache="true" cacheHint="SPEED">
+                                                        <AnchorPane fx:id="launcherSettings" cache="true"
+                                                                    cacheHint="SPEED">
                                                             <styleClass>
-                                                                <String fx:value="setting-pane-pane" />
-                                                                <String fx:value="setting-pane-pane-launcher" />
+                                                                <String fx:value="setting-pane-pane"/>
+                                                                <String fx:value="setting-pane-pane-launcher"/>
                                                             </styleClass>
                                                             <padding>
-                                                                <Insets bottom="0" />
+                                                                <Insets bottom="0"/>
                                                             </padding>
                                                         </AnchorPane>
                                                     </content>
@@ -260,7 +301,7 @@
                                 </ScrollPane>
                             </children>
                             <padding>
-                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
                             </padding>
                         </AnchorPane>
                     </content>
@@ -269,30 +310,33 @@
         </TabPane>
         <HBox fx:id="audioBox" alignment="BOTTOM_RIGHT" cache="true" cacheHint="SPEED">
             <children>
-                <Button fx:id="audioButton" cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#onAudioButtonClick">
+                <Button fx:id="audioButton" cache="true" cacheHint="SPEED" mnemonicParsing="false"
+                        onAction="#onAudioButtonClick">
                     <styleClass>
-                        <String fx:value="main-button" />
-                        <String fx:value="audio-button" />
+                        <String fx:value="main-button"/>
+                        <String fx:value="audio-button"/>
                     </styleClass>
                 </Button>
                 <BorderPane cache="true" cacheHint="SPEED">
                     <center>
-                        <Label fx:id="audioLabel" cache="true" cacheHint="SPEED" BorderPane.alignment="CENTER" />
+                        <Label fx:id="audioLabel" cache="true" cacheHint="SPEED" BorderPane.alignment="CENTER"/>
                     </center>
                 </BorderPane>
             </children>
             <padding>
-                <Insets bottom="7.0" left="17.0" right="7.0" top="7.0" />
+                <Insets bottom="7.0" left="17.0" right="7.0" top="7.0"/>
             </padding>
         </HBox>
-        <Separator cache="true" cacheHint="SPEED" focusTraversable="false" prefWidth="200.0" />
-        <ScrollPane fx:id="logScroll" cache="true" cacheHint="SPEED" fitToWidth="true" maxHeight="100.0" minHeight="100.0" prefHeight="100.0" style="-fx-box-border: transparent;">
+        <Separator cache="true" cacheHint="SPEED" focusTraversable="false" prefWidth="200.0"/>
+        <ScrollPane fx:id="logScroll" cache="true" cacheHint="SPEED" fitToWidth="true" maxHeight="100.0"
+                    minHeight="100.0" prefHeight="100.0" style="-fx-box-border: transparent;">
             <content>
                 <AnchorPane cache="true" cacheHint="SPEED" minHeight="0.0" minWidth="0.0" mouseTransparent="true">
                     <children>
-                        <TextFlow fx:id="logArea" cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="98.0" mouseTransparent="true">
+                        <TextFlow fx:id="logArea" cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308"
+                                  maxWidth="1.7976931348623157E308" minHeight="98.0" mouseTransparent="true">
                             <padding>
-                                <Insets bottom="2.0" />
+                                <Insets bottom="2.0"/>
                             </padding>
                         </TextFlow>
                     </children>

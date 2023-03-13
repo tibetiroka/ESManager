@@ -10,169 +10,182 @@
   ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import org.kordamp.ikonli.javafx.*?>
-
-<HBox fx:id="container" cache="true" cacheHint="SPEED" minHeight="-Infinity" minWidth="-Infinity" style="-fx-box-border: transparent;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.InstanceController">
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import java.lang.*?>
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:id="container" cache="true" cacheHint="SPEED" minHeight="-Infinity"
+      minWidth="-Infinity" style="-fx-box-border: transparent;"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.InstanceController">
     <styleClass>
-        <String fx:value="instance-box" />
+        <String fx:value="instance-box"/>
     </styleClass>
     <children>
-        <VBox cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-box-border: transparent;" HBox.hgrow="ALWAYS">
+        <VBox cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              style="-fx-box-border: transparent;" HBox.hgrow="ALWAYS">
             <styleClass>
-                <String fx:value="instance-text-vbox" />
+                <String fx:value="instance-text-vbox"/>
             </styleClass>
             <children>
-                <Label id="name" fx:id="nameField" cache="true" cacheHint="SPEED" mouseTransparent="true" style="-fx-box-border: transparent;">
+                <Label id="name" fx:id="nameField" cache="true" cacheHint="SPEED" mouseTransparent="true"
+                       style="-fx-box-border: transparent;">
                     <styleClass>
-                        <String fx:value="name-field" />
-                        <String fx:value="instance-name-field" />
+                        <String fx:value="name-field"/>
+                        <String fx:value="instance-name-field"/>
                     </styleClass>
                     <font>
-                        <Font name="System Bold" size="24.0" />
+                        <Font name="System Bold" size="24.0"/>
                     </font>
                 </Label>
-                <Label id="version" fx:id="versionField" cache="true" cacheHint="SPEED" mouseTransparent="true" style="-fx-box-border: transparent;">
+                <Label id="version" fx:id="versionField" cache="true" cacheHint="SPEED" mouseTransparent="true"
+                       style="-fx-box-border: transparent;">
                     <styleClass>
-                        <String fx:value="instance-version-field" />
+                        <String fx:value="instance-version-field"/>
                     </styleClass>
                     <font>
-                        <Font size="11.0" />
+                        <Font size="11.0"/>
                     </font>
                 </Label>
-                <Label id="source" fx:id="sourceField" cache="true" cacheHint="SPEED" layoutX="10.0" layoutY="61.0" mouseTransparent="true" style="-fx-box-border: transparent;">
+                <Label id="source" fx:id="sourceField" cache="true" cacheHint="SPEED" layoutX="10.0" layoutY="61.0"
+                       mouseTransparent="true" style="-fx-box-border: transparent;">
                     <styleClass>
-                        <String fx:value="instance-source-field" />
+                        <String fx:value="instance-source-field"/>
                     </styleClass>
                     <font>
-                        <Font size="11.0" />
+                        <Font size="11.0"/>
                     </font>
                 </Label>
             </children>
         </VBox>
-        <Pane cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" style="-fx-box-border: transparent;" HBox.hgrow="ALWAYS">
+        <Pane cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+              mouseTransparent="true" style="-fx-box-border: transparent;" HBox.hgrow="ALWAYS">
             <styleClass>
-                <String fx:value="instance-spacer-pane" />
+                <String fx:value="instance-spacer-pane"/>
             </styleClass>
         </Pane>
         <GridPane cache="true" cacheHint="SPEED" hgap="14.0" vgap="14.0">
             <styleClass>
-                <String fx:value="instance-button-pane" />
+                <String fx:value="instance-button-pane"/>
             </styleClass>
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES"/>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+                <ColumnConstraints hgrow="SOMETIMES"/>
+                <ColumnConstraints hgrow="SOMETIMES"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
                 <BorderPane fx:id="warningNode" cache="true" cacheHint="SPEED">
                     <styleClass>
-                        <String fx:value="instance-warning-pane" />
+                        <String fx:value="instance-warning-pane"/>
                     </styleClass>
                     <center>
                         <FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-exclamation-circle">
                             <styleClass>
-                                <String fx:value="warning-node-graphic" />
-                                <String fx:value="instance-warning-pane-icon" />
+                                <String fx:value="warning-node-graphic"/>
+                                <String fx:value="instance-warning-pane-icon"/>
                             </styleClass>
                         </FontIcon>
                     </center>
                 </BorderPane>
-                <ProgressIndicator fx:id="progressIndicator" cache="true" cacheHint="SPEED" progress="0.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <ProgressIndicator fx:id="progressIndicator" cache="true" cacheHint="SPEED" progress="0.0"
+                                   GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                     <styleClass>
-                        <String fx:value="instance-progress-indicator" />
+                        <String fx:value="instance-progress-indicator"/>
                     </styleClass>
                 </ProgressIndicator>
-                <SplitMenuButton fx:id="playButton" cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#play" text="instance.play.default.text" GridPane.columnIndex="1">
+                <SplitMenuButton fx:id="playButton" cache="true" cacheHint="SPEED" mnemonicParsing="false"
+                                 onAction="#play" text="instance.play.default.text" GridPane.columnIndex="1">
                     <styleClass>
-                        <String fx:value="instance-play-button" />
+                        <String fx:value="instance-play-button"/>
                     </styleClass>
                     <items>
-                        <MenuItem fx:id="playRegular" mnemonicParsing="false" onAction="#playRegular" text="instance.play.normal.text">
+                        <MenuItem fx:id="playRegular" mnemonicParsing="false" onAction="#playRegular"
+                                  text="instance.play.normal.text">
                             <styleClass>
-                                <String fx:value="instance-play-button-regular" />
+                                <String fx:value="instance-play-button-regular"/>
                             </styleClass>
                         </MenuItem>
-                        <MenuItem fx:id="playDebug" mnemonicParsing="false" onAction="#playDebug" text="instance.play.debug.text">
+                        <MenuItem fx:id="playDebug" mnemonicParsing="false" onAction="#playDebug"
+                                  text="instance.play.debug.text">
                             <styleClass>
-                                <String fx:value="instance-play-button-debug" />
+                                <String fx:value="instance-play-button-debug"/>
                             </styleClass>
                         </MenuItem>
                     </items>
                 </SplitMenuButton>
-                <Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#update" GridPane.columnIndex="2">
+                <Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#update"
+                        GridPane.columnIndex="2">
                     <styleClass>
-                        <String fx:value="download-button" />
-                        <String fx:value="instance-update-button" />
+                        <String fx:value="download-button"/>
+                        <String fx:value="instance-update-button"/>
                     </styleClass>
                     <tooltip>
                         <Tooltip text="instance.update.button.tooltip">
                             <styleClass>
-                                <String fx:value="instance-update-button-tooltip" />
+                                <String fx:value="instance-update-button-tooltip"/>
                             </styleClass>
                         </Tooltip>
                     </tooltip>
                     <graphic>
                         <FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-download">
                             <styleClass>
-                                <String fx:value="instance-update-button-graphics" />
+                                <String fx:value="instance-update-button-graphics"/>
                             </styleClass>
                         </FontIcon>
                     </graphic>
                 </Button>
-                <Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#openFolder" GridPane.columnIndex="3">
+                <Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#openFolder"
+                        GridPane.columnIndex="3">
                     <styleClass>
-                        <String fx:value="instance-open-folder-button" />
+                        <String fx:value="instance-open-folder-button"/>
                     </styleClass>
                     <tooltip>
                         <Tooltip text="instance.openfolder.button.tooltip">
                             <styleClass>
-                                <String fx:value="instance-open-folder-button-tooltip" />
+                                <String fx:value="instance-open-folder-button-tooltip"/>
                             </styleClass>
                         </Tooltip>
                     </tooltip>
                     <graphic>
                         <FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-folder-open">
                             <styleClass>
-                                <String fx:value="instance-open-button-graphic" />
+                                <String fx:value="instance-open-button-graphic"/>
                             </styleClass>
                         </FontIcon>
                     </graphic>
                 </Button>
-                <Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#delete" GridPane.columnIndex="4">
+                <Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#delete"
+                        GridPane.columnIndex="4">
                     <styleClass>
-                        <String fx:value="delete-button" />
-                        <String fx:value="instance-delete-button" />
+                        <String fx:value="delete-button"/>
+                        <String fx:value="instance-delete-button"/>
                     </styleClass>
                     <tooltip>
                         <Tooltip text="instance.delete.button.tooltip">
                             <styleClass>
-                                <String fx:value="delete-button-tooltip" />
-                                <String fx:value="instance-delete-button-tooltip" />
+                                <String fx:value="delete-button-tooltip"/>
+                                <String fx:value="instance-delete-button-tooltip"/>
                             </styleClass>
                         </Tooltip>
                     </tooltip>
                     <graphic>
                         <FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-trash">
                             <styleClass>
-                                <String fx:value="delete-button-graphic" />
-                                <String fx:value="instance-delete-button-graphic" />
+                                <String fx:value="delete-button-graphic"/>
+                                <String fx:value="instance-delete-button-graphic"/>
                             </styleClass>
                         </FontIcon>
                     </graphic>
                 </Button>
             </children>
             <HBox.margin>
-                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+                <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
             </HBox.margin>
         </GridPane>
     </children>

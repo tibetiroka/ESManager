@@ -10,73 +10,76 @@
   ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<GridPane cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.GitSettingsController">
+<?import java.lang.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0"
+          xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.GitSettingsController">
     <styleClass>
-        <String fx:value="setting-gridpane" />
-        <String fx:value="setting-git-gridpane" />
+        <String fx:value="setting-gridpane"/>
+        <String fx:value="setting-git-gridpane"/>
     </styleClass>
     <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
     </padding>
     <children>
         <Label fx:id="mergeStrategyLabel" cache="true" cacheHint="SPEED" text="git.merge.setting">
             <styleClass>
-                <String fx:value="setting-explanation-label" />
-                <String fx:value="setting-explanation-label-expert" />
-                <String fx:value="setting-git-merge-strategy-explanation-label" />
+                <String fx:value="setting-explanation-label"/>
+                <String fx:value="setting-explanation-label-expert"/>
+                <String fx:value="setting-git-merge-strategy-explanation-label"/>
             </styleClass>
         </Label>
-        <ChoiceBox fx:id="mergeStrategy" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+        <ChoiceBox fx:id="mergeStrategy" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                   GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
             <styleClass>
-                <String fx:value="setting-button" />
-                <String fx:value="setting-button-expert" />
-                <String fx:value="setting-git-merge-strategy-button" />
+                <String fx:value="setting-button"/>
+                <String fx:value="setting-button-expert"/>
+                <String fx:value="setting-git-merge-strategy-button"/>
             </styleClass>
             <tooltip>
                 <Tooltip text="git.merge.setting.tooltip">
                     <styleClass>
-                        <String fx:value="setting-tooltip" />
-                        <String fx:value="setting-tooltip-expert" />
-                        <String fx:value="setting-git-content-merge-strategy-button-tooltip" />
+                        <String fx:value="setting-tooltip"/>
+                        <String fx:value="setting-tooltip-expert"/>
+                        <String fx:value="setting-git-content-merge-strategy-button-tooltip"/>
                     </styleClass>
                 </Tooltip>
             </tooltip>
         </ChoiceBox>
-        <Label fx:id="contentMergeStrategyLabel" cache="true" cacheHint="SPEED" text="git.merge.content.setting" GridPane.rowIndex="1">
+        <Label fx:id="contentMergeStrategyLabel" cache="true" cacheHint="SPEED" text="git.merge.content.setting"
+               GridPane.rowIndex="1">
             <styleClass>
-                <String fx:value="setting-explanation-label" />
-                <String fx:value="setting-explanation-label-expert" />
-                <String fx:value="setting-git-content-merge-strategy-explanation-label" />
+                <String fx:value="setting-explanation-label"/>
+                <String fx:value="setting-explanation-label-expert"/>
+                <String fx:value="setting-git-content-merge-strategy-explanation-label"/>
             </styleClass>
         </Label>
-        <ChoiceBox fx:id="contentMergeStrategy" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+        <ChoiceBox fx:id="contentMergeStrategy" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+                   GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
             <styleClass>
-                <String fx:value="setting-button" />
-                <String fx:value="setting-button-expert" />
-                <String fx:value="setting-git-content-merge-strategy-button" />
+                <String fx:value="setting-button"/>
+                <String fx:value="setting-button-expert"/>
+                <String fx:value="setting-git-content-merge-strategy-button"/>
             </styleClass>
             <tooltip>
                 <Tooltip text="git.merge.content.setting.tooltip">
                     <styleClass>
-                        <String fx:value="setting-tooltip" />
-                        <String fx:value="setting-tooltip-expert" />
-                        <String fx:value="setting-git-content-merge-strategy-button-tooltip" />
+                        <String fx:value="setting-tooltip"/>
+                        <String fx:value="setting-tooltip-expert"/>
+                        <String fx:value="setting-git-content-merge-strategy-button-tooltip"/>
                     </styleClass>
                 </Tooltip>
             </tooltip>
         </ChoiceBox>
     </children>
     <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints />
+        <ColumnConstraints/>
+        <ColumnConstraints/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
+        <RowConstraints/>
+        <RowConstraints/>
     </rowConstraints>
 </GridPane>
