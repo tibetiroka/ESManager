@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -188,19 +188,41 @@
                 <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>copy-icon</id>
-                        <phase>compile</phase>
+                        <id>copy-artifacts</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/blah</outputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>blah</directory>
-                                    <filtering>true</filtering>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                        <include>**/*.exe</include>
+                                        <include>**/*.dmg</include>
+                                    </includes>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <id>rename-dmg</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>rename</goal>
+                            </goals>
+                            <sourceFile>${project.build.outputDirectory}/${project.name}_${project.version}.dmg</sourceFile>
+                            <destinationFile>${project.build.outputDirectory}/${project.name}.dmg</destinationFile>
                         </configuration>
                     </execution>
                 </executions>
@@ -279,6 +301,8 @@
                             <createTarball>false</createTarball>
                             <createZipball>false</createZipball>
                             <name>${project.name}</name>
+                            <displayName>${project.name}</displayName>
+                            <description>${project.description}</description>
                             <linuxConfig>
                                 <pngFile>icon.png</pngFile>
                                 <generateAppImage>true</generateAppImage>
