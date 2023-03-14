@@ -50,7 +50,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           fail_on_unmatched_files: true
-          files: target/ESManager.zip
+          files: target/ESManager/ESManager.exe
 
   release_macos:
     name: Release - macOS
