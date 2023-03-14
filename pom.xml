@@ -296,10 +296,12 @@
                                 <generatePkg>false</generatePkg>
                                 <relocateJar>true</relocateJar>
                                 <appId>${project.name}</appId>
+                                <codesignApp>false</codesignApp>
+                                <hardenedCodesign>false</hardenedCodesign>
                             </macConfig>
                             <winConfig>
                                 <icoFile>icon.ico</icoFile>
-                                <generateSetup>false</generateSetup>
+                                <generateSetup>true</generateSetup>
                                 <generateMsi>false</generateMsi>
                                 <generateMsm>false</generateMsm>
                                 <setupMode>installForCurrentUser</setupMode>
