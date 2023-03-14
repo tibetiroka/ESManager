@@ -28,6 +28,13 @@ public class VersioningUtils {
 	 */
 	public static @NotNull Comparator<@NotNull String> semVerComparator() {
 		return (o1, o2) -> {
+			if(o1.startsWith("v")) {
+				o1 = o1.substring("v".length());
+			}
+			if(o2.startsWith("v")) {
+				o2 = o2.substring("v".length());
+			}
+			//
 			String[] firstParts = o1.split("\\.");
 			String[] secondParts = o2.split("\\.");
 			int i = 0;
