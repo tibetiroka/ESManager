@@ -59,7 +59,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   
   Locales are applied instantly to all components except log messages. Old log messages will continue to use their own locale, but new log messages are created with the new locale.
   
-  Please have a look at the [default locale file](src/main/resources/tibetiroka/esmanager/config/locales/ui_en.properties) to see what localization entries are used, and how messages are formatted. Please note that internally [MessageFormat](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/text/MessageFormat.html) is used to format these messages, which uses `'` as an escape character.
+  Feel free to have a look at the [default locale file](src/main/resources/tibetiroka/esmanager/config/locales/ui_en.properties) to see what localization entries are used, and how messages are formatted. Please note that internally [MessageFormat](https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/text/MessageFormat.html) is used to format these messages, which uses `'` as an escape character.
   
   You don't have to specify every entry in a locale, missing entries will be resolved from the default locale.
 
@@ -68,12 +68,13 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   You can specify whether plugins downloaded from the launcher should override existing plugins. Please note that once a plugin is overridden, it is unrecoverable. This setting defaults to preserve existing plugins.
 - `Settings -> Update`
   If you want to play with the game as soon as the launcher opens, disable all updates. You can still update the instances and plugins manually.
+  
   Unless something actually needs updating, having automatic updates turned on shouldn't cause more than a few seconds of delay. Some upgrades can be performed even while in-game.
 
 ## Location of ESManager files
 
 ### Data directory
-  The data directory contains all instances and plugins, and also all user-defined themes and audio files.
+  The data directory contains all instances, plugins, the local clone of Endless Sky, and also all user-defined themes and audio files.
 - Linux: `$XDG_DATA_HOME/ESManager`, or its appropriate fallback
 - Windows: `$user.home/AppData/Local/ESManager/data`
 - macOS: `$user.home/Library/Application Support/ESManager/data`
