@@ -396,6 +396,20 @@
 							<goal>run</goal>
 						</goals>
 					</execution>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<failOnError>false</failOnError>
+							<skip>${os.windows.not}</skip>
+							<target>
+								<copy file="${project.build.directory}/${project.name}_${project.version}.exe"
+									  tofile="${project.build.directory}/${project.name}.exe"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 
