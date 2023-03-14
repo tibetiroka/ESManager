@@ -16,113 +16,113 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import java.lang.*?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" fx:id="pluginBox" cache="true" cacheHint="SPEED" spacing="14.0"
-      xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.PluginController">
-    <styleClass>
-        <String fx:value="plugin-box"/>
-    </styleClass>
-    <children>
-        <BorderPane fx:id="imagePane" cache="true" cacheHint="SPEED" maxHeight="80.0" maxWidth="80.0" minHeight="80.0"
-                    minWidth="80.0" HBox.hgrow="NEVER">
-            <styleClass>
-                <String fx:value="plugin-image-pane"/>
-            </styleClass>
-        </BorderPane>
-        <BorderPane cache="true" cacheHint="SPEED">
-            <styleClass>
-                <String fx:value="plugin-text-pane"/>
-            </styleClass>
-            <center>
-                <VBox cache="true" cacheHint="SPEED" BorderPane.alignment="CENTER">
-                    <styleClass>
-                        <String fx:value="plugin-text-vbox"/>
-                    </styleClass>
-                    <children>
-                        <Label id="name" fx:id="name" alignment="CENTER" cache="true" cacheHint="SPEED"
-                               style="-fx-box-border: transparent;">
-                            <styleClass>
-                                <String fx:value="name-label"/>
-                                <String fx:value="plugin-name-label"/>
-                            </styleClass>
-                            <font>
-                                <Font name="System Bold" size="24.0"/>
-                            </font>
-                        </Label>
-                        <Label fx:id="description" cache="true" cacheHint="SPEED">
-                            <styleClass>
-                                <String fx:value="plugin-description-label"/>
-                            </styleClass>
-                        </Label>
-                        <Label fx:id="authors" cache="true" cacheHint="SPEED">
-                            <styleClass>
-                                <String fx:value="plugin-author-label"/>
-                            </styleClass>
-                        </Label>
-                    </children>
-                </VBox>
-            </center>
-        </BorderPane>
-        <Pane cache="true" cacheHint="SPEED" HBox.hgrow="ALWAYS">
-            <styleClass>
-                <String fx:value="plugin-spacer-pane"/>
-            </styleClass>
-        </Pane>
-        <BorderPane cache="true" cacheHint="SPEED">
-            <styleClass>
-                <String fx:value="plugin-download-button-pane"/>
-            </styleClass>
-            <center>
-                <Button fx:id="downloadButton" alignment="CENTER" cache="true" cacheHint="SPEED" mnemonicParsing="false"
-                        onAction="#download" BorderPane.alignment="CENTER">
-                    <styleClass>
-                        <String fx:value="download-button"/>
-                        <String fx:value="plugin-download-button"/>
-                    </styleClass>
-                    <tooltip>
-                        <Tooltip text="plugin.download.button.tooltip">
-                            <styleClass>
-                                <String fx:value="plugin-download-button-tooltip"/>
-                            </styleClass>
-                        </Tooltip>
-                    </tooltip>
-                    <graphic>
-                        <FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-download">
-                            <styleClass>
-                                <String fx:value="plugin-download-button-graphic"/>
-                            </styleClass>
-                        </FontIcon>
-                    </graphic>
-                </Button>
-            </center>
-        </BorderPane>
-        <BorderPane cache="true" cacheHint="SPEED">
-            <styleClass>
-                <String fx:value="plugin-delete-button-pane"/>
-            </styleClass>
-            <center>
-                <Button fx:id="deleteButton" alignment="CENTER" cache="true" cacheHint="SPEED" mnemonicParsing="false"
-                        onAction="#delete" BorderPane.alignment="CENTER">
-                    <styleClass>
-                        <String fx:value="delete-button"/>
-                        <String fx:value="plugin-delete-button"/>
-                    </styleClass>
-                    <tooltip>
-                        <Tooltip text="plugin.delete.button.tooltip">
-                            <styleClass>
-                                <String fx:value="delete-button-tooltip"/>
-                                <String fx:value="plugin-delete-button-tooltip"/>
-                            </styleClass>
-                        </Tooltip>
-                    </tooltip>
-                    <graphic>
-                        <FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-trash">
-                            <styleClass>
-                                <String fx:value="delete-button-graphic"/>
-                                <String fx:value="plugin-delete-button-graphic"/>
-                            </styleClass>
-                        </FontIcon>
-                    </graphic>
-                </Button>
-            </center>
-        </BorderPane>
-    </children>
+	  xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.PluginController">
+	<styleClass>
+		<String fx:value="plugin-box"/>
+	</styleClass>
+	<children>
+		<BorderPane fx:id="imagePane" cache="true" cacheHint="SPEED" maxHeight="80.0" maxWidth="80.0" minHeight="80.0"
+					minWidth="80.0" HBox.hgrow="NEVER">
+			<styleClass>
+				<String fx:value="plugin-image-pane"/>
+			</styleClass>
+		</BorderPane>
+		<BorderPane cache="true" cacheHint="SPEED">
+			<styleClass>
+				<String fx:value="plugin-text-pane"/>
+			</styleClass>
+			<center>
+				<VBox cache="true" cacheHint="SPEED" BorderPane.alignment="CENTER">
+					<styleClass>
+						<String fx:value="plugin-text-vbox"/>
+					</styleClass>
+					<children>
+						<Label id="name" fx:id="name" alignment="CENTER" cache="true" cacheHint="SPEED"
+							   style="-fx-box-border: transparent;">
+							<styleClass>
+								<String fx:value="name-label"/>
+								<String fx:value="plugin-name-label"/>
+							</styleClass>
+							<font>
+								<Font name="System Bold" size="24.0"/>
+							</font>
+						</Label>
+						<Label fx:id="description" cache="true" cacheHint="SPEED">
+							<styleClass>
+								<String fx:value="plugin-description-label"/>
+							</styleClass>
+						</Label>
+						<Label fx:id="authors" cache="true" cacheHint="SPEED">
+							<styleClass>
+								<String fx:value="plugin-author-label"/>
+							</styleClass>
+						</Label>
+					</children>
+				</VBox>
+			</center>
+		</BorderPane>
+		<Pane cache="true" cacheHint="SPEED" HBox.hgrow="ALWAYS">
+			<styleClass>
+				<String fx:value="plugin-spacer-pane"/>
+			</styleClass>
+		</Pane>
+		<BorderPane cache="true" cacheHint="SPEED">
+			<styleClass>
+				<String fx:value="plugin-download-button-pane"/>
+			</styleClass>
+			<center>
+				<Button fx:id="downloadButton" alignment="CENTER" cache="true" cacheHint="SPEED" mnemonicParsing="false"
+						onAction="#download" BorderPane.alignment="CENTER">
+					<styleClass>
+						<String fx:value="download-button"/>
+						<String fx:value="plugin-download-button"/>
+					</styleClass>
+					<tooltip>
+						<Tooltip text="plugin.download.button.tooltip">
+							<styleClass>
+								<String fx:value="plugin-download-button-tooltip"/>
+							</styleClass>
+						</Tooltip>
+					</tooltip>
+					<graphic>
+						<FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-download">
+							<styleClass>
+								<String fx:value="plugin-download-button-graphic"/>
+							</styleClass>
+						</FontIcon>
+					</graphic>
+				</Button>
+			</center>
+		</BorderPane>
+		<BorderPane cache="true" cacheHint="SPEED">
+			<styleClass>
+				<String fx:value="plugin-delete-button-pane"/>
+			</styleClass>
+			<center>
+				<Button fx:id="deleteButton" alignment="CENTER" cache="true" cacheHint="SPEED" mnemonicParsing="false"
+						onAction="#delete" BorderPane.alignment="CENTER">
+					<styleClass>
+						<String fx:value="delete-button"/>
+						<String fx:value="plugin-delete-button"/>
+					</styleClass>
+					<tooltip>
+						<Tooltip text="plugin.delete.button.tooltip">
+							<styleClass>
+								<String fx:value="delete-button-tooltip"/>
+								<String fx:value="plugin-delete-button-tooltip"/>
+							</styleClass>
+						</Tooltip>
+					</tooltip>
+					<graphic>
+						<FontIcon cache="true" cacheHint="SPEED" iconLiteral="fas-trash">
+							<styleClass>
+								<String fx:value="delete-button-graphic"/>
+								<String fx:value="plugin-delete-button-graphic"/>
+							</styleClass>
+						</FontIcon>
+					</graphic>
+				</Button>
+			</center>
+		</BorderPane>
+	</children>
 </HBox>

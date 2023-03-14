@@ -16,39 +16,39 @@
 <?import javafx.scene.layout.HBox?>
 <?import java.lang.*?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" maxWidth="1.7976931348623157E308" spacing="14.0"
-      xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="tibetiroka.esmanager.ui.instance.CustomSourceController">
-    <styleClass>
-        <String fx:value="custom-source-hbox"/>
-    </styleClass>
-    <children>
-        <TextField fx:id="url" maxWidth="1.7976931348623157E308" promptText="instance.add.git.url.prompt"
-                   HBox.hgrow="ALWAYS">
-            <styleClass>
-                <String fx:value="instance-wizard-input-field"/>
-                <String fx:value="instance-wizard-input-field-git-url"/>
-            </styleClass>
-        </TextField>
-        <ChoiceBox fx:id="type">
-            <styleClass>
-                <String fx:value="instance-wizard-button"/>
-                <String fx:value="instance-wizard-button-git-type"/>
-            </styleClass>
-            <tooltip>
-                <Tooltip text="instance.add.git.type.tooltip">
-                    <styleClass>
-                        <String fx:value="instance-wizard-tooltip"/>
-                        <String fx:value="instance-wizard-button-git-type-tooltip"/>
-                    </styleClass>
-                </Tooltip>
-            </tooltip>
-        </ChoiceBox>
-        <TextField fx:id="target" maxWidth="1.7976931348623157E308" promptText="instance.add.git.target.prompt"
-                   HBox.hgrow="ALWAYS">
-            <styleClass>
-                <String fx:value="instance-wizard-input-field"/>
-                <String fx:value="instance-wizard-input-field-git-target"/>
-            </styleClass>
-        </TextField>
-    </children>
+	  xmlns="http://javafx.com/javafx/17.0.2-ea"
+	  fx:controller="tibetiroka.esmanager.ui.instance.CustomSourceController">
+	<styleClass>
+		<String fx:value="custom-source-hbox"/>
+	</styleClass>
+	<children>
+		<TextField fx:id="url" maxWidth="1.7976931348623157E308" promptText="instance.add.git.url.prompt"
+				   HBox.hgrow="ALWAYS">
+			<styleClass>
+				<String fx:value="instance-wizard-input-field"/>
+				<String fx:value="instance-wizard-input-field-git-url"/>
+			</styleClass>
+		</TextField>
+		<ChoiceBox fx:id="type">
+			<styleClass>
+				<String fx:value="instance-wizard-button"/>
+				<String fx:value="instance-wizard-button-git-type"/>
+			</styleClass>
+			<tooltip>
+				<Tooltip text="instance.add.git.type.tooltip">
+					<styleClass>
+						<String fx:value="instance-wizard-tooltip"/>
+						<String fx:value="instance-wizard-button-git-type-tooltip"/>
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</ChoiceBox>
+		<TextField fx:id="target" maxWidth="1.7976931348623157E308" promptText="instance.add.git.target.prompt"
+				   HBox.hgrow="ALWAYS">
+			<styleClass>
+				<String fx:value="instance-wizard-input-field"/>
+				<String fx:value="instance-wizard-input-field-git-target"/>
+			</styleClass>
+		</TextField>
+	</children>
 </HBox>

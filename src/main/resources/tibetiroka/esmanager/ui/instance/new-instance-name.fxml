@@ -18,59 +18,59 @@
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="tibetiroka.esmanager.ui.instance.InstanceNameController">
-    <styleClass>
-        <String fx:value="instance-wizard-vbox"/>
-        <String fx:value="instance-wizard-vbox-new-instance-name"/>
-    </styleClass>
-    <Label text="instance.add.name.text">
-        <styleClass>
-            <String fx:value="instance-wizard-title"/>
-            <String fx:value="instance-wizard-title-new-instance-name"/>
-        </styleClass>
-        <font>
-            <Font name="System Bold" size="24.0"/>
-        </font>
-        <padding>
-            <Insets bottom="14.0"/>
-        </padding>
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
-    </Label>
-    <TextField fx:id="name" promptText="instance.add.name.prompt">
-        <styleClass>
-            <String fx:value="instance-wizard-input-field"/>
-            <String fx:value="instance-wizard-input-field-instance-name"/>
-        </styleClass>
-    </TextField>
-    <Label fx:id="errorLabel" text="instance.add.name.fail" visible="false">
-        <styleClass>
-            <String fx:value="instance-wizard-error-label"/>
-            <String fx:value="instance-wizard-error-label-new-instance-name"/>
-        </styleClass>
-    </Label>
-    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-        <styleClass>
-            <String fx:value="instance-wizard-bottom-pane"/>
-            <String fx:value="instance-wizard-bottom-pane-new-instance-name"/>
-        </styleClass>
-        <bottom>
-            <Button fx:id="finishButton" mnemonicParsing="false" onAction="#finish" text="instance.add.finish.button"
-                    BorderPane.alignment="BOTTOM_RIGHT">
-                <styleClass>
-                    <String fx:value="instance-wizard-button"/>
-                    <String fx:value="instance-wizard-bottom-button"/>
-                    <String fx:value="instance-wizard-finish-button"/>
-                    <String fx:value="instance-wizard-finish-button-new-instance-name"/>
-                </styleClass>
-            </Button>
-        </bottom>
-        <padding>
-            <Insets top="14.0"/>
-        </padding>
-    </BorderPane>
-    <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
-    </padding>
+	  fx:controller="tibetiroka.esmanager.ui.instance.InstanceNameController">
+	<styleClass>
+		<String fx:value="instance-wizard-vbox"/>
+		<String fx:value="instance-wizard-vbox-new-instance-name"/>
+	</styleClass>
+	<Label text="instance.add.name.text">
+		<styleClass>
+			<String fx:value="instance-wizard-title"/>
+			<String fx:value="instance-wizard-title-new-instance-name"/>
+		</styleClass>
+		<font>
+			<Font name="System Bold" size="24.0"/>
+		</font>
+		<padding>
+			<Insets bottom="14.0"/>
+		</padding>
+		<VBox.margin>
+			<Insets/>
+		</VBox.margin>
+	</Label>
+	<TextField fx:id="name" promptText="instance.add.name.prompt">
+		<styleClass>
+			<String fx:value="instance-wizard-input-field"/>
+			<String fx:value="instance-wizard-input-field-instance-name"/>
+		</styleClass>
+	</TextField>
+	<Label fx:id="errorLabel" text="instance.add.name.fail" visible="false">
+		<styleClass>
+			<String fx:value="instance-wizard-error-label"/>
+			<String fx:value="instance-wizard-error-label-new-instance-name"/>
+		</styleClass>
+	</Label>
+	<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+		<styleClass>
+			<String fx:value="instance-wizard-bottom-pane"/>
+			<String fx:value="instance-wizard-bottom-pane-new-instance-name"/>
+		</styleClass>
+		<bottom>
+			<Button fx:id="finishButton" mnemonicParsing="false" onAction="#finish" text="instance.add.finish.button"
+					BorderPane.alignment="BOTTOM_RIGHT">
+				<styleClass>
+					<String fx:value="instance-wizard-button"/>
+					<String fx:value="instance-wizard-bottom-button"/>
+					<String fx:value="instance-wizard-finish-button"/>
+					<String fx:value="instance-wizard-finish-button-new-instance-name"/>
+				</styleClass>
+			</Button>
+		</bottom>
+		<padding>
+			<Insets top="14.0"/>
+		</padding>
+	</BorderPane>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+	</padding>
 </VBox>

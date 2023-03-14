@@ -16,45 +16,45 @@
 <?import javafx.scene.layout.VBox?>
 <?import java.lang.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
-      minHeight="-Infinity"
-      minWidth="-Infinity" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="tibetiroka.esmanager.ui.GameSettingsController">
-    <styleClass>
-        <String fx:value="setting-vbox"/>
-        <String fx:value="setting-game-vbox"/>
-    </styleClass>
-    <children>
-        <CheckBox fx:id="debug" cache="true" cacheHint="SPEED" mnemonicParsing="false" text="game.debug.setting">
-            <styleClass>
-                <String fx:value="setting-button"/>
-                <String fx:value="setting-game-debug-button"/>
-            </styleClass>
-            <tooltip>
-                <Tooltip text="game.debug.setting.tooltip">
-                    <styleClass>
-                        <String fx:value="setting-tooltip"/>
-                        <String fx:value="setting-game-debug-button-tooltip"/>
-                    </styleClass>
-                </Tooltip>
-            </tooltip>
-        </CheckBox>
-        <CheckBox fx:id="preservePlugins" cache="true" cacheHint="SPEED" layoutX="24.0" layoutY="24.0"
-                  mnemonicParsing="false" text="game.plugins.preserve.setting">
-            <styleClass>
-                <String fx:value="setting-button"/>
-                <String fx:value="setting-game-preserve-plugins-button"/>
-            </styleClass>
-            <tooltip>
-                <Tooltip text="game.plugins.preserve.setting.tooltip">
-                    <styleClass>
-                        <String fx:value="setting-tooltip"/>
-                        <String fx:value="setting-game-preserve-plugins-button-tooltip"/>
-                    </styleClass>
-                </Tooltip>
-            </tooltip>
-        </CheckBox>
-    </children>
-    <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
-    </padding>
+	  minHeight="-Infinity"
+	  minWidth="-Infinity" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+	  fx:controller="tibetiroka.esmanager.ui.GameSettingsController">
+	<styleClass>
+		<String fx:value="setting-vbox"/>
+		<String fx:value="setting-game-vbox"/>
+	</styleClass>
+	<children>
+		<CheckBox fx:id="debug" cache="true" cacheHint="SPEED" mnemonicParsing="false" text="game.debug.setting">
+			<styleClass>
+				<String fx:value="setting-button"/>
+				<String fx:value="setting-game-debug-button"/>
+			</styleClass>
+			<tooltip>
+				<Tooltip text="game.debug.setting.tooltip">
+					<styleClass>
+						<String fx:value="setting-tooltip"/>
+						<String fx:value="setting-game-debug-button-tooltip"/>
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</CheckBox>
+		<CheckBox fx:id="preservePlugins" cache="true" cacheHint="SPEED" layoutX="24.0" layoutY="24.0"
+				  mnemonicParsing="false" text="game.plugins.preserve.setting">
+			<styleClass>
+				<String fx:value="setting-button"/>
+				<String fx:value="setting-game-preserve-plugins-button"/>
+			</styleClass>
+			<tooltip>
+				<Tooltip text="game.plugins.preserve.setting.tooltip">
+					<styleClass>
+						<String fx:value="setting-tooltip"/>
+						<String fx:value="setting-game-preserve-plugins-button-tooltip"/>
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</CheckBox>
+	</children>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+	</padding>
 </VBox>

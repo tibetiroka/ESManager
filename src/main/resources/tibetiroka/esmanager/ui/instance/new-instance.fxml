@@ -16,165 +16,165 @@
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="tibetiroka.esmanager.ui.instance.NewInstanceController">
-    <styleClass>
-        <String fx:value="instance-wizard-vbox"/>
-        <String fx:value="instance-wizard-vbox-new-instance"/>
-    </styleClass>
-    <Label text="instance.add.type.text">
-        <styleClass>
-            <String fx:value="instance-wizard-title"/>
-            <String fx:value="instance-wizard-title-git-combined-chooser"/>
-        </styleClass>
-        <font>
-            <Font name="System Bold" size="24.0"/>
-        </font>
-        <padding>
-            <Insets bottom="14.0"/>
-        </padding>
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
-    </Label>
-    <GridPane hgap="14.0" vgap="7.0">
-        <styleClass>
-            <String fx:value="instance-wizard-grid-pane"/>
-            <String fx:value="instance-wizard-grid-pane-new-instance"/>
-        </styleClass>
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES"/>
-            <ColumnConstraints hgrow="SOMETIMES"/>
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-            <RowConstraints vgrow="SOMETIMES"/>
-        </rowConstraints>
-        <children>
-            <RadioButton fx:id="latestRelease" mnemonicParsing="false" selected="true"
-                         text="instance.add.type.official.latest.button">
-                <styleClass>
-                    <String fx:value="instance-wizard-radio-button"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance-latest-release"/>
-                </styleClass>
-                <toggleGroup>
-                    <ToggleGroup fx:id="selectionGroup"/>
-                </toggleGroup>
-            </RadioButton>
-            <Label text="instance.add.type.official.latest.text" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                <styleClass>
-                    <String fx:value="instance-wizard-label"/>
-                    <String fx:value="instance-wizard-label-new-instance"/>
-                    <String fx:value="instance-wizard-label-new-instance-latest-release"/>
-                </styleClass>
-                <padding>
-                    <Insets left="56.0"/>
-                </padding>
-            </Label>
-            <RadioButton fx:id="continuous" mnemonicParsing="false" text="instance.add.type.official.continuous.button"
-                         toggleGroup="$selectionGroup" GridPane.rowIndex="2">
-                <styleClass>
-                    <String fx:value="instance-wizard-radio-button"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance-continuous-release"/>
-                </styleClass>
-            </RadioButton>
-            <Label text="instance.add.type.official.continuous.text" GridPane.columnSpan="2" GridPane.rowIndex="3">
-                <styleClass>
-                    <String fx:value="instance-wizard-label"/>
-                    <String fx:value="instance-wizard-label-new-instance"/>
-                    <String fx:value="instance-wizard-label-new-instance-continuous-release"/>
-                </styleClass>
-                <padding>
-                    <Insets left="56.0"/>
-                </padding>
-            </Label>
-            <RadioButton fx:id="customRelease" mnemonicParsing="false" text="instance.add.type.official.custom.button"
-                         toggleGroup="$selectionGroup" GridPane.rowIndex="4">
-                <styleClass>
-                    <String fx:value="instance-wizard-radio-button"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance-custom-release"/>
-                </styleClass>
-            </RadioButton>
-            <Label text="instance.add.type.official.custom.text" GridPane.columnSpan="2" GridPane.rowIndex="5">
-                <styleClass>
-                    <String fx:value="instance-wizard-label"/>
-                    <String fx:value="instance-wizard-label-new-instance"/>
-                    <String fx:value="instance-wizard-label-new-instance-custom-release"/>
-                </styleClass>
-                <padding>
-                    <Insets left="56.0"/>
-                </padding>
-            </Label>
-            <RadioButton fx:id="pullRequest" mnemonicParsing="false" text="instance.add.type.official.pr.button"
-                         toggleGroup="$selectionGroup" GridPane.rowIndex="6">
-                <styleClass>
-                    <String fx:value="instance-wizard-radio-button"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance-pull-request"/>
-                </styleClass>
-            </RadioButton>
-            <Label text="instance.add.type.official.pr.text" GridPane.columnSpan="2" GridPane.rowIndex="7">
-                <styleClass>
-                    <String fx:value="instance-wizard-label"/>
-                    <String fx:value="instance-wizard-label-new-instance"/>
-                    <String fx:value="instance-wizard-label-new-instance-pull-request"/>
-                </styleClass>
-                <padding>
-                    <Insets left="56.0"/>
-                </padding>
-            </Label>
-            <RadioButton fx:id="other" layoutX="10.0" layoutY="166.0" mnemonicParsing="false"
-                         text="instance.add.type.other.button" toggleGroup="$selectionGroup" GridPane.rowIndex="8">
-                <styleClass>
-                    <String fx:value="instance-wizard-radio-button"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance"/>
-                    <String fx:value="instance-wizard-radio-button-new-instance-other"/>
-                </styleClass>
-            </RadioButton>
-            <Label layoutX="10.0" layoutY="203.0" text="instance.add.type.other.text" GridPane.columnSpan="2"
-                   GridPane.rowIndex="9">
-                <styleClass>
-                    <String fx:value="instance-wizard-label"/>
-                    <String fx:value="instance-wizard-label-new-instance"/>
-                    <String fx:value="instance-wizard-label-new-instance-other"/>
-                </styleClass>
-                <padding>
-                    <Insets left="56.0"/>
-                </padding>
-            </Label>
-        </children>
-    </GridPane>
-    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-        <styleClass>
-            <String fx:value="instance-wizard-bottom-pane"/>
-            <String fx:value="instance-wizard-bottom-pane-new-instance"/>
-        </styleClass>
-        <bottom>
-            <Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
-                    BorderPane.alignment="BOTTOM_RIGHT">
-                <styleClass>
-                    <String fx:value="instance-wizard-button"/>
-                    <String fx:value="instance-wizard-bottom-button"/>
-                    <String fx:value="instance-wizard-next-button"/>
-                    <String fx:value="instance-wizard-next-button-new-instance"/>
-                </styleClass>
-            </Button>
-        </bottom>
-        <padding>
-            <Insets top="14.0"/>
-        </padding>
-    </BorderPane>
-    <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
-    </padding>
+	  fx:controller="tibetiroka.esmanager.ui.instance.NewInstanceController">
+	<styleClass>
+		<String fx:value="instance-wizard-vbox"/>
+		<String fx:value="instance-wizard-vbox-new-instance"/>
+	</styleClass>
+	<Label text="instance.add.type.text">
+		<styleClass>
+			<String fx:value="instance-wizard-title"/>
+			<String fx:value="instance-wizard-title-git-combined-chooser"/>
+		</styleClass>
+		<font>
+			<Font name="System Bold" size="24.0"/>
+		</font>
+		<padding>
+			<Insets bottom="14.0"/>
+		</padding>
+		<VBox.margin>
+			<Insets/>
+		</VBox.margin>
+	</Label>
+	<GridPane hgap="14.0" vgap="7.0">
+		<styleClass>
+			<String fx:value="instance-wizard-grid-pane"/>
+			<String fx:value="instance-wizard-grid-pane-new-instance"/>
+		</styleClass>
+		<columnConstraints>
+			<ColumnConstraints hgrow="SOMETIMES"/>
+			<ColumnConstraints hgrow="SOMETIMES"/>
+		</columnConstraints>
+		<rowConstraints>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+			<RowConstraints vgrow="SOMETIMES"/>
+		</rowConstraints>
+		<children>
+			<RadioButton fx:id="latestRelease" mnemonicParsing="false" selected="true"
+						 text="instance.add.type.official.latest.button">
+				<styleClass>
+					<String fx:value="instance-wizard-radio-button"/>
+					<String fx:value="instance-wizard-radio-button-new-instance"/>
+					<String fx:value="instance-wizard-radio-button-new-instance-latest-release"/>
+				</styleClass>
+				<toggleGroup>
+					<ToggleGroup fx:id="selectionGroup"/>
+				</toggleGroup>
+			</RadioButton>
+			<Label text="instance.add.type.official.latest.text" GridPane.columnSpan="2" GridPane.rowIndex="1">
+				<styleClass>
+					<String fx:value="instance-wizard-label"/>
+					<String fx:value="instance-wizard-label-new-instance"/>
+					<String fx:value="instance-wizard-label-new-instance-latest-release"/>
+				</styleClass>
+				<padding>
+					<Insets left="56.0"/>
+				</padding>
+			</Label>
+			<RadioButton fx:id="continuous" mnemonicParsing="false" text="instance.add.type.official.continuous.button"
+						 toggleGroup="$selectionGroup" GridPane.rowIndex="2">
+				<styleClass>
+					<String fx:value="instance-wizard-radio-button"/>
+					<String fx:value="instance-wizard-radio-button-new-instance"/>
+					<String fx:value="instance-wizard-radio-button-new-instance-continuous-release"/>
+				</styleClass>
+			</RadioButton>
+			<Label text="instance.add.type.official.continuous.text" GridPane.columnSpan="2" GridPane.rowIndex="3">
+				<styleClass>
+					<String fx:value="instance-wizard-label"/>
+					<String fx:value="instance-wizard-label-new-instance"/>
+					<String fx:value="instance-wizard-label-new-instance-continuous-release"/>
+				</styleClass>
+				<padding>
+					<Insets left="56.0"/>
+				</padding>
+			</Label>
+			<RadioButton fx:id="customRelease" mnemonicParsing="false" text="instance.add.type.official.custom.button"
+						 toggleGroup="$selectionGroup" GridPane.rowIndex="4">
+				<styleClass>
+					<String fx:value="instance-wizard-radio-button"/>
+					<String fx:value="instance-wizard-radio-button-new-instance"/>
+					<String fx:value="instance-wizard-radio-button-new-instance-custom-release"/>
+				</styleClass>
+			</RadioButton>
+			<Label text="instance.add.type.official.custom.text" GridPane.columnSpan="2" GridPane.rowIndex="5">
+				<styleClass>
+					<String fx:value="instance-wizard-label"/>
+					<String fx:value="instance-wizard-label-new-instance"/>
+					<String fx:value="instance-wizard-label-new-instance-custom-release"/>
+				</styleClass>
+				<padding>
+					<Insets left="56.0"/>
+				</padding>
+			</Label>
+			<RadioButton fx:id="pullRequest" mnemonicParsing="false" text="instance.add.type.official.pr.button"
+						 toggleGroup="$selectionGroup" GridPane.rowIndex="6">
+				<styleClass>
+					<String fx:value="instance-wizard-radio-button"/>
+					<String fx:value="instance-wizard-radio-button-new-instance"/>
+					<String fx:value="instance-wizard-radio-button-new-instance-pull-request"/>
+				</styleClass>
+			</RadioButton>
+			<Label text="instance.add.type.official.pr.text" GridPane.columnSpan="2" GridPane.rowIndex="7">
+				<styleClass>
+					<String fx:value="instance-wizard-label"/>
+					<String fx:value="instance-wizard-label-new-instance"/>
+					<String fx:value="instance-wizard-label-new-instance-pull-request"/>
+				</styleClass>
+				<padding>
+					<Insets left="56.0"/>
+				</padding>
+			</Label>
+			<RadioButton fx:id="other" layoutX="10.0" layoutY="166.0" mnemonicParsing="false"
+						 text="instance.add.type.other.button" toggleGroup="$selectionGroup" GridPane.rowIndex="8">
+				<styleClass>
+					<String fx:value="instance-wizard-radio-button"/>
+					<String fx:value="instance-wizard-radio-button-new-instance"/>
+					<String fx:value="instance-wizard-radio-button-new-instance-other"/>
+				</styleClass>
+			</RadioButton>
+			<Label layoutX="10.0" layoutY="203.0" text="instance.add.type.other.text" GridPane.columnSpan="2"
+				   GridPane.rowIndex="9">
+				<styleClass>
+					<String fx:value="instance-wizard-label"/>
+					<String fx:value="instance-wizard-label-new-instance"/>
+					<String fx:value="instance-wizard-label-new-instance-other"/>
+				</styleClass>
+				<padding>
+					<Insets left="56.0"/>
+				</padding>
+			</Label>
+		</children>
+	</GridPane>
+	<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+		<styleClass>
+			<String fx:value="instance-wizard-bottom-pane"/>
+			<String fx:value="instance-wizard-bottom-pane-new-instance"/>
+		</styleClass>
+		<bottom>
+			<Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
+					BorderPane.alignment="BOTTOM_RIGHT">
+				<styleClass>
+					<String fx:value="instance-wizard-button"/>
+					<String fx:value="instance-wizard-bottom-button"/>
+					<String fx:value="instance-wizard-next-button"/>
+					<String fx:value="instance-wizard-next-button-new-instance"/>
+				</styleClass>
+			</Button>
+		</bottom>
+		<padding>
+			<Insets top="14.0"/>
+		</padding>
+	</BorderPane>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+	</padding>
 </VBox>

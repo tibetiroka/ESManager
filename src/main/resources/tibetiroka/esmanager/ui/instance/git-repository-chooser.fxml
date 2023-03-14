@@ -18,59 +18,59 @@
 <?import javafx.scene.text.Font?>
 <?import java.lang.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="tibetiroka.esmanager.ui.instance.GitRepositoryChooserController">
-    <styleClass>
-        <String fx:value="instance-wizard-vbox"/>
-        <String fx:value="instance-wizard-vbox-git-repository-chooser"/>
-    </styleClass>
-    <Label text="instance.add.repository.text">
-        <styleClass>
-            <String fx:value="instance-wizard-title"/>
-            <String fx:value="instance-wizard-title-git-repository-chooser"/>
-        </styleClass>
-        <font>
-            <Font name="System Bold" size="24.0"/>
-        </font>
-        <padding>
-            <Insets bottom="14.0"/>
-        </padding>
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
-    </Label>
-    <TextField fx:id="input" promptText="instance.add.repository.prompt">
-        <styleClass>
-            <String fx:value="instance-wizard-input-field"/>
-            <String fx:value="instance-wizard-input-field-git-repository"/>
-        </styleClass>
-    </TextField>
-    <Label fx:id="errorLabel" text="instance.add.repository.fail" visible="false">
-        <styleClass>
-            <String fx:value="instance-wizard-error-label"/>
-            <String fx:value="instance-wizard-error-label-git-repository-chooser"/>
-        </styleClass>
-    </Label>
-    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-        <styleClass>
-            <String fx:value="instance-wizard-bottom-pane"/>
-            <String fx:value="instance-wizard-bottom-pane-git-repository-chooser"/>
-        </styleClass>
-        <bottom>
-            <Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
-                    BorderPane.alignment="BOTTOM_RIGHT">
-                <styleClass>
-                    <String fx:value="instance-wizard-button"/>
-                    <String fx:value="instance-wizard-bottom-button"/>
-                    <String fx:value="instance-wizard-next-button"/>
-                    <String fx:value="instance-wizard-next-button-git-repository-chooser"/>
-                </styleClass>
-            </Button>
-        </bottom>
-        <padding>
-            <Insets top="14.0"/>
-        </padding>
-    </BorderPane>
-    <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
-    </padding>
+	  fx:controller="tibetiroka.esmanager.ui.instance.GitRepositoryChooserController">
+	<styleClass>
+		<String fx:value="instance-wizard-vbox"/>
+		<String fx:value="instance-wizard-vbox-git-repository-chooser"/>
+	</styleClass>
+	<Label text="instance.add.repository.text">
+		<styleClass>
+			<String fx:value="instance-wizard-title"/>
+			<String fx:value="instance-wizard-title-git-repository-chooser"/>
+		</styleClass>
+		<font>
+			<Font name="System Bold" size="24.0"/>
+		</font>
+		<padding>
+			<Insets bottom="14.0"/>
+		</padding>
+		<VBox.margin>
+			<Insets/>
+		</VBox.margin>
+	</Label>
+	<TextField fx:id="input" promptText="instance.add.repository.prompt">
+		<styleClass>
+			<String fx:value="instance-wizard-input-field"/>
+			<String fx:value="instance-wizard-input-field-git-repository"/>
+		</styleClass>
+	</TextField>
+	<Label fx:id="errorLabel" text="instance.add.repository.fail" visible="false">
+		<styleClass>
+			<String fx:value="instance-wizard-error-label"/>
+			<String fx:value="instance-wizard-error-label-git-repository-chooser"/>
+		</styleClass>
+	</Label>
+	<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+		<styleClass>
+			<String fx:value="instance-wizard-bottom-pane"/>
+			<String fx:value="instance-wizard-bottom-pane-git-repository-chooser"/>
+		</styleClass>
+		<bottom>
+			<Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
+					BorderPane.alignment="BOTTOM_RIGHT">
+				<styleClass>
+					<String fx:value="instance-wizard-button"/>
+					<String fx:value="instance-wizard-bottom-button"/>
+					<String fx:value="instance-wizard-next-button"/>
+					<String fx:value="instance-wizard-next-button-git-repository-chooser"/>
+				</styleClass>
+			</Button>
+		</bottom>
+		<padding>
+			<Insets top="14.0"/>
+		</padding>
+	</BorderPane>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+	</padding>
 </VBox>

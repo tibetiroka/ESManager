@@ -17,85 +17,85 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import java.lang.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" spacing="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="tibetiroka.esmanager.ui.instance.LocalChooserController">
-    <styleClass>
-        <String fx:value="instance-wizard-vbox"/>
-        <String fx:value="instance-wizard-vbox-local-chooser"/>
-    </styleClass>
-    <Label text="instance.add.local.text">
-        <styleClass>
-            <String fx:value="instance-wizard-title"/>
-            <String fx:value="instance-wizard-title-local-chooser"/>
-        </styleClass>
-        <font>
-            <Font name="System Bold" size="24.0"/>
-        </font>
-        <padding>
-            <Insets bottom="14.0"/>
-        </padding>
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
-    </Label>
-    <HBox spacing="14.0">
-        <styleClass>
-            <String fx:value="instance-wizard-hbox"/>
-            <String fx:value="instance-wizard-hbox-local-chooser"/>
-        </styleClass>
-        <children>
-            <TextField fx:id="input" maxWidth="1.7976931348623157E308" promptText="instance.add.local.prompt"
-                       HBox.hgrow="ALWAYS">
-                <styleClass>
-                    <String fx:value="instance-wizard-input-field"/>
-                    <String fx:value="instance-wizard-input-field-local-file"/>
-                </styleClass>
-            </TextField>
-            <Button mnemonicParsing="false" onAction="#choose">
-                <styleClass>
-                    <String fx:value="instance-wizard-button"/>
-                    <String fx:value="instance-wizard-button-choose-local-file"/>
-                </styleClass>
-                <tooltip>
-                    <Tooltip text="instance.add.local.chooser.tooltip"/>
-                </tooltip>
-                <graphic>
-                    <FontIcon iconLiteral="fas-folder-open">
-                        <styleClass>
-                            <String fx:value="instance-wizard-button-graphic"/>
-                            <String fx:value="instance-wizard-local-chooser-open-button-graphic"/>
-                        </styleClass>
-                    </FontIcon>
-                </graphic>
-            </Button>
-        </children>
-    </HBox>
-    <Label fx:id="errorLabel" text="instance.add.local.fail" visible="false">
-        <styleClass>
-            <String fx:value="instance-wizard-error-label"/>
-            <String fx:value="instance-wizard-error-label-local-chooser"/>
-        </styleClass>
-    </Label>
-    <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
-        <styleClass>
-            <String fx:value="instance-wizard-bottom-pane"/>
-            <String fx:value="instance-wizard-bottom-pane-local-chooser"/>
-        </styleClass>
-        <bottom>
-            <Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
-                    BorderPane.alignment="BOTTOM_RIGHT">
-                <styleClass>
-                    <String fx:value="instance-wizard-button"/>
-                    <String fx:value="instance-wizard-bottom-button"/>
-                    <String fx:value="instance-wizard-next-button"/>
-                    <String fx:value="instance-wizard-next-button-local-chooser"/>
-                </styleClass>
-            </Button>
-        </bottom>
-        <padding>
-            <Insets top="14.0"/>
-        </padding>
-    </BorderPane>
-    <padding>
-        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
-    </padding>
+	  fx:controller="tibetiroka.esmanager.ui.instance.LocalChooserController">
+	<styleClass>
+		<String fx:value="instance-wizard-vbox"/>
+		<String fx:value="instance-wizard-vbox-local-chooser"/>
+	</styleClass>
+	<Label text="instance.add.local.text">
+		<styleClass>
+			<String fx:value="instance-wizard-title"/>
+			<String fx:value="instance-wizard-title-local-chooser"/>
+		</styleClass>
+		<font>
+			<Font name="System Bold" size="24.0"/>
+		</font>
+		<padding>
+			<Insets bottom="14.0"/>
+		</padding>
+		<VBox.margin>
+			<Insets/>
+		</VBox.margin>
+	</Label>
+	<HBox spacing="14.0">
+		<styleClass>
+			<String fx:value="instance-wizard-hbox"/>
+			<String fx:value="instance-wizard-hbox-local-chooser"/>
+		</styleClass>
+		<children>
+			<TextField fx:id="input" maxWidth="1.7976931348623157E308" promptText="instance.add.local.prompt"
+					   HBox.hgrow="ALWAYS">
+				<styleClass>
+					<String fx:value="instance-wizard-input-field"/>
+					<String fx:value="instance-wizard-input-field-local-file"/>
+				</styleClass>
+			</TextField>
+			<Button mnemonicParsing="false" onAction="#choose">
+				<styleClass>
+					<String fx:value="instance-wizard-button"/>
+					<String fx:value="instance-wizard-button-choose-local-file"/>
+				</styleClass>
+				<tooltip>
+					<Tooltip text="instance.add.local.chooser.tooltip"/>
+				</tooltip>
+				<graphic>
+					<FontIcon iconLiteral="fas-folder-open">
+						<styleClass>
+							<String fx:value="instance-wizard-button-graphic"/>
+							<String fx:value="instance-wizard-local-chooser-open-button-graphic"/>
+						</styleClass>
+					</FontIcon>
+				</graphic>
+			</Button>
+		</children>
+	</HBox>
+	<Label fx:id="errorLabel" text="instance.add.local.fail" visible="false">
+		<styleClass>
+			<String fx:value="instance-wizard-error-label"/>
+			<String fx:value="instance-wizard-error-label-local-chooser"/>
+		</styleClass>
+	</Label>
+	<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+		<styleClass>
+			<String fx:value="instance-wizard-bottom-pane"/>
+			<String fx:value="instance-wizard-bottom-pane-local-chooser"/>
+		</styleClass>
+		<bottom>
+			<Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
+					BorderPane.alignment="BOTTOM_RIGHT">
+				<styleClass>
+					<String fx:value="instance-wizard-button"/>
+					<String fx:value="instance-wizard-bottom-button"/>
+					<String fx:value="instance-wizard-next-button"/>
+					<String fx:value="instance-wizard-next-button-local-chooser"/>
+				</styleClass>
+			</Button>
+		</bottom>
+		<padding>
+			<Insets top="14.0"/>
+		</padding>
+	</BorderPane>
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+	</padding>
 </VBox>
