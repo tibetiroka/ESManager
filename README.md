@@ -65,8 +65,10 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 
 ### Important options
 - `Settings -> Game -> Preserve manually installed plugins`
+  
   You can specify whether plugins downloaded from the launcher should override existing plugins. Please note that once a plugin is overridden, it is unrecoverable. This setting defaults to preserve existing plugins.
 - `Settings -> Update`
+
   If you want to play with the game as soon as the launcher opens, disable all updates. You can still update the instances and plugins manually.
   
   Unless something actually needs updating, having automatic updates turned on shouldn't cause more than a few seconds of delay. Some upgrades can be performed even while in-game.
