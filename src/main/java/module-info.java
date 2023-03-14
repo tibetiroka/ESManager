@@ -25,7 +25,7 @@ module ESManager {
 	requires java.base;
 	requires java.sql;
 	requires org.apache.commons.codec;
-	requires commons.io;
+	requires org.apache.commons.io;
 	requires org.jetbrains.annotations;
 
 	exports tibetiroka.esmanager.audio to genson;
