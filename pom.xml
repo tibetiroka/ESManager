@@ -184,51 +184,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-artifacts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.build.directory}</directory>
-                                    <includes>
-                                        <include>*.jar</include>
-                                        <include>**/*.exe</include>
-                                        <include>**/*.dmg</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <id>rename-dmg</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>rename</goal>
-                            </goals>
-                            <sourceFile>${project.build.outputDirectory}/${project.name}_${project.version}.dmg</sourceFile>
-                            <destinationFile>${project.build.outputDirectory}/${project.name}.dmg</destinationFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
@@ -339,6 +294,51 @@
                                 <createDesktopIconTask>true</createDesktopIconTask>
                                 <removeOldLibs>true</removeOldLibs>
                             </winConfig>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>*.jar</include>
+                                        <include>**/*.exe</include>
+                                        <include>**/*.dmg</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0.1</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <id>rename-dmg</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>rename</goal>
+                            </goals>
+                            <sourceFile>${project.build.outputDirectory}/${project.name}_${project.version}.dmg</sourceFile>
+                            <destinationFile>${project.build.outputDirectory}/${project.name}.dmg</destinationFile>
                         </configuration>
                     </execution>
                 </executions>
