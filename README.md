@@ -1,4 +1,4 @@
-# ESMANAGER
+# ESManager
 
 An alternative for ESLauncher2, aimed at developers and advanced users.
 
