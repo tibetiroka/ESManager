@@ -383,6 +383,7 @@
 				<version>3.0.0</version>
 				<executions>
 					<execution>
+						<id>rename-dmg</id>
 						<phase>package</phase>
 						<configuration>
 							<failOnError>false</failOnError>
@@ -397,6 +398,7 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>rename-exe</id>
 						<phase>package</phase>
 						<configuration>
 							<failOnError>false</failOnError>
