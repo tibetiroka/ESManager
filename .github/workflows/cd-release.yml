@@ -1,7 +1,8 @@
 name: Release CD
 
 on:
-  release
+  release:
+    types: [created, edited]
 
 jobs:
   release_linux:
