@@ -1,8 +1,8 @@
 name: Release CD
 
 on:
-  release:
-    types: [created, edited]
+  push:
+    tags: "v*.*.*"
 
 jobs:
   release_linux:
@@ -22,10 +22,9 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Upload to release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          draft: true
-          files: |
-            target/ESManager.AppImage
+          files: ESManager.AppImage
 
   release_windows:
     name: Release - Windows
@@ -44,10 +43,9 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Upload to release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          draft: true
-          files: |
-            target/ESManager.exe
+          files: ESManager.zip
 
   release_macos:
     name: Release - macOS
@@ -64,7 +62,6 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: Upload to release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          draft: true
-          files: |
-            target/ESManager.dmg
+          files: ESManager.dmg
