@@ -24,7 +24,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ESManager.AppImage
+          files: target/ESManager.AppImage
 
   release_windows:
     name: Release - Windows
@@ -45,7 +45,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ESManager.zip
+          files: target/ESManager.zip
 
   release_macos:
     name: Release - macOS
@@ -64,4 +64,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ESManager.dmg
+          files: target/ESManager.dmg
