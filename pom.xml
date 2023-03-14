@@ -278,6 +278,7 @@
                             <url>https://www.github.com/tibetiroka/ESManager</url>
                             <createTarball>false</createTarball>
                             <createZipball>false</createZipball>
+                            <name>${project.name}</name>
                             <linuxConfig>
                                 <pngFile>icon.png</pngFile>
                                 <generateAppImage>true</generateAppImage>
@@ -298,7 +299,7 @@
                                 <appId>${project.name}</appId>
                                 <codesignApp>false</codesignApp>
                                 <hardenedCodesign>false</hardenedCodesign>
-                                <volumeName>${name}</volumeName>
+                                <volumeName>${project.name}</volumeName>
                             </macConfig>
                             <winConfig>
                                 <icoFile>icon.ico</icoFile>
