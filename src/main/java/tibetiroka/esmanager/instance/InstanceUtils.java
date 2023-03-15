@@ -136,6 +136,23 @@ public class InstanceUtils {
 		}
 	}
 
+	public static void remove(@NotNull Instance instance){
+		try {
+			if(instance.getSource().isGit()) {
+				GIT_SEMAPHORE.acquire();
+			}
+		} catch(InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		try {
+			instance.remove();
+		} finally {
+			if(instance.getSource().isGit()) {
+				GIT_SEMAPHORE.release();
+			}
+		}
+	}
+
 	/**
 	 * Builder class used to create parameterized instances.
 	 *

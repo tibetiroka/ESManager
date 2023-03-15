@@ -63,7 +63,7 @@ public class InstanceController {
 			if(newValue == null) {
 				new Thread(() -> {
 					log.warn(localize("log.instance.delete.start", instance.getName()));
-					instance.remove();
+					InstanceUtils.remove(instance);
 					log.warn(localize("log.instance.delete.end", instance.getName()));
 				}, "Remover thread for " + instance.getName()).start();
 			}
