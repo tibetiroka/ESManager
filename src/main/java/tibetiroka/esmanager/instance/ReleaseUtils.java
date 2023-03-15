@@ -29,17 +29,19 @@ public class ReleaseUtils {
 	 * @since 0.0.1
 	 */
 	public static boolean isStandardTag(@NotNull String tag) {
-		if(!tag.startsWith("refs/tags/")) {
-			return false;
+		if(tag.startsWith("refs/tags/")) {
+			tag = tag.substring("refs/tags/".length());
 		}
-		tag = tag.substring("refs/tags/".length());
 		if(tag.equals("continuous")) {
 			return true;
 		}
-		String[] parts = tag.split("\\.");
-		if(parts[0].startsWith("v")) {
-			parts[0] = parts[0].substring("v".length());
+		if(tag.startsWith("v")){
+			tag = tag.substring("v".length());
 		}
+		if(tag.isBlank() || tag.contains(" ")){
+			return false;
+		}
+		String[] parts = tag.split("\\.");
 		for(String part : parts) {
 			try {
 				Integer.parseInt(part);

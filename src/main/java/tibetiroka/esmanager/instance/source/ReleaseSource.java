@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.ReleaseUtils;
 import tibetiroka.esmanager.utils.FileUtils;
+import tibetiroka.esmanager.utils.VersioningUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -347,7 +348,7 @@ public class ReleaseSource extends Source {
 		if(isOldRelease(release)) {
 			String filename = "endless-sky-";
 			if(AppConfiguration.isLinux()) {
-				filename += "x86_64";
+				filename += VersioningUtils.isSameRelease("0.9.14", release) ? "amd64" : "x86_64";
 			} else if(AppConfiguration.isWindows()) {
 				filename += "win";
 				filename += switch(System.getProperty("os.arch")) {

@@ -56,4 +56,13 @@ public class VersioningUtils {
 			return 0;
 		};
 	}
+	public static boolean isSameRelease(String first, String second){
+		if(first.startsWith("v")){
+			first = first.substring("v".length());
+		}
+		if(second.startsWith("v")){
+			second = second.substring("v".length());
+		}
+		return first.equalsIgnoreCase(second);
+	}
 }
