@@ -69,7 +69,7 @@ public class MainApplication extends Application {
 				dialog.getDialogPane().getButtonTypes().add(new ButtonType(localize(message + ".ok"), ButtonData.OK_DONE));
 			}
 			Optional<ButtonType> result = dialog.showAndWait();
-			value.set(result.isPresent() && result.get() == ButtonType.YES);
+			value.set(result.isPresent() && result.get().getButtonData() == ButtonData.YES);
 			MainApplication.STYLE_SHEET_LISTS.remove(dialog.getDialogPane().getStylesheets());
 			p.arriveAndDeregister();
 		});
@@ -203,14 +203,18 @@ public class MainApplication extends Application {
 			new Thread(() -> {
 				Main.configureThread(Thread.currentThread(), false);
 				try {
-					if(SelfUpdater.needsUpdate() && createDialog("launcher.update.ask", true)) {
-						try {
-							SelfUpdater.update();
-							createDialog("launcher.update.done", false);
-						} catch(Exception e) {
-							createDialog("launcher.update.fail", false);
-							throw e;
+					if(SelfUpdater.areUpdatesSupported()) {
+						if(SelfUpdater.needsUpdate() && createDialog("launcher.update.ask", true)) {
+							try {
+								SelfUpdater.update();
+								createDialog("launcher.update.done", false);
+							} catch(Exception e) {
+								createDialog("launcher.update.fail", false);
+								throw e;
+							}
 						}
+					} else{
+						log.info(localize("log.launcher.update.unsupported"));
 					}
 				} catch(Exception e) {
 					log.warn(localize("log.launcher.update.fail", e.getMessage()), e);

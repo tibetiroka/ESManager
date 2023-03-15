@@ -325,7 +325,7 @@
 							<bundleJre>true</bundleJre>
 							<customizedJre>false</customizedJre>
 							<copyDependencies>true</copyDependencies>
-							<generateInstaller>false</generateInstaller>
+							<generateInstaller>true</generateInstaller>
 							<administratorRequired>false</administratorRequired>
 							<platform>auto</platform>
 							<licenseFile>COPYING</licenseFile>
@@ -335,7 +335,6 @@
 							<name>${project.name}</name>
 							<displayName>${project.name}</displayName>
 							<description>${project.description}</description>
-							<runnableJar>${project.build.directory}/${project.name}-jar-with-dependencies.jar</runnableJar>
 							<linuxConfig>
 								<pngFile>icon.png</pngFile>
 								<generateAppImage>true</generateAppImage>

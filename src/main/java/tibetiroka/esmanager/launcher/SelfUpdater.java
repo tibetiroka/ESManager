@@ -38,6 +38,24 @@ public class SelfUpdater {
 	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(SelfUpdater.class);
 
 	/**
+	 * Checks whether updates are supported on the current operating system and executable.
+	 *
+	 * @return True if supported
+	 */
+	public static boolean areUpdatesSupported() {
+		if(AppConfiguration.isLinux()) {
+			return true;
+		}
+		try {
+			if(AppConfiguration.isWindows() && getExecutable().isFile() && getExecutable().getName().equals("ESManager.jar")) {
+				return true;
+			}
+		} catch(URISyntaxException e) {
+		}
+		return false;
+	}
+
+	/**
 	 * Checks whether the launcher needs an update.
 	 *
 	 * @return True if an update is required
