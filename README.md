@@ -29,13 +29,13 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 
 ## Installation
 - ### Linux
-  Download the [ESManager.AppImage](/releases/latest/download/ESManager.AppImage) file. It is a self-contained version of the application that doesn't require any other dependencies on your system (other than [FUSE 2](https://github.com/AppImage/AppImageKit/wiki/FUSE), that is).
+  Download the `ESManager.AppImage` file. It is a self-contained version of the application that doesn't require any other dependencies on your system (other than [FUSE 2](https://github.com/AppImage/AppImageKit/wiki/FUSE), that is).
 - ### Windows
-  Download the [ESManager.exe](/releases/latest/download/ESManager.exe) file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
+  Download the `ESManager.exe` file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
 - ### macOS
-  Download the [ESManager.dmg](/releases/latest/download/ESManager.dmg) file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
+  Download the `ESManager.dmg` file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
 - ### Portable
-  If you wish to use a single file on multiple operating systems or can't get the above versions to work on your system, you can use the cross-platform [ESManager.jar](/releases/latest/download/ESManager.jar) file. It should work on any computer with an up-to-date Java installation ([JDK 19](https://www.oracle.com/java/technologies/downloads) or later).
+  If you wish to use a single file on multiple operating systems or can't get the above versions to work on your system, you can use the cross-platform `ESManager.jar` file. It should work on any computer with an up-to-date Java installation ([JDK 19](https://www.oracle.com/java/technologies/downloads) or later).
 
 ***Please note that launcher updates are only supported for the `AppImage` and `jar` formats. I'm working on the rest, but that may take a while.***
 
