@@ -69,13 +69,15 @@ public class UpdateProgressTracker {
 	public void beginTask(double share) {
 		Platform.runLater(() -> {
 			double current = updateProgress.get();
-			if(endings.isEmpty()) {
-				endings.add(share + current);
-				multipliers.add(share);
-			} else {
-				int index = endings.size() - 1;
-				endings.add(Math.min(0.99, current + multipliers.get(index) * share));//todo: remove this and actually find where it's broken
-				multipliers.add(multipliers.get(index) * share);
+			if(current >= 0) {
+				if(endings.isEmpty()) {
+					endings.add(share + current);
+					multipliers.add(share);
+				} else {
+					int index = endings.size() - 1;
+					endings.add(Math.min(0.99, current + multipliers.get(index) * share));//todo: remove this and actually find where it's broken
+					multipliers.add(multipliers.get(index) * share);
+				}
 			}
 		});
 	}
@@ -101,8 +103,10 @@ public class UpdateProgressTracker {
 	 */
 	public void endTask() {
 		Platform.runLater(() -> {
-			updateProgress.set(endings.remove(endings.size() - 1));
-			multipliers.remove(multipliers.size() - 1);
+			if(updateProgress.get() >= 0) {
+				updateProgress.set(endings.remove(endings.size() - 1));
+				multipliers.remove(multipliers.size() - 1);
+			}
 		});
 	}
 

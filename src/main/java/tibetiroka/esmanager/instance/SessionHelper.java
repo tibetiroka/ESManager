@@ -41,7 +41,7 @@ public class SessionHelper {
 	 * @param debug    Whether to start it in debug mode
 	 * @since 0.0.1
 	 */
-	public static void start(@NotNull Instance instance, @NotNull boolean debug) {
+	public static void start(@NotNull Instance instance, boolean debug) {
 		Platform.runLater(() -> ANY_RUNNING.set(true));
 		//
 		ArrayList<String> commands = new ArrayList<>();
