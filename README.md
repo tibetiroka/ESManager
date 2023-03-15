@@ -56,6 +56,11 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   - If you want to build the game from source (using a pull request as source, for example), you need to have Git and all development libraries installed as [described in the game repository](https://github.com/endless-sky/endless-sky/blob/master/readme-developer.md). ESManager can build the game from source using CMake (default) and SCons, so follow the instructions for whichever one you configured in the settings.
 
 ## UI Screenshots
+![Screenshot from 2023-03-15 10-19-20](https://user-images.githubusercontent.com/68112292/225288202-932e1201-6153-4732-8fe2-879beb9587d5.png)
+![Screenshot from 2023-03-15 10-19-43](https://user-images.githubusercontent.com/68112292/225288216-587e79ed-c8dc-4500-9a88-f90ca7ef4fab.png)
+![Screenshot from 2023-03-15 10-38-30](https://user-images.githubusercontent.com/68112292/225288227-480b9f8f-fbb4-484f-87d7-01927bdbb880.png)
+![Screenshot from 2023-03-15 10-40-41](https://user-images.githubusercontent.com/68112292/225288239-15c5c991-a44a-4cf6-b67d-a47af2d9a5e6.png)
+
 
 ## Tutorials and settings
 
