@@ -27,6 +27,23 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 - Downloading build artifacts from pull requests
   - MCO has his own server building PRs remotely, and I don't want to use that (you can still use it via direct downloads, though). Instead, this application builds pull requests from source.
 
+## Installation
+- ### Linux
+  Download the [ESManager.AppImage](/releases/latest/download/ESManager.AppImage) file. It is a self-contained version of the application that doesn't require any other dependencies on your system (other than [FUSE 2](https://github.com/AppImage/AppImageKit/wiki/FUSE), that is).
+- ### Windows
+  Download the [ESManager.exe](/releases/latest/download/ESManager.exe) file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
+- ### macOS
+  Download the [ESManager.dmg](/releases/latest/download/ESManager.dmg) file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
+- ### Portable
+  If you wish to use a single file on multiple operating systems or can't get the above versions to work on your system, you can use the cross-platform [ESManager.jar](/releases/latest/download/ESManager.jar) file. It should work on any computer with an up-to-date Java installation ([JDK 19](https://www.oracle.com/java/technologies/downloads) or later).
+
+***Please note that launcher updates are only supported for the `AppImage` and `jar` formats. I'm working on the rest, but that may take a while.***
+
+- ### Build from source
+  You can build the application via maven using `mvn clean package`, or run it from command line using `mvn clean javafx:run`. Project files are provided for [IntelliJ](https://www.jetbrains.com/idea/) if you wish to modify the sources.
+
+  Sources and javadocs are also provided for every release.
+
 ## Requirements
 
 - ### Hardware requirements
@@ -38,8 +55,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   - For most users, nothing. The application comes bundled with a pure Java-based Git implementation, so even Git doesn't have to be installed.
   - If you want to build the game from source (using a pull request as source, for example), you need to have Git and all development libraries installed as [described in the game repository](https://github.com/endless-sky/endless-sky/blob/master/readme-developer.md). ESManager can build the game from source using CMake (default) and SCons, so follow the instructions for whichever one you configured in the settings.
 
-## Installation
-- Download the latest release from GitHub.
+## UI Screenshots
 
 ## Tutorials and settings
 

@@ -286,6 +286,31 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>jar-with-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>${project.name}</finalName>
+							<archive>
+								<manifest>
+									<mainClass>tibetiroka.esmanager.Main</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>io.github.fvarrui</groupId>
 				<artifactId>javapackager</artifactId>
 				<version>1.7.0</version>
@@ -300,7 +325,7 @@
 							<bundleJre>true</bundleJre>
 							<customizedJre>false</customizedJre>
 							<copyDependencies>true</copyDependencies>
-							<generateInstaller>true</generateInstaller>
+							<generateInstaller>false</generateInstaller>
 							<administratorRequired>false</administratorRequired>
 							<platform>auto</platform>
 							<licenseFile>COPYING</licenseFile>
@@ -310,6 +335,7 @@
 							<name>${project.name}</name>
 							<displayName>${project.name}</displayName>
 							<description>${project.description}</description>
+							<runnableJar>${project.build.directory}/${project.name}-jar-with-dependencies.jar</runnableJar>
 							<linuxConfig>
 								<pngFile>icon.png</pngFile>
 								<generateAppImage>true</generateAppImage>
@@ -386,7 +412,7 @@
 						<id>rename-dmg</id>
 						<phase>package</phase>
 						<configuration>
-							<failOnError>false</failOnError>
+							<failOnError>true</failOnError>
 							<skip>${os.mac.not}</skip>
 							<target>
 								<copy file="${project.build.directory}/${project.name}_${project.version}.dmg"
@@ -398,10 +424,42 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>rename-runnable-jar</id>
+						<phase>package</phase>
+						<configuration>
+							<failOnError>true</failOnError>
+							<skip>${os.unix.not}</skip>
+							<target>
+								<copy file="${project.build.directory}/${project.name}-jar-with-dependencies.jar"
+									  tofile="${project.build.directory}/${project.name}.jar"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>rename-sources-and-javadoc</id>
+						<phase>package</phase>
+						<configuration>
+							<failOnError>true</failOnError>
+							<skip>${os.unix.not}</skip>
+							<target>
+								<copy file="${project.build.directory}/${project.name}-${project.version}-sources.jar"
+									  tofile="${project.build.directory}/${project.name}-sources.jar"/>
+								<copy file="${project.build.directory}/${project.name}-${project.version}-javadoc.jar"
+									  tofile="${project.build.directory}/${project.name}-javadoc.jar"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
 						<id>rename-exe</id>
 						<phase>package</phase>
 						<configuration>
-							<failOnError>false</failOnError>
+							<failOnError>true</failOnError>
 							<skip>${os.windows.not}</skip>
 							<target>
 								<copy file="${project.build.directory}/${project.name}_${project.version}.exe"
