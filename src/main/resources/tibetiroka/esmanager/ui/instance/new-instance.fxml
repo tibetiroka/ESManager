@@ -161,7 +161,7 @@
 		</styleClass>
 		<bottom>
 			<Button mnemonicParsing="false" onAction="#next" text="instance.add.next.button"
-					BorderPane.alignment="BOTTOM_RIGHT">
+					BorderPane.alignment="BOTTOM_RIGHT" fx:id="nextButton">
 				<styleClass>
 					<String fx:value="instance-wizard-button"/>
 					<String fx:value="instance-wizard-bottom-button"/>
