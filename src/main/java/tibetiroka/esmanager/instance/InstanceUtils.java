@@ -291,7 +291,7 @@ public class InstanceUtils {
 		 * @return This builder
 		 * @since 0.0.1
 		 */
-		public @NotNull InstanceBuilder withOfficialSource(@NotNull SourceType type, @NotNull String target) {
+		public @NotNull InstanceBuilder withOfficialSource(@NotNull SourceType type, @Nullable String target) {
 			ReleaseSource source = new ReleaseSource();
 			source.setType(type);
 			switch(type) {
@@ -317,7 +317,7 @@ public class InstanceUtils {
 		 * @return This builder
 		 * @since 0.0.1
 		 */
-		public @NotNull InstanceBuilder withReleaseSource(@NotNull SourceType type, @NotNull URI remoteURI, @NotNull String target) {
+		public @NotNull InstanceBuilder withReleaseSource(@NotNull SourceType type, @NotNull URI remoteURI, @Nullable String target) {
 			ReleaseSource source = new ReleaseSource();
 			source.setType(type);
 			source.setRemoteURI(remoteURI.toString());
@@ -344,7 +344,7 @@ public class InstanceUtils {
 		 * @return This builder
 		 * @since 0.0.1
 		 */
-		public @NotNull InstanceBuilder withRemoteGitSource(@NotNull URI repo, @NotNull SourceType type, @NotNull String target) {
+		public @NotNull InstanceBuilder withRemoteGitSource(@NotNull URI repo, @NotNull SourceType type, @Nullable String target) {
 			GitSource source = new GitSource();
 			source.setType(type);
 			source.setRemoteURI(repo.toString());

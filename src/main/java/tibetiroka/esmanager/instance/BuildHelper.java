@@ -12,6 +12,7 @@ package tibetiroka.esmanager.instance;
 
 import com.owlike.genson.annotation.JsonConverter;
 import javafx.beans.property.SimpleObjectProperty;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import tibetiroka.esmanager.config.AppConfiguration;
@@ -82,19 +83,32 @@ public class BuildHelper {
 	}
 
 	/**
-	 * Creates a {@link ProcessBuilder} that runs the specified command in the directory, inheriting the application's io streams.
+	 * Creates a {@link ProcessBuilder} that runs the specified command in the directory.
 	 *
 	 * @param repo    The directory to execute the command within
 	 * @param command The command to execute
 	 * @return The {@link ProcessBuilder}
-	 * @see ProcessBuilder#inheritIO()
 	 * @since 0.0.1
 	 */
-	private static @NotNull ProcessBuilder runPiped(@NotNull File repo, @NotNull String @NotNull ... command) {
+	private static @NotNull ProcessBuilder run(@NotNull File repo, @NotNull String @NotNull ... command) {
 		ProcessBuilder builder = new ProcessBuilder(command);
-		builder.inheritIO();
 		builder.directory(repo);
 		return builder;
+	}
+
+	/**
+	 * Starts the process described by the specified {@link ProcessBuilder} and redirects its output/error streams to the logger.
+	 *
+	 * @param processBuilder The builder to start
+	 * @return The {@link Process}
+	 * @see ProcessBuilder#start()
+	 * @since 0.0.1
+	 */
+	private static @NotNull Process start(@NotNull ProcessBuilder processBuilder) throws IOException {
+		Process p = processBuilder.start();
+		IOUtils.copy(p.getInputStream(), System.out);
+		IOUtils.copy(p.getErrorStream(), System.err);
+		return p;
 	}
 
 	/**
@@ -125,9 +139,9 @@ public class BuildHelper {
 				source.getInstance().getTracker().beginTask(0.5);
 				File repo = Source.getRepository();
 				//vcpkg setup
-				ProcessBuilder setup = runPiped(repo, "cmake", "--preset", preset);
+				ProcessBuilder setup = run(repo, "cmake", "--preset", preset);
 				log.info(localize("log.source.build.cmake.setup", String.join(" ", setup.command())));
-				Process setupProcess = setup.start();
+				Process setupProcess = start(setup);
 				int result = setupProcess.waitFor();
 				if(result != 0) {
 					log.error(localize("log.source.build.cmake.setup.fail", result));
@@ -138,10 +152,10 @@ public class BuildHelper {
 				//
 				//compilation
 				source.getInstance().getTracker().beginTask(0.5);
-				ProcessBuilder cmake = runPiped(repo, "cmake", "--build", "--preset", preset + "-release");
+				ProcessBuilder cmake = run(repo, "cmake", "--build", "--preset", preset + "-release");
 				cmake.environment().put("CMAKE_BUILD_PARALLEL_LEVEL", String.valueOf(Runtime.getRuntime().availableProcessors()));
 				log.info(localize("log.source.build.cmake.compile", String.join(" ", cmake.command())));
-				Process compileProcess = cmake.start();
+				Process compileProcess = start(cmake);
 				result = compileProcess.waitFor();
 				source.getInstance().getTracker().endTask();
 				if(result != 0) {
@@ -160,9 +174,9 @@ public class BuildHelper {
 		 */
 		SCONS(source -> {
 			try {
-				ProcessBuilder scons = runPiped(Source.getRepository(), "scons", "-j", String.valueOf(Runtime.getRuntime().availableProcessors()));
+				ProcessBuilder scons = run(Source.getRepository(), "scons", "-j", String.valueOf(Runtime.getRuntime().availableProcessors()));
 				log.info(localize("log.source.build.scons", String.join(" ", scons.command())));
-				Process p = scons.start();
+				Process p = start(scons);
 				int result = p.waitFor();
 				if(result != 0) {
 					log.error(localize("log.source.build.scons.fail", result));

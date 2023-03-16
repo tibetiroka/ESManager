@@ -12,6 +12,7 @@ package tibetiroka.esmanager.instance;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,11 +54,12 @@ public class SessionHelper {
 			log.info(localize("log.instance.play.normal", instance.getName()));
 		}
 		ProcessBuilder builder = new ProcessBuilder(commands);
-		builder.inheritIO();
 		//starting process
 		new Thread(() -> {
 			try {
 				Process process = builder.start();
+				IOUtils.copy(process.getInputStream(), System.out);
+				IOUtils.copy(process.getErrorStream(), System.err);
 				process.waitFor();
 			} catch(IOException | InterruptedException e) {
 				throw new RuntimeException(e);
