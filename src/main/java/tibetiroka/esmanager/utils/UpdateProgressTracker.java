@@ -8,7 +8,7 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package tibetiroka.esmanager.instance;
+package tibetiroka.esmanager.utils;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -164,7 +164,7 @@ public class UpdateProgressTracker {
 	}
 
 	/**
-	 * Sets the progress of the update.
+	 * Sets the progress of the update. This method ignores the constraints of any tasks, and uses the raw value specified.
 	 *
 	 * @param value The new value
 	 * @since 0.0.1

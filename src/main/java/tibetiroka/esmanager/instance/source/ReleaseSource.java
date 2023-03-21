@@ -121,10 +121,10 @@ public class ReleaseSource extends Source {
 						getInstance().getTracker().beginTask(0.33);
 						File downloaded = new File(getDirectory(), getFileName(release));
 						if(AppConfiguration.isWindows()) {
-							FileUtils.unpackZip(new URL(getDownloadURL(release)).openStream(), downloaded.getParentFile());
+							FileUtils.unpackZipTracked(new URL(getDownloadURL(release)), downloaded.getParentFile(), getInstance().getTracker());
 							downloaded = new File(downloaded.getParentFile(), "Endless Sky.exe");
 						} else {
-							Files.copy(new URL(getDownloadURL(release)).openStream(), downloaded.toPath(), StandardCopyOption.REPLACE_EXISTING);
+							FileUtils.copyTracked(new URL(getDownloadURL(release)), downloaded, getInstance().getTracker());
 						}
 						getInstance().getTracker().endTask();
 						symlinkExecutable(downloaded);
@@ -147,10 +147,10 @@ public class ReleaseSource extends Source {
 					getInstance().getTracker().beginTask(0.5);
 					File downloaded = new File(getDirectory(), getFileName(targetName));
 					if(AppConfiguration.isWindows()) {
-						FileUtils.unpackZip(new URL(getDownloadURL(targetName)).openStream(), downloaded.getParentFile());
+						FileUtils.unpackZipTracked(new URL(getDownloadURL(targetName)), downloaded.getParentFile(), getInstance().getTracker());
 						downloaded = new File(downloaded.getParentFile(), "Endless Sky.exe");
 					} else {
-						Files.copy(new URL(getDownloadURL(targetName)).openStream(), downloaded.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						FileUtils.copyTracked(new URL(getDownloadURL(targetName)), downloaded, getInstance().getTracker());
 					}
 					downloaded.setExecutable(true);
 					getInstance().getTracker().endTask();

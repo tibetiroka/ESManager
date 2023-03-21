@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.source.Source;
+import tibetiroka.esmanager.utils.UpdateProgressTracker;
 
 import java.io.File;
 import java.io.IOException;

@@ -10,13 +10,15 @@
 
 package tibetiroka.esmanager.plugin;
 
+import com.owlike.genson.annotation.JsonIgnore;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tibetiroka.esmanager.utils.UpdateProgressTracker;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.Objects;
 
 /**
@@ -26,6 +28,20 @@ import java.util.Objects;
  * @since 0.0.1
  */
 public class RemotePlugin {
+	/**
+	 * The progress indicator used for update tracking.
+	 *
+	 * @since 0.0.1
+	 */
+	@JsonIgnore
+	private final transient @NotNull UpdateProgressTracker progressTracker = new UpdateProgressTracker();
+	/**
+	 * Stores whether this plugin is being updated.
+	 *
+	 * @since 0.0.1
+	 */
+	@JsonIgnore
+	private final transient @NotNull SimpleBooleanProperty downloadInProgress = new SimpleBooleanProperty();
 	/**
 	 * The name(s) of the author(s) of this plugin. There is no enforced format on how multiple names are represented.
 	 *
@@ -153,6 +169,15 @@ public class RemotePlugin {
 	}
 
 	/**
+	 * Gets whether this plugin is being updated.
+	 *
+	 * @since 0.0.1
+	 */
+	public @NotNull SimpleBooleanProperty downloadInProgressProperty() {
+		return downloadInProgress;
+	}
+
+	/**
 	 * Gets the home page of the plugin.
 	 *
 	 * @return {@link #homepage}
@@ -190,6 +215,16 @@ public class RemotePlugin {
 	 */
 	public @NotNull String getName() {
 		return name;
+	}
+
+	/**
+	 * Gets the progress tracker used for update tracking.
+	 *
+	 * @return {@link #progressTracker}
+	 * @since 0.0.1
+	 */
+	public @NotNull UpdateProgressTracker getProgressTracker() {
+		return progressTracker;
 	}
 
 	/**
@@ -271,10 +306,12 @@ public class RemotePlugin {
 	 * @since 0.0.1
 	 */
 	private void download(@NotNull LocalPlugin local) throws IOException {
-		URLConnection connection = url.openConnection();
-		tibetiroka.esmanager.utils.FileUtils.unpackZip(connection.getInputStream(), local.getInstallLocation());
+		downloadInProgress.set(true);
+		progressTracker.reset();
+		tibetiroka.esmanager.utils.FileUtils.unpackZipTracked(url, local.getInstallLocation(), progressTracker);
 		local.symlinkPlugin();
 		local.setVersion(version);
+		downloadInProgress.set(false);
 	}
 
 	/**

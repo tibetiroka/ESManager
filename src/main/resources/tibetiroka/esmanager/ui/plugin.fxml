@@ -68,6 +68,19 @@
 		</Pane>
 		<BorderPane cache="true" cacheHint="SPEED">
 			<styleClass>
+				<String fx:value="plugin-download-progress-pane"/>
+			</styleClass>
+			<center>
+				<ProgressIndicator fx:id="progressIndicator" cache="true" cacheHint="SPEED" progress="0.0"
+								   GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+					<styleClass>
+						<String fx:value="plugin-progress-indicator"/>
+					</styleClass>
+				</ProgressIndicator>
+			</center>
+		</BorderPane>
+		<BorderPane cache="true" cacheHint="SPEED">
+			<styleClass>
 				<String fx:value="plugin-download-button-pane"/>
 			</styleClass>
 			<center>

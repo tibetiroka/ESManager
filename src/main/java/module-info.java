@@ -43,4 +43,6 @@ module ESManager {
 	opens tibetiroka.esmanager.ui;
 	exports tibetiroka.esmanager.ui.instance;
 	opens tibetiroka.esmanager.ui.instance;
+	exports tibetiroka.esmanager.utils to genson;
+	opens tibetiroka.esmanager.utils to genson;
 }

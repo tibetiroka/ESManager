@@ -84,7 +84,7 @@ public class FileSource extends Source {
 					File downloaded = new File(getDirectory(), name);
 					log.debug(localize("log.source.update.download.direct", remoteURI, downloaded.getName()));
 					getInstance().getTracker().beginTask(0.9);
-					FileUtils.copyURLToFile(URI.create(remoteURI).toURL(), downloaded);
+					tibetiroka.esmanager.utils.FileUtils.copyTracked(URI.create(remoteURI).toURL(), downloaded, getInstance().getTracker());
 					getInstance().getTracker().endTask();
 					getInstance().getTracker().beginTask(0.1);
 					symlinkExecutable(downloaded);

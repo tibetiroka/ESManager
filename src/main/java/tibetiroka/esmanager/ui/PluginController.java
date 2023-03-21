@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.CacheHint;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -33,6 +34,7 @@ import tibetiroka.esmanager.plugin.RemotePlugin;
 
 import java.io.IOException;
 
+import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 public class PluginController {
@@ -52,6 +54,8 @@ public class PluginController {
 	protected RemotePlugin plugin;
 	@FXML
 	protected HBox pluginBox;
+	@FXML
+	protected ProgressIndicator progressIndicator;
 
 	@FXML
 	public void initialize(@NotNull RemotePlugin plugin) {
@@ -59,6 +63,9 @@ public class PluginController {
 		deleteButton.setDisable(plugin.findLocal() == null);
 		pluginBox.disableProperty().bind(SessionHelper.ANY_RUNNING);
 		name.setText(plugin.getName());
+		progressIndicator.progressProperty().bind(plugin.getProgressTracker().updateProgressProperty());
+		progressIndicator.visibleProperty().bind(plugin.downloadInProgressProperty());
+		LAUNCHER.disableLocalization(progressIndicator);
 		if(plugin.getShortDescription() == null) {
 			description.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.description.text.missing")));
 			Font f = Font.font(description.getFont().getFamily(), FontWeight.NORMAL, FontPosture.ITALIC, description.getFont().getSize());
