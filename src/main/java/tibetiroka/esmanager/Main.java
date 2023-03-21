@@ -54,10 +54,14 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  *     <li>Configures the main thread.</li>
  *     <li>Launches the JavaFX Application ({@link MainApplication})</li>
  * </ol>
+ *
+ * @since 0.0.1
  */
 public class Main {
 	/**
 	 * Stores whether there has been a severe error.
+	 *
+	 * @since 0.0.1
 	 */
 	public static final AtomicBoolean ERROR = new AtomicBoolean(false);
 	private static final org.apache.logging.log4j.Logger log;
@@ -120,9 +124,7 @@ public class Main {
 	 * @since 0.1.0
 	 */
 	private static @NotNull PrintStream createLoggingProxy(final Level level) {
-		return IoBuilder.forLogger(log)
-		                .setLevel(level)
-		                .buildPrintStream();
+		return IoBuilder.forLogger(log).setLevel(level).buildPrintStream();
 	}
 
 	/**
@@ -178,6 +180,8 @@ public class Main {
 
 	/**
 	 * Log appender used for the graphical interface. Uses {@link Text} elements with {@code log-text} class and {@code debug}, {@code info}, {@code warning} and {@code error} pseudo classes for styling.
+	 *
+	 * @since 0.0.1
 	 */
 	@Plugin(name = "DisplayAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
 	public static final class DisplayAppender extends AbstractAppender {
