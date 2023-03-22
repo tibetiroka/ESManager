@@ -16,7 +16,7 @@
   ~ program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<Configuration status="WARN" packages="tibetiroka.esmanager,javafx">
+<Configuration status="WARN">
 	<Appenders>
 		<RollingRandomAccessFile name="File" fileName="${sys:esmanager.log.directory}/latest.log"
 								 filePattern="${sys:esmanager.log.directory}/%d{yyyy-MM-dd}-%i.log.gz">
