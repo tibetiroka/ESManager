@@ -138,6 +138,23 @@ public class UpdateProgressTracker {
 	}
 
 	/**
+	 * Increases the progress of the current task by the specified amount. The task is not marked as finished if the change would complete it.
+	 * <p>This method respects the bounds of the current task.</p>
+	 *
+	 * @param delta The portion of the task that was completed
+	 * @since 0.0.1
+	 */
+	public void progressTask(final double delta) {
+		Platform.runLater(() -> {
+			double end = endings.isEmpty() ? 1. : endings.get(endings.size() - 1);
+			double multiplier = multipliers.isEmpty() ? 1 : multipliers.get(multipliers.size() - 1);
+			double current = updateProgress.get();
+			double expected = multiplier * delta + current;
+			updateProgress.set(Math.min(end, expected));
+		});
+	}
+
+	/**
 	 * Resets this tracker, making it ready for another update.
 	 *
 	 * @since 0.0.1

@@ -213,7 +213,7 @@ public class MainApplication extends Application {
 								throw e;
 							}
 						}
-					} else{
+					} else {
 						log.info(localize("log.launcher.update.unsupported"));
 					}
 				} catch(Exception e) {

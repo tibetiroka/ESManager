@@ -35,10 +35,10 @@ public class ReleaseUtils {
 		if(tag.equals("continuous")) {
 			return true;
 		}
-		if(tag.startsWith("v")){
+		if(tag.startsWith("v")) {
 			tag = tag.substring("v".length());
 		}
-		if(tag.isBlank() || tag.contains(" ")){
+		if(tag.isBlank() || tag.contains(" ")) {
 			return false;
 		}
 		String[] parts = tag.split("\\.");

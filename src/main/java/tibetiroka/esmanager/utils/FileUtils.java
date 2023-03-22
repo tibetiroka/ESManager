@@ -10,6 +10,7 @@
 
 package tibetiroka.esmanager.utils;
 
+import org.apache.commons.io.input.CountingInputStream;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -133,43 +134,40 @@ public class FileUtils {
 		long downloaded = 0;
 		tracker.endTask();
 		tracker.beginTask(0.9);
-		try(ZipInputStream zip = new ZipInputStream(source.openStream())) {
-			String baseDirPath = baseDir.getCanonicalPath();
-			byte[] buffer = new byte[16777216];//16MB
-			//
-			for(ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-				File destFile = new File(baseDir, entry.getName());
-				String destFilePath = destFile.getCanonicalPath();
-				if(!destFilePath.startsWith(baseDirPath + File.separator)) {
-					throw new IOException("Entry is outside of the target directory: " + entry.getName());
-				}
+		try(CountingInputStream input = new CountingInputStream(source.openStream())) {
+			try(ZipInputStream zip = new ZipInputStream(input)) {
+				String baseDirPath = baseDir.getCanonicalPath();
+				byte[] buffer = new byte[16777216];//16MB
 				//
-				if(entry.isDirectory()) {
-					if(!destFile.isDirectory() && !destFile.mkdirs()) {
-						throw new IOException("Failed to create directory " + destFile.getAbsolutePath());
+				for(ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+					File destFile = new File(baseDir, entry.getName());
+					String destFilePath = destFile.getCanonicalPath();
+					if(!destFilePath.startsWith(baseDirPath + File.separator)) {
+						throw new IOException("Entry is outside of the target directory: " + entry.getName());
 					}
-				} else {
-					//make sure the parent exists
-					File parent = destFile.getParentFile();
-					if(!parent.isDirectory() && !parent.mkdirs()) {
-						throw new IOException("Failed to create directory " + parent);
-					}
-					//create file
-					try(FileOutputStream fos = new FileOutputStream(destFile)) {
-						int len;
-						while((len = zip.read(buffer)) > 0) {
-							if(size > 0) {
-								tracker.beginTask(len / (double) size);
-							} else {
-								tracker.beginTask(calculateFakeProgressChange(downloaded, len));
-								downloaded += len;
+					//
+					if(entry.isDirectory()) {
+						if(!destFile.isDirectory() && !destFile.mkdirs()) {
+							throw new IOException("Failed to create directory " + destFile.getAbsolutePath());
+						}
+					} else {
+						//make sure the parent exists
+						File parent = destFile.getParentFile();
+						if(!parent.isDirectory() && !parent.mkdirs()) {
+							throw new IOException("Failed to create directory " + parent);
+						}
+						//create file
+						try(FileOutputStream fos = new FileOutputStream(destFile)) {
+							int len;
+							while((len = zip.read(buffer)) > 0) {
+								fos.write(buffer, 0, len);
+								tracker.progressTask(calculateFakeProgressChange(downloaded, input.getByteCount() - downloaded));//The number of compressed and decompressed bytes might differ
+								downloaded = input.getByteCount();
 							}
-							fos.write(buffer, 0, len);
-							tracker.endTask();
 						}
 					}
+					zip.closeEntry();
 				}
-				zip.closeEntry();
 			}
 		}
 		tracker.endTask();
@@ -212,7 +210,7 @@ public class FileUtils {
 		double currentMb = (previous + delta) / 1048576.;
 		double previousValue = 1. - 1. / Math.sqrt(25. / 256. * prevMb); // 1024 mb -> 90%
 		double currentValue = 1. - 1. / Math.sqrt(25. / 256. * currentMb);
-		if(currentMb < 16){
+		if(currentMb < 16) {
 			return 0;
 		}
 		if(previous == 0) {

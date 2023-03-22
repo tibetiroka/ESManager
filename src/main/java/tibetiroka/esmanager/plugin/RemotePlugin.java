@@ -29,19 +29,19 @@ import java.util.Objects;
  */
 public class RemotePlugin {
 	/**
-	 * The progress indicator used for update tracking.
-	 *
-	 * @since 0.0.1
-	 */
-	@JsonIgnore
-	private final transient @NotNull UpdateProgressTracker progressTracker = new UpdateProgressTracker();
-	/**
 	 * Stores whether this plugin is being updated.
 	 *
 	 * @since 0.0.1
 	 */
 	@JsonIgnore
 	private final transient @NotNull SimpleBooleanProperty downloadInProgress = new SimpleBooleanProperty();
+	/**
+	 * The progress indicator used for update tracking.
+	 *
+	 * @since 0.0.1
+	 */
+	@JsonIgnore
+	private final transient @NotNull UpdateProgressTracker progressTracker = new UpdateProgressTracker();
 	/**
 	 * The name(s) of the author(s) of this plugin. There is no enforced format on how multiple names are represented.
 	 *
@@ -129,6 +129,15 @@ public class RemotePlugin {
 	}
 
 	/**
+	 * Gets whether this plugin is being updated.
+	 *
+	 * @since 0.0.1
+	 */
+	public @NotNull SimpleBooleanProperty downloadInProgressProperty() {
+		return downloadInProgress;
+	}
+
+	/**
 	 * Finds the locally installed version of this plugin, if any.
 	 *
 	 * @return The local install or null if not found
@@ -166,15 +175,6 @@ public class RemotePlugin {
 	 */
 	public @Nullable String getDescription() {
 		return description;
-	}
-
-	/**
-	 * Gets whether this plugin is being updated.
-	 *
-	 * @since 0.0.1
-	 */
-	public @NotNull SimpleBooleanProperty downloadInProgressProperty() {
-		return downloadInProgress;
 	}
 
 	/**
