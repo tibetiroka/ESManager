@@ -58,8 +58,20 @@ public class SessionHelper {
 		new Thread(() -> {
 			try {
 				Process process = builder.start();
-				IOUtils.copy(process.getInputStream(), System.out);
-				IOUtils.copy(process.getErrorStream(), System.err);
+				new Thread(()-> {
+					try {
+						process.getInputStream().transferTo(System.out);
+					} catch(IOException e) {
+						throw new RuntimeException(e);
+					}
+				}, "Output appender thread for process " + process.pid()).start();
+				new Thread(()-> {
+					try {
+						process.getErrorStream().transferTo(System.err);
+					} catch(IOException e) {
+						throw new RuntimeException(e);
+					}
+				}, "Error appender thread for process " + process.pid()).start();
 				process.waitFor();
 			} catch(IOException | InterruptedException e) {
 				throw new RuntimeException(e);

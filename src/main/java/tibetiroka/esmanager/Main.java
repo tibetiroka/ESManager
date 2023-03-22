@@ -124,7 +124,7 @@ public class Main {
 	 * @since 0.1.0
 	 */
 	private static @NotNull PrintStream createLoggingProxy(final Level level) {
-		return IoBuilder.forLogger(log).setLevel(level).buildPrintStream();
+		return IoBuilder.forLogger(log).setLevel(level).setAutoFlush(true).buildPrintStream();
 	}
 
 	/**
