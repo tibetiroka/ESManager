@@ -185,6 +185,12 @@ public class AudioPlayer {
 	 */
 	public static void toggleState() {
 		if(PLAYER == null || PLAYER.currentPlayer == null || (PLAYER.currentPlayer.getStatus() != Status.PLAYING && PLAYER.currentPlayer.getStatus() != Status.PAUSED)) {
+			if(PLAYER == null) {
+				new AudioPlayer().initialize();
+			}
+			if(PLAYER.currentPlayer == null) {
+				PLAYER.start();
+			}
 			return;
 		}
 		if(PLAYER.currentPlayer.getStatus() == Status.PLAYING) {
