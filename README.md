@@ -25,7 +25,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 - The convenient instance creation panel on the main page
   - There are simply too many options for me to fit them all in there. A simplified version might be added later. You get an instance creation wizard instead.
 - Downloading build artifacts from pull requests
-  - MCO has his own server fir querying the pr artifacts securely. I'm working on a solution, but in the meantime, this application builds pull requests from source.
+  - MCO has his own server for querying the pr artifacts securely. I'm working on a solution, but in the meantime, this application builds pull requests from source.
 
 ## Installation
 - ### Linux
