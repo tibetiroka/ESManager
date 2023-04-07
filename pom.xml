@@ -19,6 +19,7 @@
 		<log4j.version>2.20.0</log4j.version>
 		<ikonli.version>12.3.1</ikonli.version>
 		<annotations.version>24.0.1</annotations.version>
+		<mainClass>tibetiroka.esmanager.Main</mainClass>
 	</properties>
 
 	<profiles>
@@ -277,7 +278,7 @@
 					<execution>
 						<id>default-cli</id>
 						<configuration>
-							<mainClass>tibetiroka.esmanager.Main</mainClass>
+							<mainClass>${mainClass}</mainClass>
 							<launcher>app</launcher>
 							<jlinkZipName>app</jlinkZipName>
 							<jlinkImageName>app</jlinkImageName>
@@ -296,7 +297,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>tibetiroka.esmanager.Main</mainClass>
+							<mainClass>${mainClass}</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Multi-Release>true</Multi-Release>
@@ -358,7 +359,7 @@
 							<goal>package</goal>
 						</goals>
 						<configuration>
-							<mainClass>tibetiroka.esmanager.Main</mainClass>
+							<mainClass>${mainClass}</mainClass>
 							<bundleJre>true</bundleJre>
 							<customizedJre>false</customizedJre>
 							<copyDependencies>true</copyDependencies>
