@@ -12,7 +12,6 @@ package tibetiroka.esmanager.instance;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,14 +57,14 @@ public class SessionHelper {
 		new Thread(() -> {
 			try {
 				Process process = builder.start();
-				new Thread(()-> {
+				new Thread(() -> {
 					try {
 						process.getInputStream().transferTo(System.out);
 					} catch(IOException e) {
 						throw new RuntimeException(e);
 					}
 				}, "Output appender thread for process " + process.pid()).start();
-				new Thread(()-> {
+				new Thread(() -> {
 					try {
 						process.getErrorStream().transferTo(System.err);
 					} catch(IOException e) {
