@@ -43,7 +43,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
@@ -159,36 +158,17 @@ public class MainApplication extends Application {
 			primaryStage.setMinHeight(200);
 			primaryStage.setMinWidth(200);
 			primaryStage.setOnCloseRequest(event -> {
-				AppConfiguration.saveAll();
-				//Delay closing the application while work is in progress
-				AtomicInteger count = new AtomicInteger();
-				synchronized(count) {
-					for(Instance instance : Instance.getInstances()) {
-						//not technically correct, but close enough
-						if(instance.getTracker().isWorkingProperty().get()) {
-							count.incrementAndGet();
-						}
-						instance.getTracker().isWorkingProperty().addListener((observable, oldValue, newValue) -> {
-							if(newValue) {
-								count.incrementAndGet();
-							} else {
-								if(count.decrementAndGet() == 0) {
-									synchronized(count) {
-										count.notifyAll();
-									}
-								}
-							}
-						});
-					}
-					boolean any = count.get() > 0;
-					if(any) {
-						try {
-							count.wait();
-						} catch(InterruptedException e) {
-							throw new RuntimeException(e);
-						}
+				event.consume();
+				//prevent exiting if updates are in progress
+				if(PluginManager.updateInProgressProperty().get()) {
+					return;
+				}
+				for(Instance instance : Instance.getInstances()) {
+					if(instance.getTracker().isWorkingProperty().get()) {
+						return;
 					}
 				}
+				AppConfiguration.saveAll();
 				primaryStage.close();
 			});
 			STYLE_SHEET_LISTS.add(scene.getRoot().getStylesheets());
