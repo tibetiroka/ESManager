@@ -64,7 +64,7 @@ public class SelfUpdater {
 	 */
 	public static boolean needsUpdate() throws GitAPIException, URISyntaxException {
 		return findLatest()
-				.filter(s -> !Objects.equals(s, AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version")))
+				.filter(s -> !VersioningUtils.isSameRelease(s, (String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version")))
 				.isPresent();
 	}
 
@@ -85,12 +85,13 @@ public class SelfUpdater {
 			downloadPath += exec.getName();
 			//
 			Path temp = Files.createTempFile("launcherDownload", null);
-			Files.copy(new URL(downloadPath).openStream(), temp);
+			Files.copy(new URL(downloadPath).openStream(), temp, StandardCopyOption.REPLACE_EXISTING);
 			//
 			for(int i = 0; i < 5; i++) {
 				try {
 					log.warn(localize("log.launcher.update.replace.attempt", i + 1, 5));
-					Files.move(temp, exec.toPath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+					Files.move(temp, exec.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					exec.setExecutable(true);
 					return;
 				} catch(Exception e) {
 					log.debug(localize("log.launcher.update.replace.attempt.fail", e.getMessage(), i + 1, 5), e);
@@ -101,6 +102,7 @@ public class SelfUpdater {
 					}
 				}
 			}
+			Files.delete(temp);
 			throw new IOException(localize("log.launcher.update.replace.fail"));
 		}
 	}
