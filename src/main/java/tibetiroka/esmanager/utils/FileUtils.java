@@ -19,7 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.FileSystem;
-import java.nio.file.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -130,7 +132,6 @@ public class FileUtils {
 	 */
 	public static void unpackZipTracked(@NotNull URL source, @NotNull File baseDir, @NotNull UpdateProgressTracker tracker) throws IOException {
 		tracker.beginTask(0.1);
-		final long size = getFileSize(source);
 		long downloaded = 0;
 		tracker.endTask();
 		tracker.beginTask(0.9);
@@ -188,7 +189,7 @@ public class FileUtils {
 			}
 			myPath = JAR_FILE_SYSTEM.getPath(uri.toString().split("!")[1]);
 		} else {
-			myPath = Paths.get(uri);
+			myPath = Path.of(uri);
 		}
 		List<Path> paths = new java.util.ArrayList<>(Files.walk(myPath, 1).toList());
 		paths.removeIf(p -> p.toUri().equals(uri));
@@ -201,6 +202,7 @@ public class FileUtils {
 	 * @param previous The number of bytes downloaded before the 'delta' is counted
 	 * @param delta    The freshly downloaded number of bytes
 	 * @return The increase in the tracked progress
+	 * @since 0.0.1
 	 */
 	private static double calculateFakeProgressChange(long previous, long delta) {
 		if(delta == 0) {

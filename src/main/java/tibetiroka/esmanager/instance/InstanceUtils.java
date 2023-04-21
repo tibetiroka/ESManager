@@ -309,6 +309,19 @@ public class InstanceUtils {
 		}
 
 		/**
+		 * Adds a {@link PullRequestSource} with the specified type to the {@link #sources list of sources}. The type of the source is always {@link SourceType#PULL_REQUEST}.
+		 *
+		 * @param remoteURI The {@link URI} of the git repository
+		 * @param target    The number of the pull request to target
+		 * @return This builder
+		 * @since 0.0.1
+		 */
+		public @NotNull InstanceBuilder withPullRequestSource(@NotNull URI remoteURI, @NotNull String target) {
+			PullRequestSource source = new PullRequestSource(target, remoteURI.toString(), target);
+			return withSource(source);
+		}
+
+		/**
 		 * Adds a {@link ReleaseSource} with the specified type to the {@link #sources list of sources}.
 		 *
 		 * @param type      The type of the source; must be {@link SourceType#LATEST_RELEASE} or {@link SourceType#RELEASE}

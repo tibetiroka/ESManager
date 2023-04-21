@@ -1,0 +1,20 @@
+{
+	"bundles": [
+		{
+			"name": "tibetiroka.esmanager.config.locales.ui"
+		},
+		{
+			"name": "org.eclipse.jgit.internal.JGitText"
+		}
+	],
+	"resources": {
+		"includes": [
+			{
+				"pattern": ".*\\.(fxml|json|css|mp3|xml)$"
+			},
+			{
+				"pattern": ".*/?tibetiroka/esmanager[^.]*/$"
+			}
+		]
+	}
+}

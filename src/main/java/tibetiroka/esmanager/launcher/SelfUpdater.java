@@ -10,10 +10,11 @@
 
 package tibetiroka.esmanager.launcher;
 
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.utils.VersioningUtils;
 
@@ -35,7 +36,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  * @since 0.0.1
  */
 public class SelfUpdater {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(SelfUpdater.class);
+	private static final Logger log = LoggerFactory.getLogger(SelfUpdater.class);
 
 	/**
 	 * Checks whether updates are supported on the current operating system and executable.

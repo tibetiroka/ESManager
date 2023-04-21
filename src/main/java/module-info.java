@@ -12,21 +12,20 @@ module ESManager {
 	requires javafx.base;
 	requires javafx.graphics;
 	requires genson;
-	requires org.apache.logging.log4j;
 	requires org.kordamp.ikonli.core;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fontawesome5;
 	requires org.eclipse.jgit;
 	requires org.slf4j;
-	requires org.apache.logging.log4j.core;
-	requires org.apache.logging.log4j.jul;
-	requires org.apache.logging.log4j.iostreams;
+	requires ch.qos.logback.classic;
+	requires ch.qos.logback.core;
 	requires jdk.management;
 	requires java.base;
 	requires java.sql;
 	requires org.apache.commons.codec;
 	requires org.apache.commons.io;
 	requires org.jetbrains.annotations;
+	requires sysout.over.slf4j;
 
 	exports tibetiroka.esmanager.audio to genson;
 	opens tibetiroka.esmanager.audio to genson;
@@ -38,7 +37,7 @@ module ESManager {
 	opens tibetiroka.esmanager.plugin to genson;
 	exports tibetiroka.esmanager.instance.source to genson;
 	opens tibetiroka.esmanager.instance.source to genson;
-	exports tibetiroka.esmanager to org.apache.logging.log4j.core;
+	exports tibetiroka.esmanager to ch.qos.logback.classic, ch.qos.logback.core;
 	exports tibetiroka.esmanager.ui;
 	opens tibetiroka.esmanager.ui;
 	exports tibetiroka.esmanager.ui.instance;

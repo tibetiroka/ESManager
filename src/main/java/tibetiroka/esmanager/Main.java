@@ -10,28 +10,20 @@
 
 package tibetiroka.esmanager;
 
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.AppenderBase;
 import javafx.application.Application;
 import javafx.css.PseudoClass;
 import javafx.scene.text.Text;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.*;
-import org.apache.logging.log4j.core.appender.AbstractAppender;
-import org.apache.logging.log4j.core.config.Property;
-import org.apache.logging.log4j.core.config.plugins.Plugin;
-import org.apache.logging.log4j.core.config.plugins.PluginAttribute;
-import org.apache.logging.log4j.core.config.plugins.PluginElement;
-import org.apache.logging.log4j.core.config.plugins.PluginFactory;
-import org.apache.logging.log4j.core.layout.PatternLayout;
-import org.apache.logging.log4j.io.IoBuilder;
-import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.ui.MainApplication;
 import tibetiroka.esmanager.ui.MainController;
+import uk.org.lidalia.sysoutslf4j.context.LogLevel;
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 import javax.swing.JOptionPane;
-import java.io.PrintStream;
-import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -64,13 +56,12 @@ public class Main {
 	 * @since 0.0.1
 	 */
 	public static final AtomicBoolean ERROR = new AtomicBoolean(false);
-	private static final org.apache.logging.log4j.Logger log;
+	private static final Logger log;
 
 	static {
 		configureLogger();
-		log = LogManager.getLogger(Main.class);
-		System.setOut(createLoggingProxy(Level.DEBUG));
-		System.setErr(createLoggingProxy(Level.WARN));
+		log = LoggerFactory.getLogger(Main.class);
+		SysOutOverSLF4J.sendSystemOutAndErrToSLF4J(LogLevel.DEBUG, LogLevel.WARN);
 	}
 
 	/**
@@ -101,6 +92,16 @@ public class Main {
 		log.error(localize("log.generic.thread.error.panic.details", reason));
 		printSystemDebugInfo();
 		printThreadDump();
+		Thread t = new Thread(() -> {
+			try {
+				Thread.sleep(15000);
+			} catch(InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			System.exit(0);
+		}, "Backup Shutdown Thread");
+		t.setDaemon(true);
+		t.start();
 		JOptionPane.showMessageDialog(null, localize("log.generic.thread.error.panic.display", reason), localize("log.generic.thread.error.panic.display.title", reason), JOptionPane.ERROR_MESSAGE);
 		System.exit(0);
 	}
@@ -111,20 +112,8 @@ public class Main {
 	 * @since 0.1.0
 	 */
 	private static void configureLogger() {
-		System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
 		System.setProperty("esmanager.log.directory", AppConfiguration.LOG_HOME.getAbsolutePath());
 		AppConfiguration.LOG_HOME.mkdirs();
-	}
-
-	/**
-	 * Creates a new {@link PrintStream} from the specified stream that writes to the log output.
-	 *
-	 * @param level The level of the logged messages
-	 * @return The new logging stream
-	 * @since 0.1.0
-	 */
-	private static @NotNull PrintStream createLoggingProxy(final Level level) {
-		return IoBuilder.forLogger(log).setLevel(level).setAutoFlush(true).buildPrintStream();
 	}
 
 	/**
@@ -168,7 +157,7 @@ public class Main {
 		Thread.getAllStackTraces().forEach((thread, stackTrace) -> {
 			if(thread != null && stackTrace.length > 0) {
 				log.info("Dumping thread " + thread.getName());
-				log.debug(stackTrace[0]);
+				log.debug(stackTrace[0].toString());
 				for(int i = 1; i < stackTrace.length; i++) {
 					log.debug("\tat " + stackTrace[i]);
 				}
@@ -183,47 +172,32 @@ public class Main {
 	 *
 	 * @since 0.0.1
 	 */
-	@Plugin(name = "DisplayAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE)
-	public static final class DisplayAppender extends AbstractAppender {
-		final HashMap<Level, PseudoClass> styling = new HashMap<>();
+	public static final class DisplayAppender extends AppenderBase<ILoggingEvent> {
+		private final HashMap<ch.qos.logback.classic.Level, PseudoClass> styling = new HashMap<>();
+		private boolean hasMessage = false;
 
 		{
-			styling.put(Level.DEBUG, PseudoClass.getPseudoClass("debug"));
-			styling.put(Level.INFO, PseudoClass.getPseudoClass("info"));
-			styling.put(Level.WARN, PseudoClass.getPseudoClass("warning"));
-			styling.put(Level.ERROR, PseudoClass.getPseudoClass("error"));
+			styling.put(ch.qos.logback.classic.Level.DEBUG, PseudoClass.getPseudoClass("debug"));
+			styling.put(ch.qos.logback.classic.Level.INFO, PseudoClass.getPseudoClass("info"));
+			styling.put(ch.qos.logback.classic.Level.WARN, PseudoClass.getPseudoClass("warning"));
+			styling.put(ch.qos.logback.classic.Level.ERROR, PseudoClass.getPseudoClass("error"));
 		}
 
-		@Deprecated
-		public DisplayAppender(String name, Filter filter, Layout<? extends Serializable> layout) {
-			super(name, filter, layout);
-		}
-
-		@Deprecated
-		public DisplayAppender(String name, Filter filter, Layout<? extends Serializable> layout, boolean ignoreExceptions) {
-			super(name, filter, layout, ignoreExceptions);
-		}
-
-		public DisplayAppender(String name, Filter filter, Layout<? extends Serializable> layout, boolean ignoreExceptions, Property[] properties) {
-			super(name, filter, layout, ignoreExceptions, properties);
-		}
-
-		@PluginFactory
-		public static DisplayAppender createAppender(@PluginAttribute("name") String name, @PluginElement("Filter") Filter filter, @PluginElement("pattern") PatternLayout pattern) {
-			return new DisplayAppender(name, filter, pattern);
+		public DisplayAppender() {
+			super();
 		}
 
 		@Override
-		public void append(LogEvent event) {
+		protected void append(ILoggingEvent event) {
 			if(MainController.getController() != null && MainController.getController().getLogArea() != null) {
-				String string = new String(getLayout().toByteArray(event));
-				Text text = new Text(string);
+				Text text = new Text((hasMessage ? System.lineSeparator() : "") + event.getFormattedMessage().stripTrailing());
 				text.getStyleClass().add("log-text");
 				if(styling.containsKey(event.getLevel())) {
 					text.pseudoClassStateChanged(styling.get(event.getLevel()), true);
 				}
 				LAUNCHER.disableLocalization(text);
 				MainController.getController().log(text);
+				hasMessage = true;
 			}
 		}
 	}

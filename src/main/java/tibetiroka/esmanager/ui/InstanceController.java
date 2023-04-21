@@ -18,7 +18,8 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.Instance;
 import tibetiroka.esmanager.instance.InstanceUtils;
@@ -32,7 +33,7 @@ import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 public class InstanceController {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(InstanceController.class);
+	private static final Logger log = LoggerFactory.getLogger(InstanceController.class);
 	@FXML
 	protected HBox container;
 	@FXML

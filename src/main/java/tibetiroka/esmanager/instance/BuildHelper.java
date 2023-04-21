@@ -12,8 +12,9 @@ package tibetiroka.esmanager.instance;
 
 import com.owlike.genson.annotation.JsonConverter;
 import javafx.beans.property.SimpleObjectProperty;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.GensonFactory.BuildSystemPropertyConverter;
 import tibetiroka.esmanager.instance.source.Source;
@@ -32,7 +33,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  * @since 0.0.1
  */
 public class BuildHelper {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(BuildHelper.class);
+	private static final Logger log = LoggerFactory.getLogger(BuildHelper.class);
 	/**
 	 * The {@link BuildHelper} instance.
 	 *

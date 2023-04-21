@@ -11,7 +11,6 @@
 package tibetiroka.esmanager.instance.source;
 
 import javafx.application.Platform;
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -20,6 +19,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.instance.ReleaseUtils;
 
 import java.net.URI;
@@ -34,7 +35,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  * @since 0.0.1
  */
 public class GitSource extends Source {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(GitSource.class);
+	private static final Logger log = LoggerFactory.getLogger(GitSource.class);
 	/**
 	 * The hash of the commit in the current version of this source.
 	 *
@@ -59,7 +60,7 @@ public class GitSource extends Source {
 	}
 
 	/**
-	 * Creates a new igt source with the specified name, type, remote and target.
+	 * Creates a new git source with the specified name, type, remote and target.
 	 *
 	 * @param name      The name of this source
 	 * @param type      The type of this source

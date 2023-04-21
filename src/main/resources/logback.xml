@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="File" class="ch.qos.logback.core.FileAppender">
+        <file>${esmanager.log.directory}/latest.log</file>
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%t/%-5level]: %replace(%msg){'[\r\n]', ''}%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="Display" class="tibetiroka.esmanager.Main$DisplayAppender">
+        <encoder>
+            <pattern>[%level]: %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+    <logger name="tibetiroka.esmanager" level="debug"/>
+    <logger name="javafx" level="info"/>
+    <root level="debug">
+        <appender-ref ref="File"/>
+        <appender-ref ref="Display"/>
+    </root>
+</configuration>

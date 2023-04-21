@@ -20,10 +20,7 @@ import tibetiroka.esmanager.config.GensonFactory;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Phaser;
 
 /**
@@ -187,6 +184,7 @@ public class PluginManager {
 		remotePlugins.clear();
 		try {
 			remotePlugins.addAll(new ArrayList<>(Arrays.asList(GensonFactory.createGenson().deserialize(new URL((String) AppConfiguration.DEFAULT_CONFIGURATION.get("plugins.index.remote")).openStream(), RemotePlugin[].class))));
+			remotePlugins.sort(Comparator.comparing(RemotePlugin::getName));
 		} finally {
 			for(LocalPlugin plugin : installedPlugins) {
 				if(plugin.findRemote() == null) {

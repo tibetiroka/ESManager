@@ -14,9 +14,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>5.9.2</junit.version>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 		<javafx.version>19.0.2.1</javafx.version>
-		<log4j.version>2.20.0</log4j.version>
+		<logback.version>1.4.6</logback.version>
+		<slf4j.version>2.0.7</slf4j.version>
 		<ikonli.version>12.3.1</ikonli.version>
 		<annotations.version>24.0.1</annotations.version>
 		<mainClass>tibetiroka.esmanager.Main</mainClass>
@@ -160,29 +161,24 @@
 			<version>1.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-jul</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-iostreams</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>${log4j.version}</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -193,6 +189,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.lidalia</groupId>
+			<artifactId>sysout-over-slf4j</artifactId>
+			<version>1.0.2</version>
 		</dependency>
 	</dependencies>
 
@@ -206,11 +207,6 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<annotationProcessorPaths>
-						<annotationProcessorPath>
-							<groupId>org.apache.logging.log4j</groupId>
-							<artifactId>log4j-core</artifactId>
-							<version>${log4j.version}</version>
-						</annotationProcessorPath>
 						<annotationProcessorPath>
 							<groupId>org.jetbrains</groupId>
 							<artifactId>annotations</artifactId>
@@ -313,8 +309,6 @@
 					<transformers>
 						<transformer
 								implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-						<transformer
-								implementation="io.github.edwgiz.log4j.maven.plugins.shade.transformer.Log4j2PluginCacheFileTransformer"/>
 					</transformers>
 					<filters>
 						<filter>
@@ -327,13 +321,6 @@
 						</filter>
 					</filters>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>io.github.edwgiz</groupId>
-						<artifactId>log4j-maven-shade-plugin-extensions</artifactId>
-						<version>2.20.0</version>
-					</dependency>
-				</dependencies>
 				<executions>
 					<execution>
 						<id>make-assembly</id>
@@ -412,6 +399,38 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.gluonhq</groupId>
+				<artifactId>gluonfx-maven-plugin</artifactId>
+				<version>1.0.18</version>
+				<configuration>
+					<target>host</target>
+					<mainClass>${mainClass}</mainClass>
+					<verbose>true</verbose>
+					<nativeImageArgs>
+						<nativeImageArg>--report-unsupported-elements-at-runtime</nativeImageArg>
+						<nativeImageArg>--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback,tibetiroka.esmanager.Main$DisplayAppender</nativeImageArg>
+						<nativeImageArg>-H:ReflectionConfigurationFiles=${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/reflection-config.json</nativeImageArg>
+						<nativeImageArg>-H:+IncludeAllLocales</nativeImageArg>
+					</nativeImageArgs>
+				</configuration>
+				<!--executions>
+					<execution>
+						<id>gluon-build</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>gluon-package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>package</goal>
+						</goals>
+					</execution>
+				</executions-->
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

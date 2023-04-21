@@ -24,8 +24,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.SessionHelper;
 import tibetiroka.esmanager.plugin.LocalPlugin;
@@ -38,7 +39,7 @@ import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 public class PluginController {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(PluginManager.class);
+	private static final Logger log = LoggerFactory.getLogger(PluginManager.class);
 	@FXML
 	protected Label authors;
 	@FXML

@@ -12,8 +12,9 @@ package tibetiroka.esmanager.instance;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class SessionHelper {
 	 * @since 0.0.1
 	 */
 	public static final SimpleBooleanProperty ANY_RUNNING = new SimpleBooleanProperty(false);
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(SessionHelper.class);
+	private static final Logger log = LoggerFactory.getLogger(SessionHelper.class);
 
 	/**
 	 * Starts the specified instance. It is assumed that this method is not called while an instance is running.

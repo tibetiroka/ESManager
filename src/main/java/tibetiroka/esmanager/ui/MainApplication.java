@@ -22,7 +22,8 @@ import javafx.scene.control.Dialog;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import org.apache.logging.log4j.LogManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.audio.AudioPlayer;
 import tibetiroka.esmanager.config.AppConfiguration;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystemNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
@@ -50,7 +52,8 @@ import static tibetiroka.esmanager.config.Launcher.localize;
 public class MainApplication extends Application {
 	public static final ArrayList<ObservableList<String>> STYLE_SHEET_LISTS = new ArrayList<>();
 	public static final PseudoClass TEXT_ERROR_CLASS = PseudoClass.getPseudoClass("error");
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(MainApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(MainApplication.class);
+	public static ObservableList<String> MAIN_WINDOW_STYLESHEETS;
 	protected static Stage PRIMARY_STAGE;
 
 	public static boolean createDialog(String message, boolean isYesNo) {
@@ -86,8 +89,11 @@ public class MainApplication extends Application {
 			                           .map(s -> s.substring(0, s.length() - ".css".length()))
 			                           .toList()
 			);
-		} catch(IOException | URISyntaxException e) {
-			throw new RuntimeException(e);
+		} catch(IOException | URISyntaxException | FileSystemNotFoundException e) {
+			log.debug(localize("log.launcher.theme.query.error", e.getMessage()));
+			for(String s : (ArrayList<String>) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.themes")) {
+				themeNames.add(s);
+			}
 		}
 		File user = new File(AppConfiguration.CONFIG_HOME, "themes");
 		if(user.isDirectory()) {
@@ -106,25 +112,25 @@ public class MainApplication extends Application {
 	}
 
 	public static void removeExtraStyles() {
-		ObservableList<String> list = STYLE_SHEET_LISTS.get(0);
 		STYLE_SHEET_LISTS.clear();
-		STYLE_SHEET_LISTS.add(list);
+		STYLE_SHEET_LISTS.add(MAIN_WINDOW_STYLESHEETS);
 	}
 
 	public static void setTheme(String name) {
-		for(ObservableList<String> styleSheets : STYLE_SHEET_LISTS) {
-			styleSheets.clear();
-			File customDir = new File(AppConfiguration.CONFIG_HOME, "themes");
-			File custom = new File(customDir, name + ".css");
-			if(custom.isFile()) {
-				try {
-					styleSheets.add(custom.toURI().toURL().toString());
-				} catch(MalformedURLException e) {
-					throw new RuntimeException(e);
-				}
-			} else {
-				styleSheets.add(MainApplication.class.getResource("themes/" + name + ".css").toString());
+		String sheet;
+		File customDir = new File(AppConfiguration.CONFIG_HOME, "themes");
+		File custom = new File(customDir, name + ".css");
+		if(custom.isFile()) {
+			try {
+				sheet = custom.toURI().toURL().toString();
+			} catch(MalformedURLException e) {
+				throw new RuntimeException(e);
 			}
+		} else {
+			sheet = MainApplication.class.getResource("themes/" + name + ".css").toString();
+		}
+		for(ObservableList<String> styleSheets : STYLE_SHEET_LISTS) {
+			styleSheets.setAll(sheet);
 		}
 		log.debug(localize("log.launcher.theme.change", name));
 	}
@@ -171,7 +177,8 @@ public class MainApplication extends Application {
 				AppConfiguration.saveAll();
 				primaryStage.close();
 			});
-			STYLE_SHEET_LISTS.add(scene.getRoot().getStylesheets());
+			MAIN_WINDOW_STYLESHEETS = scene.getRoot().getStylesheets();
+			STYLE_SHEET_LISTS.add(MAIN_WINDOW_STYLESHEETS);
 			Launcher.getLauncher().themeProperty().addListener((observable, oldValue, newValue) -> setTheme(newValue));
 			refreshTheme();
 			//

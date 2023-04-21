@@ -11,9 +11,10 @@
 package tibetiroka.esmanager.plugin;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 
 import java.io.File;
@@ -28,7 +29,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  * @since 0.0.1
  */
 public class LocalPlugin {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(LocalPlugin.class);
+	private static final Logger log = LoggerFactory.getLogger(LocalPlugin.class);
 	/**
 	 * The name of the plugin. This is the same as the name of this plugin in the plugin index, and is unique to each plugin. Never null after the installation of this plugin is finished.
 	 *

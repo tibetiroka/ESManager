@@ -14,14 +14,17 @@ import com.owlike.genson.annotation.JsonIgnore;
 import javafx.beans.property.SimpleStringProperty;
 import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.BuildHelper;
 import tibetiroka.esmanager.instance.Instance;
+import tibetiroka.esmanager.utils.ProgressUtils;
+import tibetiroka.esmanager.utils.ProgressUtils.FakeTask;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,7 +50,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  * @since 0.0.1
  */
 public abstract class Source {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(Source.class);
+	private static final Logger log = LoggerFactory.getLogger(Source.class);
 	/**
 	 * The global {@link Git} instance. This {@link Git} instance is managing the local clone of Endless Sky.
 	 *
@@ -411,7 +414,10 @@ public abstract class Source {
 			String repo = (String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.instance.remoteRepository");
 			try {
 				log.info(localize("log.git.clone", repo, name));
+				FakeTask task = ProgressUtils.startFakeTimeTask(getInstance().getTracker());
+				task.start(1);
 				GIT = Git.cloneRepository().setDirectory(getRepository()).setURI(new URL(repo).toURI().toString()).call();
+				task.end();
 				log.info(localize("log.git.clone.done", repo, name));
 			} catch(URISyntaxException | MalformedURLException | GitAPIException e) {
 				throw new RuntimeException(e);

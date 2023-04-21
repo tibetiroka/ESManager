@@ -8,6 +8,9 @@
 	"source.instance.remoteRepositoryDownload": "https://github.com/endless-sky/endless-sky/releases/download/",
 	"source.launcher.remoteRepository": "https://github.com/tibetiroka/ESManager.git",
 	"source.launcher.remoteRepositoryDownload": "https://github.com/tibetiroka/ESManager/releases/download/",
+	"source.github.workflow.query": "https://api.github.com/repos/${OWNER}/${REPO}/actions/runs?head_sha=${HASH}",
+	"source.github.workflow.artifact.list": "https://api.github.com/repos/${OWNER}/${REPO}/actions/runs/${ID}/artifacts",
+	"source.github.workflow.artifact.download": "https://esmanager.pythonanywhere.com/shortcuts/pr_download_artifact",
 	"launcher.audio.volume": 0.5,
 	"launcher.audio.mute": false,
 	"launcher.audio.autoPlay": true,
@@ -20,5 +23,23 @@
 	"launcher.autoupdate": true,
 	"build.system.preferred": "cmake",
 	"git.merge.strategy": "recursive",
-	"git.merge.content.strategy": "conflict"
+	"git.merge.content.strategy": "conflict",
+	"launcher.themes": [
+		"light",
+		"dark"
+	],
+	"launcher.audio.files": [
+		"A Lonely Ship In The Abyss.mp3",
+		"Automata Space - Atmospheric.mp3",
+		"Automata Space - Mesuket Combat.mp3",
+		"Civil War.mp3",
+		"Free Worlds Space.mp3",
+		"Free Worlds Space V2.mp3",
+		"Hai Space.mp3",
+		"Republic Space.mp3",
+		"Republic Space V2.mp3",
+		"Syndicate Space.mp3",
+		"Syndicate Space - Dark.mp3",
+		"Void Dance.mp3"
+	]
 }

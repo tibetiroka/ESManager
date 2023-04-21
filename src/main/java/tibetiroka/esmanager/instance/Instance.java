@@ -13,8 +13,9 @@ package tibetiroka.esmanager.instance;
 import com.owlike.genson.annotation.JsonIgnore;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.source.Source;
@@ -43,7 +44,7 @@ public class Instance {
 	 * @since 0.0.1
 	 */
 	private static final @NotNull ArrayList<@NotNull Instance> INSTANCES = new ArrayList<>();
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(Instance.class);
+	private static final Logger log = LoggerFactory.getLogger(Instance.class);
 	/**
 	 * The progress tracker that is used to visually display the progress of a task.
 	 *

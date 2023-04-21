@@ -11,12 +11,13 @@
 package tibetiroka.esmanager.instance.source;
 
 import javafx.application.Platform;
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.ReleaseUtils;
 import tibetiroka.esmanager.utils.FileUtils;
@@ -45,7 +46,7 @@ public class ReleaseSource extends Source {
 	 * @since 0.0.1
 	 */
 	private static final String OFFICIAL_REMOTE_URI;
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(ReleaseSource.class);
+	private static final Logger log = LoggerFactory.getLogger(ReleaseSource.class);
 
 	static {
 		try {
@@ -218,7 +219,6 @@ public class ReleaseSource extends Source {
 		return switch(type) {
 			case LATEST_RELEASE -> {
 				try {
-					String remoteURI = new URL((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.instance.remoteRepository")).toURI().toString();
 					getInstance().getTracker().beginTask(0.5);
 					Optional<String> branch = Git.lsRemoteRepository().setRemote(remoteURI).setHeads(false).setTags(true).call().stream().map(Ref::getName).filter(r -> r.startsWith("refs/tags/")).min(ReleaseUtils.latestFirst());
 					getInstance().getTracker().endTask();
@@ -230,16 +230,15 @@ public class ReleaseSource extends Source {
 					} else {
 						throw new IllegalStateException(localize("log.git.create.official.latest.missing", getName(), remoteURI, targetName));
 					}
-				} catch(URISyntaxException | MalformedURLException | GitAPIException e) {
+				} catch(GitAPIException e) {
 					throw new RuntimeException(e);
 				}
 			}
 			case RELEASE -> {
 				try {
-					String remoteURI = new URL((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.instance.remoteRepository")).toURI().toString();
 					Ref ref = Git.lsRemoteRepository().setRemote(remoteURI).setHeads(false).setTags(true).call().stream().filter(r -> r.getName().equals("refs/tags/" + targetName)).findAny().get();
 					yield !Objects.equals(commitHash, ref.getObjectId().name());
-				} catch(MalformedURLException | URISyntaxException | GitAPIException e) {
+				} catch(GitAPIException e) {
 					throw new RuntimeException(e);
 				}
 			}

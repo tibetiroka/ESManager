@@ -10,12 +10,13 @@
 
 package tibetiroka.esmanager.instance.source;
 
-import org.apache.logging.log4j.LogManager;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -32,7 +33,7 @@ import static tibetiroka.esmanager.instance.GitSettings.SETTINGS;
  * @since 0.0.1
  */
 public class MultiSource extends Source {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(MultiSource.class);
+	private static final Logger log = LoggerFactory.getLogger(MultiSource.class);
 	/**
 	 * The set of git sources used. These sources should not be used in any other instance or source.
 	 *

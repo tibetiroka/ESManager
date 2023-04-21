@@ -21,16 +21,19 @@ import javafx.collections.MapChangeListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.SessionHelper;
 import tibetiroka.esmanager.utils.FileUtils;
 
 import java.io.File;
-import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -75,7 +78,7 @@ public class AudioPlayer {
 	 * @since 0.0.1
 	 */
 	private static AudioPlayer PLAYER;
-	private static org.apache.logging.log4j.Logger log = LogManager.getLogger(AudioPlayer.class);
+	private static Logger log = LoggerFactory.getLogger(AudioPlayer.class);
 	/**
 	 * Stores whether the player should pause when an instance is launched. This value is stored in the configuration files.
 	 *
@@ -115,7 +118,7 @@ public class AudioPlayer {
 	 * @since 0.0.1
 	 */
 	@JsonIgnore
-	private transient ArrayList<Path> musicPaths;
+	private transient ArrayList<URI> musicPaths;
 	/**
 	 * Stores whether the active player is muted. This is independent of the {@link #volume}. This value is stored in the configuration files.
 	 *
@@ -251,6 +254,17 @@ public class AudioPlayer {
 	}
 
 	/**
+	 * Gets the file name of a URI. Might return bullshit values.
+	 *
+	 * @return The name of the resource
+	 * @since 0.0.1
+	 */
+	private @NotNull String getUriFileName(@NotNull URI uri) {
+		String[] parts = URLDecoder.decode(uri.toString(), StandardCharsets.UTF_8).split("/");
+		return parts[parts.length - 1];
+	}
+
+	/**
 	 * Initializes the audio player by listing the available audio files and registering a listener for {@link SessionHelper#ANY_RUNNING}.
 	 *
 	 * @since 0.0.1
@@ -261,15 +275,28 @@ public class AudioPlayer {
 		try {
 			musicPaths = new ArrayList<>();
 			if(builtin.get()) {
-				musicPaths.addAll(FileUtils.walk(AudioPlayer.class.getResource("").toURI()));
+				try {
+					musicPaths.addAll(FileUtils.walk(AudioPlayer.class.getResource("").toURI()).stream().map(Path::toUri).toList());
+				} catch(Exception e) {
+					log.debug(localize("log.audio.query.error", e.getMessage()));
+					for(String s : (ArrayList<String>) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.themes")) {
+						musicPaths.add(URI.create(AudioPlayer.class.getResource("").toURI() + "/" + s));
+					}
+				}
 			}
 			if(custom.get()) {
 				File file = new File(AppConfiguration.DATA_HOME, "music");
 				if(file.isDirectory()) {
-					musicPaths.addAll(Arrays.stream(file.listFiles()).map(File::toPath).toList());
+					musicPaths.addAll(Arrays.stream(file.listFiles()).map(File::toURI).toList());
 				}
 			}
-			musicPaths.removeIf(Files::isDirectory);
+			musicPaths.removeIf(o -> {
+				try {
+					return Files.isDirectory(Path.of(o));
+				} catch(Exception e) {
+					return false;
+				}
+			});
 			musicPaths.removeIf(path -> path.toString().endsWith(".class"));
 			SessionHelper.ANY_RUNNING.addListener((observable, oldValue, noneRunning) -> {
 				if(noneRunning) {
@@ -288,7 +315,7 @@ public class AudioPlayer {
 					}
 				}
 			});
-		} catch(IOException | URISyntaxException e) {
+		} catch(URISyntaxException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -302,28 +329,28 @@ public class AudioPlayer {
 	private void start() {
 		if(currentPlayer == null) {
 			if(!musicPaths.isEmpty()) {
-				Path path = musicPaths.get((int) (Math.random() * musicPaths.size()));
+				URI path = musicPaths.get((int) (Math.random() * musicPaths.size()));
 				try {
-					Media media = new Media(path.toUri().toString());
+					Media media = new Media(path.toString());
 					MapChangeListener<String, Object> listener = change -> {
 						String artist = (String) media.getMetadata().get("artist");
 						String title = (String) media.getMetadata().get("title");
 						CURRENT_TITLE_TEXT.unbind();
 						if(artist == null) {
 							if(title == null) {
-								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.neither", path.getFileName().toString()), LAUNCHER.localeProperty()));
+								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.neither", getUriFileName(path)), LAUNCHER.localeProperty()));
 							} else {
-								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.title", path.getFileName().toString(), title), LAUNCHER.localeProperty()));
+								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.title", getUriFileName(path), title), LAUNCHER.localeProperty()));
 							}
 						} else {
 							if(title == null) {
-								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.artist", path.getFileName().toString(), artist), LAUNCHER.localeProperty()));
+								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.artist", getUriFileName(path), artist), LAUNCHER.localeProperty()));
 							} else {
-								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.both", path.getFileName().toString(), artist, title), LAUNCHER.localeProperty()));
+								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.both", getUriFileName(path), artist, title), LAUNCHER.localeProperty()));
 							}
 						}
 					};
-					CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.neither", path.getFileName().toString()), LAUNCHER.localeProperty()));
+					CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.neither", getUriFileName(path)), LAUNCHER.localeProperty()));
 					media.getMetadata().addListener(listener);
 					MediaPlayer player = new MediaPlayer(media);
 					player.setAutoPlay(false);
@@ -341,7 +368,7 @@ public class AudioPlayer {
 					PLAYING.bind(Bindings.createBooleanBinding(() -> currentPlayer != null && currentPlayer.getStatus() == Status.PLAYING, currentPlayer.statusProperty()));
 					PLAYER_EXISTS.set(true);
 				} catch(Exception e) {
-					log.error(localize("log.audio.error", e.getMessage(), path.getFileName().toString()));
+					log.error(localize("log.audio.error", e.getMessage(), getUriFileName(path)));
 					musicPaths.remove(path);
 					start();
 				}

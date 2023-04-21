@@ -11,9 +11,10 @@
 package tibetiroka.esmanager.instance.source;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  * @since 0.0.1
  */
 public class FileSource extends Source {
-	private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(FileSource.class);
+	private static final Logger log = LoggerFactory.getLogger(FileSource.class);
 	/**
 	 * The SHA-256 hash of the target file
 	 *

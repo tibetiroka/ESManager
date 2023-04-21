@@ -25,7 +25,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.InstanceUtils.InstanceBuilder;
-import tibetiroka.esmanager.instance.source.SourceType;
 import tibetiroka.esmanager.ui.MainApplication;
 
 import java.net.MalformedURLException;
@@ -94,7 +93,7 @@ public class PullRequestChooserController {
 									Scene scene = new Scene(p);
 									//
 									((InstanceNameController) loader.getController()).stage = stage;
-									((InstanceNameController) loader.getController()).builder = new InstanceBuilder().withRemoteGitSource(URI.create(remoteURI), SourceType.PULL_REQUEST, pr);
+									((InstanceNameController) loader.getController()).builder = new InstanceBuilder().withPullRequestSource(URI.create(remoteURI), pr);
 									//
 									MainApplication.switchScene(stage, scene);
 								} catch(Exception e) {
