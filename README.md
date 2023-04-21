@@ -5,7 +5,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 ## Currently supported features:
 
 - Download the latest continuous
-- Download any release, or the latest release
+- Download any pull request, release, or the latest release
 - Build any branch, PR or release from source
   - Supports forked repositories
 - Pull from multiple sources and merge them automatically
@@ -20,12 +20,10 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 
 ## ESL2 features missing from ESManager
 
-- Proper macOS support
-  - I can't test on Mac, so I cannot ensure anything will work. Most things should be ok. I'll try my best to fix any bugs that come up.
+- Proper macOS/Windows support
+  - I'm mainly using linux, so I cannot ensure anything will work on other systems. Most things should be ok. I'll try my best to fix any bugs that come up. As the project matures and becomes more stable, it will hopefully be usable on every platform.
 - The convenient instance creation panel on the main page
   - There are simply too many options for me to fit them all in there. A simplified version might be added later. You get an instance creation wizard instead.
-- Downloading build artifacts from pull requests
-  - MCO has his own server for querying the pr artifacts securely. I'm working on a solution, but in the meantime, this application builds pull requests from source.
 
 ## Installation
 - ### Linux
