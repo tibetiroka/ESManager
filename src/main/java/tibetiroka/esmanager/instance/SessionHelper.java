@@ -46,7 +46,7 @@ public class SessionHelper {
 		Platform.runLater(() -> ANY_RUNNING.set(true));
 		//
 		ArrayList<String> commands = new ArrayList<>();
-		commands.add(instance.getExecutable().getAbsolutePath());
+		commands.add(instance.getDirectory().toURI().relativize(instance.getExecutable().toURI()).toString());
 		if(debug) {
 			commands.add("--debug");
 			log.info(localize("log.instance.play.debug", instance.getName()));
@@ -54,6 +54,7 @@ public class SessionHelper {
 			log.info(localize("log.instance.play.normal", instance.getName()));
 		}
 		ProcessBuilder builder = new ProcessBuilder(commands);
+		builder.directory(instance.getDirectory());
 		//starting process
 		new Thread(() -> {
 			try {
