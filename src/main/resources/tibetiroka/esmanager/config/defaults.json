@@ -18,7 +18,7 @@
 	"launcher.audio.builtin": true,
 	"launcher.audio.custom": true,
 	"launcher.theme": "dark",
-	"launcher.version": "0.0.1",
+	"launcher.version": "0.0.2",
 	"launcher.locale": "en",
 	"launcher.autoupdate": true,
 	"build.system.preferred": "cmake",
