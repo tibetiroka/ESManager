@@ -504,8 +504,9 @@ public abstract class Source {
 				}
 			}
 			Files.createSymbolicLink(getExecutable().toPath(), target.toPath());
-			target.setExecutable(true);
-			getExecutable().setExecutable(true);
+			if(!target.setExecutable(true) || !getExecutable().setExecutable(true)){
+				log.warn(localize("log.source.symlink.executable.fail"));
+			}
 		} catch(IOException e) {
 			log.error(localize("log.source.symlink.fail", name, instance.getName(), getExecutable().getAbsolutePath(), target.getAbsolutePath()));
 			throw new RuntimeException(e);
