@@ -377,13 +377,13 @@ public class ReleaseSource extends Source {
 			if(AppConfiguration.isLinux()) {
 				return "Endless_Sky-" + release + "-x86_64.AppImage";
 			} else if(AppConfiguration.isWindows()) {
-				return "Endless_Sky-win" + switch(System.getProperty("os.arch")) {
+				return "EndlessSky-win" + switch(System.getProperty("os.arch")) {
 					case "amd64" -> "64";
 					case "x86" -> "32";
 					default -> "x86_64";
 				} + "-" + release + ".zip";
 			} else {
-				return "Endless_Sky-" + release + ".dmg";
+				return "Endless-Sky-" + release + ".dmg";
 			}
 		}
 	}
