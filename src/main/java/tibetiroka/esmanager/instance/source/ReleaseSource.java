@@ -359,7 +359,7 @@ public class ReleaseSource extends Source {
 			filename += "-" + release + ".";
 			if(AppConfiguration.isLinux()) {
 				filename += "AppImage";
-			} else if(AppConfiguration.isLinux()) {
+			} else if(AppConfiguration.isWindows()) {
 				filename += ".zip";
 			} else {
 				filename += ".dmg";
