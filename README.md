@@ -32,8 +32,8 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   Download the `ESManager.exe` file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
 - ### macOS
   Download the `ESManager.dmg` file, which will install ESManager on your computer. This is also a standalone version, although compatibility may vary.
-- ### Portable
-  If you wish to use a single file on multiple operating systems or can't get the above versions to work on your system, you can use the cross-platform `ESManager.jar` file. It should work on any computer with an up-to-date Java installation ([JDK 17](https://www.oracle.com/java/technologies/downloads) or later).
+- ### Alternative downloads
+  There is also an `ESManager-your-os.jar` file provided with each release. It should work on any computer with an up-to-date Java installation ([JDK 17](https://www.oracle.com/java/technologies/downloads) or later). If you are having trouble with the native exeuctable, try this file.
 
 ***Please note that launcher updates are only supported for the `AppImage` and `jar` formats. I'm working on the rest, but that may take a while.***
 
