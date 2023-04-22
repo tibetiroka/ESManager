@@ -52,7 +52,7 @@ public class SessionHelper {
 		ArrayList<String> commands = new ArrayList<>();
 		if(!AppConfiguration.isLinux() && !AppConfiguration.isWindows() && instance.getSource() instanceof ReleaseSource s && "continuous".equals(s.getTargetName())) {
 			try {
-				commands.add(instance.getExecutable().toPath().toRealPath().toUri().toString());
+				commands.add(instance.getExecutable().toPath().toRealPath().toFile().getAbsolutePath());
 			} catch(IOException e) {
 				throw new RuntimeException(e);
 			}
