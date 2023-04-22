@@ -15,8 +15,12 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.instance.source.ReleaseSource;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
@@ -45,8 +49,20 @@ public class SessionHelper {
 	public static void start(@NotNull Instance instance, boolean debug) {
 		Platform.runLater(() -> ANY_RUNNING.set(true));
 		//
+		File directory = instance.getDirectory();
 		ArrayList<String> commands = new ArrayList<>();
-		commands.add(instance.getDirectory().toURI().relativize(instance.getExecutable().toURI()).toString());
+		if(!AppConfiguration.isLinux() && !AppConfiguration.isWindows() && instance.getSource() instanceof ReleaseSource s && "continuous".equals(s.getTargetName())) {
+			try {
+				directory = s.getDirectory();
+				Path parent = s.getDirectory().toPath();
+				Path executable = instance.getExecutable().toPath().toRealPath();
+				commands.add(parent.relativize(executable).toUri().toString());
+			} catch(IOException e) {
+				throw new RuntimeException(e);
+			}
+		} else {
+			commands.add(instance.getDirectory().toURI().relativize(instance.getExecutable().toURI()).toString());
+		}
 		if(debug) {
 			commands.add("--debug");
 			log.info(localize("log.instance.play.debug", instance.getName()));
@@ -54,7 +70,7 @@ public class SessionHelper {
 			log.info(localize("log.instance.play.normal", instance.getName()));
 		}
 		ProcessBuilder builder = new ProcessBuilder(commands);
-		builder.directory(instance.getDirectory());
+		builder.directory(directory);
 		//starting process
 		new Thread(() -> {
 			try {
