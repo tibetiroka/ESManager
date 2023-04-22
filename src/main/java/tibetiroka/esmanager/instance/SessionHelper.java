@@ -15,7 +15,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tibetiroka.esmanager.config.AppConfiguration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,15 +46,8 @@ public class SessionHelper {
 		Platform.runLater(() -> ANY_RUNNING.set(true));
 		//
 		ArrayList<String> commands = new ArrayList<>();
-		if(!AppConfiguration.isWindows() && !AppConfiguration.isLinux()){
-			commands.add("open");
-			commands.add("-n");
-		}
 		commands.add(instance.getExecutable().getAbsolutePath());
 		if(debug) {
-			if(!AppConfiguration.isWindows() && !AppConfiguration.isLinux()){
-				commands.add("--args");
-			}
 			commands.add("--debug");
 			log.info(localize("log.instance.play.debug", instance.getName()));
 		} else {
