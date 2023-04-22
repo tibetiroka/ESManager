@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.config.GensonFactory;
+import tibetiroka.esmanager.launcher.UpdateConfiguration.Migration;
+import tibetiroka.esmanager.launcher.UpdateConfiguration.OS;
 import tibetiroka.esmanager.utils.VersioningUtils;
 
 import java.io.File;
@@ -25,7 +28,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Objects;
 import java.util.Optional;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
@@ -78,11 +80,50 @@ public class SelfUpdater {
 		if(opt.isPresent()) {
 			String target = opt.get();
 			log.warn(localize("log.launcher.update", target, AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version")));
+			//
+			UpdateConfiguration[] configs = null;
+			{
+				try {
+					configs = GensonFactory.createGenson().deserialize(new URL((String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.autoupdate.config.remote")).openStream(), UpdateConfiguration[].class);
+				}catch(Exception e){
+					log.warn(localize("log.launcher.update.config.remote.error", e.getMessage()));
+				}
+			}
+			//
 			String downloadPath = (String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.launcher.remoteRepositoryDownload");
 			downloadPath += target + "/";
 			//
-			File exec = getExecutable();
-			downloadPath += exec.getName();
+			File currentExec = getExecutable();
+			File downloadedExec = currentExec;
+			//
+			if(configs != null){
+				boolean found = false;
+				for(UpdateConfiguration config : configs) {
+					if(target.equals(config.getVersion())){
+						Migration[] migrations = config.getMigrations();
+						if(migrations != null){
+							for(Migration migration : migrations) {
+								if(AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version").equals(migration.getVersion())){
+									if(currentExec.getName().equals(migration.getSource())){
+										if(migration.getOperatingSystem().isCurrentOs()){
+											downloadPath += migration.getTarget();
+											downloadedExec = new File(currentExec.getParentFile(), migration.getTarget());
+											found = true;
+											break;
+										}
+									}
+								}
+							}
+						}
+						break;
+					}
+				}
+				if(!found){
+					downloadPath += currentExec.getName();
+				}
+			} else{
+				downloadPath += currentExec.getName();
+			}
 			//
 			Path temp = Files.createTempFile("launcherDownload", null);
 			Files.copy(new URL(downloadPath).openStream(), temp, StandardCopyOption.REPLACE_EXISTING);
@@ -90,8 +131,11 @@ public class SelfUpdater {
 			for(int i = 0; i < 5; i++) {
 				try {
 					log.warn(localize("log.launcher.update.replace.attempt", i + 1, 5));
-					Files.move(temp, exec.toPath(), StandardCopyOption.REPLACE_EXISTING);
-					exec.setExecutable(true);
+					Files.move(temp, downloadedExec.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					downloadedExec.setExecutable(true);
+					if(!currentExec.equals(downloadedExec)){
+						currentExec.delete();
+					}
 					return;
 				} catch(Exception e) {
 					log.debug(localize("log.launcher.update.replace.attempt.fail", e.getMessage(), i + 1, 5), e);

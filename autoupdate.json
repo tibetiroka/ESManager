@@ -1,0 +1,25 @@
+[
+	{
+		"version": "v0.0.2",
+		"updates": [
+			{
+				"version": "v0.0.1",
+				"os": "LINUX",
+				"source": "ESManager.jar",
+				"target": "ESManager-Linux.jar"
+			},
+			{
+				"version": "v0.0.1",
+				"os": "WINDOWS",
+				"source": "ESManager.jar",
+				"target": "ESManager-Windows.jar"
+			},
+			{
+				"version": "v0.0.1",
+				"os": "MAC",
+				"source": "ESManager.jar",
+				"target": "ESManager-macOS.jar"
+			}
+		]
+	}
+]

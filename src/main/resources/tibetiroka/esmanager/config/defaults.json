@@ -21,6 +21,7 @@
 	"launcher.version": "0.0.3",
 	"launcher.locale": "en",
 	"launcher.autoupdate": true,
+	"launcher.autoupdate.config.remote": "https://raw.githubusercontent.com/tibetiroka/esmanager/master/autoupdate.json",
 	"build.system.preferred": "cmake",
 	"git.merge.strategy": "recursive",
 	"git.merge.content.strategy": "conflict",
