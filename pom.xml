@@ -480,14 +480,29 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>rename-runnable-jar</id>
+						<id>rename-runnable-jar-mac</id>
+						<phase>package</phase>
+						<configuration>
+							<failOnError>true</failOnError>
+							<skip>${os.mac.not}</skip>
+							<target>
+								<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
+									  tofile="${project.build.directory}/${project.name}-macOS.jar"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>rename-runnable-jar-unix</id>
 						<phase>package</phase>
 						<configuration>
 							<failOnError>true</failOnError>
 							<skip>${os.unix.not}</skip>
 							<target>
 								<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
-									  tofile="${project.build.directory}/${project.name}.jar"/>
+									  tofile="${project.build.directory}/${project.name}-Linux.jar"/>
 							</target>
 						</configuration>
 						<goals>
@@ -520,6 +535,21 @@
 							<target>
 								<copy file="${project.build.directory}/${project.name}_${project.version}.exe"
 									  tofile="${project.build.directory}/${project.name}.exe"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>rename-runnable-jar-windows</id>
+						<phase>package</phase>
+						<configuration>
+							<failOnError>true</failOnError>
+							<skip>${os.windows.not}</skip>
+							<target>
+								<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
+									  tofile="${project.build.directory}/${project.name}-Windows.jar"/>
 							</target>
 						</configuration>
 						<goals>
