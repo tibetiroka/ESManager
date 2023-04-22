@@ -49,19 +49,15 @@ public class SessionHelper {
 	public static void start(@NotNull Instance instance, boolean debug) {
 		Platform.runLater(() -> ANY_RUNNING.set(true));
 		//
-		File directory = instance.getDirectory();
 		ArrayList<String> commands = new ArrayList<>();
 		if(!AppConfiguration.isLinux() && !AppConfiguration.isWindows() && instance.getSource() instanceof ReleaseSource s && "continuous".equals(s.getTargetName())) {
 			try {
-				directory = s.getDirectory();
-				Path parent = s.getDirectory().toPath();
-				Path executable = instance.getExecutable().toPath().toRealPath();
-				commands.add(parent.relativize(executable).toUri().toString());
+				commands.add(instance.getExecutable().toPath().toRealPath().toUri().toString());
 			} catch(IOException e) {
 				throw new RuntimeException(e);
 			}
 		} else {
-			commands.add(instance.getDirectory().toURI().relativize(instance.getExecutable().toURI()).toString());
+			commands.add(instance.getExecutable().getAbsolutePath());
 		}
 		if(debug) {
 			commands.add("--debug");
@@ -70,7 +66,7 @@ public class SessionHelper {
 			log.info(localize("log.instance.play.normal", instance.getName()));
 		}
 		ProcessBuilder builder = new ProcessBuilder(commands);
-		builder.directory(directory);
+		log.debug(localize("log.instance.play.command", builder.command().toString()));
 		//starting process
 		new Thread(() -> {
 			try {
