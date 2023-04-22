@@ -6,7 +6,7 @@
 
 	<groupId>tibetiroka</groupId>
 	<artifactId>ESManager</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>ESManager</name>
 	<url>https://github.com/tibetiroka/ESManager/</url>
 	<description>A highly customizable instance manager for Endless Sky.</description>
