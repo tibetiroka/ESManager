@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.GensonFactory;
 import tibetiroka.esmanager.launcher.UpdateConfiguration.Migration;
-import tibetiroka.esmanager.launcher.UpdateConfiguration.OS;
 import tibetiroka.esmanager.utils.VersioningUtils;
 
 import java.io.File;
@@ -85,7 +84,7 @@ public class SelfUpdater {
 			{
 				try {
 					configs = GensonFactory.createGenson().deserialize(new URL((String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.autoupdate.config.remote")).openStream(), UpdateConfiguration[].class);
-				}catch(Exception e){
+				} catch(Exception e) {
 					log.warn(localize("log.launcher.update.config.remote.error", e.getMessage()));
 				}
 			}
@@ -96,16 +95,16 @@ public class SelfUpdater {
 			File currentExec = getExecutable();
 			File downloadedExec = currentExec;
 			//
-			if(configs != null){
+			if(configs != null) {
 				boolean found = false;
 				for(UpdateConfiguration config : configs) {
-					if(target.equals(config.getVersion())){
+					if(target.equals(config.getVersion())) {
 						Migration[] migrations = config.getMigrations();
-						if(migrations != null){
+						if(migrations != null) {
 							for(Migration migration : migrations) {
-								if(AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version").equals(migration.getVersion())){
-									if(currentExec.getName().equals(migration.getSource())){
-										if(migration.getOperatingSystem().isCurrentOs()){
+								if(AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version").equals(migration.getVersion())) {
+									if(currentExec.getName().equals(migration.getSource())) {
+										if(migration.getOperatingSystem().isCurrentOs()) {
 											downloadPath += migration.getTarget();
 											downloadedExec = new File(currentExec.getParentFile(), migration.getTarget());
 											found = true;
@@ -118,10 +117,10 @@ public class SelfUpdater {
 						break;
 					}
 				}
-				if(!found){
+				if(!found) {
 					downloadPath += currentExec.getName();
 				}
-			} else{
+			} else {
 				downloadPath += currentExec.getName();
 			}
 			//
@@ -133,7 +132,7 @@ public class SelfUpdater {
 					log.warn(localize("log.launcher.update.replace.attempt", i + 1, 5));
 					Files.move(temp, downloadedExec.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					downloadedExec.setExecutable(true);
-					if(!currentExec.equals(downloadedExec)){
+					if(!currentExec.equals(downloadedExec)) {
 						currentExec.delete();
 					}
 					return;

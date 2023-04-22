@@ -148,7 +148,7 @@ public class ReleaseSource extends Source {
 					if(AppConfiguration.isWindows()) {
 						FileUtils.unpackZipTracked(new URL(getDownloadURL(targetName)), downloaded.getParentFile(), getInstance().getTracker());
 						downloaded = new File(downloaded.getParentFile(), "Endless Sky.exe");
-					}else if(!AppConfiguration.isLinux() && !AppConfiguration.isWindows() && "continuous".equals(targetName)){
+					} else if(!AppConfiguration.isLinux() && !AppConfiguration.isWindows() && "continuous".equals(targetName)) {
 						//mac on continuous gives a zip of an app
 						FileUtils.unpackZipTracked(new URL(getDownloadURL(targetName)), downloaded.getParentFile(), getInstance().getTracker());
 						downloaded = new File(downloaded.getParentFile(), "Endless Sky.app");
