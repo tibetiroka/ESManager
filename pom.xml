@@ -254,6 +254,12 @@
                                               tofile="${project.build.directory}/${project.name}-javadoc.jar"/>
 										<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
 											  tofile="${project.build.directory}/${project.name}.jar"/>
+										<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
+											  tofile="${project.build.directory}/${project.name}-Windows.jar"/>
+										<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
+											  tofile="${project.build.directory}/${project.name}-Linux.jar"/>
+										<copy file="${project.build.directory}/${project.name}-${project.version}.jar"
+											  tofile="${project.build.directory}/${project.name}-macOS.jar"/>
                                     </target>
                                 </configuration>
                                 <goals>
