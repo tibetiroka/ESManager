@@ -21,5 +21,40 @@
 				"target": "ESManager-macOS.jar"
 			}
 		]
+	},
+	{
+		"version": "v0.0.5",
+		"updates": [
+			{
+				"version": "v0.0.3",
+				"source": "ESManager-Linux.jar",
+				"target": "ESManager.jar"
+			},
+			{
+				"version": "v0.0.3",
+				"source": "ESManager-Windows.jar",
+				"target": "ESManager.jar"
+			},
+			{
+				"version": "v0.0.3",
+				"source": "ESManager-macOS.jar",
+				"target": "ESManager.jar"
+			},
+			{
+				"version": "v0.0.4",
+				"source": "ESManager-Linux.jar",
+				"target": "ESManager.jar"
+			},
+			{
+				"version": "v0.0.4",
+				"source": "ESManager-Windows.jar",
+				"target": "ESManager.jar"
+			},
+			{
+				"version": "v0.0.4",
+				"source": "ESManager-macOS.jar",
+				"target": "ESManager.jar"
+			}
+		]
 	}
 ]
