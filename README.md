@@ -40,6 +40,8 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 - ### Build from source
   You can build the application via maven using `mvn clean package`, or run it from command line using `mvn clean javafx:run`. Project files are provided for [IntelliJ](https://www.jetbrains.com/idea/) if you wish to modify the sources.
 
+  If you want to build the cross-platform jar or need the sources/javadocs, use `mvn clean package -Djar`. This will not generate the native executable, but will instead generate these jars.
+
   Sources and javadocs are also provided for every release.
 
 ## Requirements
