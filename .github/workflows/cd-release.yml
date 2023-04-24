@@ -39,9 +39,6 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             target/ESManager.jar
-            target/ESManager-Linux.jar
-            target/ESManager-Windows.jar
-            target/ESManager-macOS.jar
             target/ESManager-sources.jar
             target/ESManager-javadoc.jar
 
