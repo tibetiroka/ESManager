@@ -1,7 +1,7 @@
 [
 	{
 		"version": "v0.0.2",
-		"updates": [
+		"migrations": [
 			{
 				"version": "v0.0.1",
 				"os": "LINUX",
@@ -24,7 +24,7 @@
 	},
 	{
 		"version": "v0.0.5",
-		"updates": [
+		"migrations": [
 			{
 				"version": "v0.0.3",
 				"source": "ESManager-Linux.jar",
