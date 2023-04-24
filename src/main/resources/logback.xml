@@ -16,6 +16,7 @@
     </appender>
     <logger name="tibetiroka.esmanager" level="debug"/>
     <logger name="javafx" level="info"/>
+    <logger name="org.eclipse.jgit" level="info"/>
     <root level="debug">
         <appender-ref ref="File"/>
         <appender-ref ref="Display"/>
