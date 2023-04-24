@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - name: Build with Maven
+      - name: Build native executable with Maven
         run: mvn -B package --file pom.xml
       - name: Upload to release
         uses: softprops/action-gh-release@v1
@@ -30,7 +30,15 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             target/ESManager.AppImage
-            target/ESManager-Linux.jar
+      - name: Build cross-platform jar with Maven
+        run: mvn -B clean package --file pom.xml -Djar
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          fail_on_unmatched_files: true
+          files: |
+            target/ESManager.jar
             target/ESManager-sources.jar
             target/ESManager-javadoc.jar
 
@@ -47,16 +55,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - name: Build with Maven
+      - name: Build native executable with Maven
         run: mvn -B package --file pom.xml
       - name: Upload to release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           fail_on_unmatched_files: true
-          files: |
-            target/ESManager.exe
-            target/ESManager-Windows.jar
+          files: target/ESManager.exe
 
   release_macos:
     name: Release - macOS
@@ -69,13 +75,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - name: Build with Maven
+      - name: Build native executable with Maven
         run: mvn -B package --file pom.xml
       - name: Upload to release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           fail_on_unmatched_files: true
-          files: |
-            target/ESManager.dmg
-            target/ESManager-macOS.jar
+          files: target/ESManager.dmg
