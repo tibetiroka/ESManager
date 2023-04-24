@@ -23,6 +23,12 @@ import java.util.HashMap;
  */
 public class UpdateConfiguration {
 	/**
+	 * A map of custom instructions for compatibility.
+	 *
+	 * @since 0.0.3
+	 */
+	private @Nullable HashMap<@NotNull String, ?> customInstructions;
+	/**
 	 * The array of file-specific migrations for upgrading the launcher. Might be null or empty.
 	 *
 	 * @since 0.0.3
@@ -34,6 +40,16 @@ public class UpdateConfiguration {
 	 * @since 0.0.3
 	 */
 	private @NotNull String version;
+
+	/**
+	 * Gets a map of custom instructions provided with this update. This is provided for two-way compatibility between launcher versions.
+	 *
+	 * @return {@link #customInstructions}
+	 * @since 0.0.3
+	 */
+	public @Nullable HashMap<@NotNull String, ?> getCustomInstructions() {
+		return customInstructions;
+	}
 
 	/**
 	 * Gets the array of file-specific migrations for upgrading the launcher. Might be null or empty.
@@ -83,6 +99,12 @@ public class UpdateConfiguration {
 			}
 		};
 
+		/**
+		 * Gets whether the current operating system falls into the group specified by this enum value.
+		 *
+		 * @return True if currently on this OS
+		 * @since 0.0.3
+		 */
 		public abstract boolean isCurrentOs();
 	}
 

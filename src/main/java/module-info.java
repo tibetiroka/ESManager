@@ -37,11 +37,13 @@ module ESManager {
 	opens tibetiroka.esmanager.plugin to genson;
 	exports tibetiroka.esmanager.instance.source to genson;
 	opens tibetiroka.esmanager.instance.source to genson;
+	exports tibetiroka.esmanager.launcher to genson;
+	opens tibetiroka.esmanager.launcher to genson;
+	exports tibetiroka.esmanager.utils to genson;
+	opens tibetiroka.esmanager.utils to genson;
 	exports tibetiroka.esmanager to ch.qos.logback.classic, ch.qos.logback.core;
 	exports tibetiroka.esmanager.ui;
 	opens tibetiroka.esmanager.ui;
 	exports tibetiroka.esmanager.ui.instance;
 	opens tibetiroka.esmanager.ui.instance;
-	exports tibetiroka.esmanager.utils to genson;
-	opens tibetiroka.esmanager.utils to genson;
 }

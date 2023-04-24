@@ -13,6 +13,7 @@ package tibetiroka.esmanager.launcher;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
@@ -27,6 +28,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
@@ -64,9 +66,7 @@ public class SelfUpdater {
 	 * @since 0.0.1
 	 */
 	public static boolean needsUpdate() throws GitAPIException, URISyntaxException {
-		return findLatest()
-				.filter(s -> !VersioningUtils.isSameRelease(s, (String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version")))
-				.isPresent();
+		return findLatest().filter(s -> !VersioningUtils.isSameRelease(s, (String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version"))).isPresent();
 	}
 
 	/**
@@ -93,36 +93,9 @@ public class SelfUpdater {
 			downloadPath += target + "/";
 			//
 			File currentExec = getExecutable();
-			File downloadedExec = currentExec;
+			File downloadedExec = new File(currentExec.getParentFile(), getTargetFileName(currentExec.getName(), target, configs));
 			//
-			if(configs != null) {
-				boolean found = false;
-				for(UpdateConfiguration config : configs) {
-					if(target.equals(config.getVersion())) {
-						Migration[] migrations = config.getMigrations();
-						if(migrations != null) {
-							for(Migration migration : migrations) {
-								if(AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version").equals(migration.getVersion())) {
-									if(currentExec.getName().equals(migration.getSource())) {
-										if(migration.getOperatingSystem().isCurrentOs()) {
-											downloadPath += migration.getTarget();
-											downloadedExec = new File(currentExec.getParentFile(), migration.getTarget());
-											found = true;
-											break;
-										}
-									}
-								}
-							}
-						}
-						break;
-					}
-				}
-				if(!found) {
-					downloadPath += currentExec.getName();
-				}
-			} else {
-				downloadPath += currentExec.getName();
-			}
+			downloadPath += currentExec.getName();
 			//
 			Path temp = Files.createTempFile("launcherDownload", null);
 			Files.copy(new URL(downloadPath).openStream(), temp, StandardCopyOption.REPLACE_EXISTING);
@@ -157,15 +130,7 @@ public class SelfUpdater {
 	 * @since 0.0.1
 	 */
 	private static @NotNull Optional<@NotNull String> findLatest() throws GitAPIException {
-		return Git.lsRemoteRepository()
-		          .setHeads(false)
-		          .setTags(true)
-		          .setRemote((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.launcher.remoteRepository"))
-		          .callAsMap()
-		          .keySet()
-		          .stream()
-		          .map(s -> s.substring("refs/tags/".length()))
-		          .min(VersioningUtils.semVerComparator());
+		return Git.lsRemoteRepository().setHeads(false).setTags(true).setRemote((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.launcher.remoteRepository")).callAsMap().keySet().stream().map(s -> s.substring("refs/tags/".length())).min(VersioningUtils.semVerComparator());
 	}
 
 	/**
@@ -179,5 +144,37 @@ public class SelfUpdater {
 			return new File(System.getenv("APPIMAGE"));
 		}
 		return new File(SelfUpdater.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+	}
+
+	private static @NotNull String getTargetFileName(@NotNull String sourceName, @NotNull String targetVersion, @NotNull UpdateConfiguration @Nullable [] configs) {
+		String workingName = sourceName;
+		String workingVersion = (String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version");
+		if(configs != null) {
+			//sorting everything from oldest to latest release
+			Arrays.sort(configs, (o1, o2) -> -VersioningUtils.semVerComparator().compare(o1.getVersion(), o2.getVersion()));
+			for(UpdateConfiguration config : configs) {
+				if(config.getMigrations() != null) {
+					Arrays.sort(config.getMigrations(), (m1, m2) -> -VersioningUtils.semVerComparator().compare(m1.getVersion(), m2.getVersion()));
+				}
+			}
+			for(UpdateConfiguration config : configs) {
+				if(VersioningUtils.semVerComparator().compare(workingVersion, config.getVersion()) < 0 && VersioningUtils.semVerComparator().compare(targetVersion, config.getVersion()) <= 0) {
+					//config is migrating to a newer release
+					//but not to a future one
+					if(config.getMigrations() != null) {
+						for(Migration migration : config.getMigrations()) {
+							if(migration.getSource().equals(workingName) && migration.getOperatingSystem().isCurrentOs() && VersioningUtils.semVerComparator().compare(workingVersion, migration.getVersion()) <= 0) {
+								//migration from this release or a newer one
+								//and the source file name matches
+								//and the os also matches
+								workingName = migration.getTarget();
+								workingVersion = config.getVersion();
+							}
+						}
+					}
+				}
+			}
+		}
+		return workingName;
 	}
 }
