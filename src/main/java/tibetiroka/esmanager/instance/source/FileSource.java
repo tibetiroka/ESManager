@@ -129,6 +129,11 @@ public class FileSource extends Source {
 	}
 
 	@Override
+	public boolean canBeBuilt() {
+		return false;
+	}
+
+	@Override
 	public boolean needsUpdate() {
 		return switch(type) {
 			case LOCAL_EXECUTABLE, DIRECT_DOWNLOAD -> !Objects.equals(hash, hash(getExecutable()));
