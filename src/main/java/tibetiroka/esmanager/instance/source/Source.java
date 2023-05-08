@@ -225,7 +225,7 @@ public abstract class Source {
 	 */
 	public boolean canBeBuilt() {
 		return switch(type) {
-			case RELEASE, PULL_REQUEST, BRANCH, LATEST_RELEASE, MULTIPLE_SOURCES -> true;
+			case RELEASE, PULL_REQUEST, BRANCH, COMMIT, LATEST_RELEASE, MULTIPLE_SOURCES -> true;
 			default -> false;
 		};
 	}

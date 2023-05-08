@@ -30,7 +30,7 @@ import java.util.Date;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 /**
- * A {@link Source} that uses a Git ref as its source. Supported types: {@link SourceType#BRANCH BRANCH}, {@link SourceType#PULL_REQUEST PULL_REQUEST}, {@link SourceType#RELEASE RELEASE} and {@link SourceType#LATEST_RELEASE LATEST_RELEASE}.
+ * A {@link Source} that uses a Git ref as its source. Supported types: {@link SourceType#BRANCH BRANCH}, {@link SourceType#PULL_REQUEST PULL_REQUEST}, {@link SourceType#COMMIT COMMIT}, {@link SourceType#RELEASE RELEASE} and {@link SourceType#LATEST_RELEASE LATEST_RELEASE}.
  *
  * @since 0.0.1
  */
@@ -115,6 +115,7 @@ public class GitSource extends Source {
 	public @NotNull String getPublicName() {
 		return switch(type) {
 			case BRANCH -> localize("instance.source.git.branch.text", getName(), type.name(), remoteURI, lastCommit, targetName);
+			case COMMIT -> localize("instance.source.git.commit.text", getName(), type.name(), remoteURI, lastCommit, targetName, targetName.substring(0, 7));
 			case RELEASE -> localize("instance.source.git.release.text", getName(), type.name(), remoteURI, lastCommit, targetName);
 			case PULL_REQUEST -> localize("instance.source.git.pr.text", getName(), type.name(), remoteURI, lastCommit, targetName);
 			case LATEST_RELEASE -> localize("instance.source.git.latest.text", getName(), type.name(), remoteURI, lastCommit, targetName);
@@ -126,6 +127,7 @@ public class GitSource extends Source {
 	public @NotNull String getPublicVersion() {
 		return switch(type) {
 			case BRANCH -> localize("instance.version.git.branch.text", getName(), type.name(), remoteURI, lastCommit, targetName, lastCommit == null ? null : lastCommit.substring(0, 7));
+			case COMMIT -> localize("instance.version.git.commit.text", getName(), type.name(), remoteURI, lastCommit, targetName, lastCommit == null ? null : lastCommit.substring(0, 7));
 			case RELEASE -> localize("instance.version.git.release.text", getName(), type.name(), remoteURI, lastCommit, targetName, lastCommit == null ? null : lastCommit.substring(0, 7));
 			case PULL_REQUEST -> localize("instance.version.git.pr.text", getName(), type.name(), remoteURI, lastCommit, targetName, lastCommit == null ? null : lastCommit.substring(0, 7));
 			case LATEST_RELEASE -> localize("instance.version.git.latest.text", getName(), type.name(), remoteURI, lastCommit, targetName, lastCommit == null ? null : lastCommit.substring(0, 7));
@@ -145,6 +147,9 @@ public class GitSource extends Source {
 
 	@Override
 	public boolean needsUpdate() {
+		if(type == SourceType.COMMIT) {
+			return false;
+		}
 		try {
 			localize("log.source.update.fetch", getName(), remoteURI, lastCommit, targetName);
 			FetchResult result = fetch(getRemoteRefName(), true);
@@ -233,6 +238,7 @@ public class GitSource extends Source {
 			case BRANCH -> "refs/heads/" + targetName;
 			case PULL_REQUEST -> "refs/pull/" + targetName + "/head";
 			case RELEASE -> "refs/tags/" + targetName;
+			case COMMIT -> targetName;
 			case LATEST_RELEASE -> {
 				try {
 					yield GIT.lsRemote().setRemote(remoteURI).setHeads(false).setTags(true).call().stream().map(Ref::getName).filter(r -> r.startsWith("refs/tags/")).min(ReleaseUtils.latestFirst()).get();

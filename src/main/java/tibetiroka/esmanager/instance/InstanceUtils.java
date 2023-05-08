@@ -370,6 +370,10 @@ public class InstanceUtils {
 					source.setName("Generated source for branch " + target + " of " + repo);
 					source.setTargetName(target);
 				}
+				case COMMIT -> {
+					source.setName("Generated source for commit " + target + " of " + repo);
+					source.setTargetName(target);
+				}
 				case PULL_REQUEST -> {
 					source.setName("Generated source for pull request " + target + " of " + repo);
 					source.setTargetName(target);

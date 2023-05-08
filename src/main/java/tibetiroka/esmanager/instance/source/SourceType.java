@@ -35,6 +35,10 @@ public enum SourceType {
 	 */
 	PULL_REQUEST,
 	/**
+	 * A specific git commit.
+	 */
+	COMMIT,
+	/**
 	 * A locally installed single executable file.
 	 *
 	 * @since 0.0.1

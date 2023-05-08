@@ -53,7 +53,7 @@ public class CustomSourceController {
 
 	@FXML
 	protected void initialize() {
-		type.setItems(FXCollections.observableList(List.of(SourceType.RELEASE, SourceType.LATEST_RELEASE, SourceType.BRANCH, SourceType.PULL_REQUEST)));
+		type.setItems(FXCollections.observableList(List.of(SourceType.RELEASE, SourceType.LATEST_RELEASE, SourceType.BRANCH, SourceType.PULL_REQUEST, SourceType.COMMIT)));
 		type.setConverter(new StringConverter<>() {
 			@Override
 			public String toString(SourceType object) {
@@ -79,6 +79,9 @@ public class CustomSourceController {
 			if(url.getText().isBlank()) {
 				return false;
 			}
+			if(type.getValue() == SourceType.COMMIT) {
+				return true;
+			}
 			String remoteURI = new URL(url.getText()).toURI().toString();
 			LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remoteURI);
 			switch(type.getValue()) {
@@ -86,7 +89,6 @@ public class CustomSourceController {
 				case BRANCH -> command.setHeads(true).setTags(false);
 				case PULL_REQUEST -> command.setTags(false).setHeads(false);
 			}
-			;
 			Map<String, Ref> refs = command.callAsMap();
 			return switch(type.getValue()) {
 				case LATEST_RELEASE -> !refs.isEmpty();
