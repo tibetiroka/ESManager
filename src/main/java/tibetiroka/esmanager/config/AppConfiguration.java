@@ -181,9 +181,9 @@ public class AppConfiguration {
 			Arrays.sort(instances, Comparator.comparing(a -> a.getName().toLowerCase()));
 
 			for(Instance instance : instances) {
+				instance.getSource().setInstance(instance);
 				InstanceUtils.createDisplay(instance);
 				Instance.getInstances().add(instance);
-				instance.getSource().setInstance(instance);
 			}
 		}
 		INSTANCES_LOADED.set(true);
