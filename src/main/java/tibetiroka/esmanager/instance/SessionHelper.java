@@ -18,9 +18,7 @@ import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.source.ReleaseSource;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import static tibetiroka.esmanager.config.Launcher.localize;

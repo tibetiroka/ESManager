@@ -66,6 +66,11 @@ public class FileSource extends Source {
 	}
 
 	@Override
+	public boolean canBeBuilt() {
+		return false;
+	}
+
+	@Override
 	public void create() {
 		try {
 			switch(type) {
@@ -126,11 +131,6 @@ public class FileSource extends Source {
 	@Override
 	public boolean isSingle() {
 		return true;
-	}
-
-	@Override
-	public boolean canBeBuilt() {
-		return false;
 	}
 
 	@Override
