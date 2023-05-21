@@ -108,6 +108,14 @@ public class MultiSource extends Source {
 	}
 
 	@Override
+	public void setInstance(@NotNull Instance instance) {
+		super.setInstance(instance);
+		for(Source source : sources) {
+			source.setInstance(instance);
+		}
+	}
+
+	@Override
 	public @NotNull String getPublicName() {
 		return switch(type) {
 			case MULTIPLE_SOURCES -> localize("instance.source.multi.text", getName(), type.name());
@@ -131,14 +139,6 @@ public class MultiSource extends Source {
 	@Override
 	public boolean isSingle() {
 		return false;
-	}
-
-	@Override
-	public void setInstance(@NotNull Instance instance) {
-		super.setInstance(instance);
-		for(Source source : sources) {
-			source.setInstance(instance);
-		}
 	}
 
 	@Override

@@ -49,8 +49,8 @@ public class LogUtils {
 	 * @param level  The logging level
 	 * @since 0.0.6
 	 */
-	public static void logAsync(@NotNull InputStream stream, @NotNull Level level){
-		new Thread(()-> {
+	public static void logAsync(@NotNull InputStream stream, @NotNull Level level) {
+		new Thread(() -> {
 			try {
 				log(stream, level);
 			} catch(IOException e) {
