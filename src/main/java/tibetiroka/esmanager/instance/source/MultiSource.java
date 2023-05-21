@@ -17,6 +17,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.instance.Instance;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -28,7 +29,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
 import static tibetiroka.esmanager.instance.GitSettings.SETTINGS;
 
 /**
- * A {@link Source} combining multiple {@link GitSource git sources} into one source. Supported types: {@link SourceType#MULTIPLE_SOURCES MULTIPLE_SOURCES}.
+ * A {@link Source} combining multiple {@link Source#isGit() git-based sources} into one source. Supported types: {@link SourceType#MULTIPLE_SOURCES MULTIPLE_SOURCES}.
  *
  * @since 0.0.1
  */
@@ -40,14 +41,14 @@ public class MultiSource extends Source {
 	 * @since 0.0.1
 	 */
 	@NotNull
-	private HashSet<@NotNull GitSource> sources = new HashSet<>();
+	protected SourceSet sources = new SourceSet();
 
 	public MultiSource() {
 		super();
 	}
 
 	/**
-	 * Creates a new git source with the specified name and sources. Each source must be a {@link GitSource git source}.
+	 * Creates a new git source with the specified name and sources. Each source must be a {@link Source#isGit() git-based source}.
 	 *
 	 * @param name    The name of this source
 	 * @param sources The sources to use
@@ -57,9 +58,17 @@ public class MultiSource extends Source {
 	 */
 	public MultiSource(@NotNull String name, @NotNull Collection<Source> sources) {
 		super(name, SourceType.MULTIPLE_SOURCES);
-		for(Source source : sources) {
-			this.sources.add((GitSource) source);
-		}
+		this.sources.addAll(sources);
+	}
+
+	/**
+	 * Constructor for subclasses that handle other source types.
+	 *
+	 * @param name The name of the source
+	 * @param type The type of the source
+	 */
+	protected MultiSource(@NotNull String name, @NotNull SourceType type) {
+		super(name, type);
 	}
 
 	@Override
@@ -70,7 +79,7 @@ public class MultiSource extends Source {
 		getInstance().getTracker().beginTask(1. / (sources.size() + 1));
 		createBranch();
 		getInstance().getTracker().endTask();
-		for(GitSource source : sources) {
+		for(Source source : sources) {
 			getInstance().getTracker().beginTask(1. / (sources.size() + 1));
 			getInstance().getTracker().beginTask(0.33);
 			if(!source.initialized) {
@@ -93,7 +102,7 @@ public class MultiSource extends Source {
 	@Override
 	public void deleteBranch() {
 		super.deleteBranch();
-		for(GitSource source : sources) {
+		for(Source source : sources) {
 			source.deleteBranch();
 		}
 	}
@@ -125,9 +134,16 @@ public class MultiSource extends Source {
 	}
 
 	@Override
+	public void setInstance(@NotNull Instance instance) {
+		super.setInstance(instance);
+		for(Source source : sources) {
+			source.setInstance(instance);
+		}
+	}
+
+	@Override
 	public boolean needsUpdate() {
-		for(GitSource source : sources) {
-			source.setInstance(getInstance());
+		for(Source source : sources) {
 			getInstance().getTracker().beginTask(1. / sources.size());
 			if(source.needsUpdate()) {
 				getInstance().getTracker().endTask();
@@ -141,7 +157,7 @@ public class MultiSource extends Source {
 
 	@Override
 	public void update() {
-		for(GitSource source : sources) {
+		for(Source source : sources) {
 			getInstance().getTracker().beginTask(1. / sources.size());
 			getInstance().getTracker().beginTask(0.33);
 			if(source.needsUpdate()) {
@@ -164,7 +180,7 @@ public class MultiSource extends Source {
 	 *
 	 * @since 0.0.1
 	 */
-	public @NotNull HashSet<@NotNull GitSource> getSources() {
+	public @NotNull HashSet<@NotNull Source> getSources() {
 		return sources;
 	}
 
@@ -174,7 +190,7 @@ public class MultiSource extends Source {
 	 * @param source The source to merge
 	 * @since 0.0.1
 	 */
-	private void merge(@NotNull GitSource source) {
+	private void merge(@NotNull Source source) {
 		log.debug(localize("log.source.update.multi.merge", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
 		try {
 			Ref other = GIT.branchList().call().stream().filter(ref -> ref.getName().equals("refs/heads/" + source.getBranchName())).findAny().get();
@@ -200,5 +216,8 @@ public class MultiSource extends Source {
 			log.error(localize("log.source.update.multi.merge.fail", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName(), e.getMessage()));
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static class SourceSet extends HashSet<@NotNull Source> {
 	}
 }
