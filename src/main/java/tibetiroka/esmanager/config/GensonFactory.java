@@ -19,8 +19,9 @@ import javafx.beans.property.*;
 import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import tibetiroka.esmanager.instance.BuildHelper.BuildSystem;
+import tibetiroka.esmanager.instance.source.MultiSource;
+import tibetiroka.esmanager.instance.source.MultiSource.SourceSet;
 import tibetiroka.esmanager.instance.source.Source;
 
 import java.io.File;
@@ -63,7 +64,7 @@ public class GensonFactory {
 	 * @return A {@link GensonBuilder} without custom source serialization
 	 * @since 0.0.1
 	 */
-	private static @Nullable GensonBuilder sourcelessGensonBuilder() {
+	private static @NotNull GensonBuilder sourcelessGensonBuilder() {
 		return new GensonBuilder()
 				.setSkipNull(true)
 				.useMethods(false)
@@ -357,6 +358,8 @@ public class GensonFactory {
 
 	/**
 	 * A special converter factory for sources. They use a custom class annotation scheme to support more drastic backend changes.
+	 *
+	 * @since 0.0.6
 	 */
 	private static class SourceConverterFactory implements Factory<Converter<Source>> {
 		@Override
@@ -378,11 +381,37 @@ public class GensonFactory {
 						if(!Source.class.isAssignableFrom(c)) {
 							throw new ClassCastException("Invalid source class: " + c.getName());
 						}
-						return (Source) sourcelessGensonBuilder().create().provideConverter(c).deserialize(reader, ctx);
+						return (Source) sourcelessGensonBuilder().withDeserializer(new SourceSetDeserializer(), SourceSet.class).create().provideConverter(c).deserialize(reader, ctx);
 					}
 				};
 			}
 			return null;
+		}
+	}
+
+	/**
+	 * Decides whether a specific source should or should not be serialized by the default converters.
+	 *
+	 * @since 0.0.6
+	 */
+	private static final class SourceSetDeserializer implements Deserializer<SourceSet> {
+		@Override
+		@SuppressWarnings("unchecked")
+		public SourceSet deserialize(ObjectReader reader, Context ctx) throws Exception {
+			SourceSet set = new SourceSet();
+			reader.beginArray();
+			while(reader.hasNext()) {
+				reader.next();
+				String meta = reader.nextObjectMetadata().metadata("sourceSubclass");
+				Class<?> c1 = Class.forName(Source.class.getPackageName() + "." + meta);
+				if(MultiSource.class.isAssignableFrom(c1)) {
+					set.add((Source) createGenson().provideConverter(c1).deserialize(reader, ctx));
+				} else {
+					set.add((Source) sourcelessGensonBuilder().create().provideConverter(c1).deserialize(reader, ctx));
+				}
+			}
+			reader.endArray();
+			return set;
 		}
 	}
 }
