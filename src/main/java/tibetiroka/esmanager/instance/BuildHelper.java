@@ -15,9 +15,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.GensonFactory.BuildSystemPropertyConverter;
 import tibetiroka.esmanager.instance.source.Source;
+import tibetiroka.esmanager.utils.LogUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,20 +108,8 @@ public class BuildHelper {
 	 */
 	private static @NotNull Process start(@NotNull ProcessBuilder processBuilder) throws IOException {
 		Process process = processBuilder.start();
-		new Thread(() -> {
-			try {
-				process.getInputStream().transferTo(System.out);
-			} catch(IOException e) {
-				throw new RuntimeException(e);
-			}
-		}, "Output appender thread for process " + process.pid()).start();
-		new Thread(() -> {
-			try {
-				process.getErrorStream().transferTo(System.err);
-			} catch(IOException e) {
-				throw new RuntimeException(e);
-			}
-		}, "Error appender thread for process " + process.pid()).start();
+		LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
+		LogUtils.logAsync(process.getErrorStream(), Level.WARN);
 		return process;
 	}
 

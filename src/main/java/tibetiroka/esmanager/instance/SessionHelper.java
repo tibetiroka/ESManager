@@ -15,8 +15,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.source.ReleaseSource;
+import tibetiroka.esmanager.utils.LogUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,20 +71,8 @@ public class SessionHelper {
 		new Thread(() -> {
 			try {
 				Process process = builder.start();
-				new Thread(() -> {
-					try {
-						process.getInputStream().transferTo(System.out);
-					} catch(IOException e) {
-						throw new RuntimeException(e);
-					}
-				}, "Output appender thread for process " + process.pid()).start();
-				new Thread(() -> {
-					try {
-						process.getErrorStream().transferTo(System.err);
-					} catch(IOException e) {
-						throw new RuntimeException(e);
-					}
-				}, "Error appender thread for process " + process.pid()).start();
+				LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
+				LogUtils.logAsync(process.getErrorStream(), Level.WARN);
 				process.waitFor();
 			} catch(IOException | InterruptedException e) {
 				throw new RuntimeException(e);
