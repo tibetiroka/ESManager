@@ -24,6 +24,7 @@ import uk.org.lidalia.sysoutslf4j.context.LogLevel;
 import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 import javax.swing.JOptionPane;
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -114,6 +115,11 @@ public class Main {
 	private static void configureLogger() {
 		System.setProperty("esmanager.log.directory", AppConfiguration.LOG_HOME.getAbsolutePath());
 		AppConfiguration.LOG_HOME.mkdirs();
+		File file = new File(AppConfiguration.LOG_HOME, "latest.log");
+		if(file.exists() && file.length() > 10*1000*1000){
+			// >10MB
+			file.delete();
+		}
 	}
 
 	/**
