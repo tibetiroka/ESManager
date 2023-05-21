@@ -20,8 +20,6 @@ import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.ui.MainApplication;
 import tibetiroka.esmanager.ui.MainController;
-import uk.org.lidalia.sysoutslf4j.context.LogLevel;
-import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
 import javax.swing.JOptionPane;
 import java.io.File;
@@ -62,7 +60,6 @@ public class Main {
 	static {
 		configureLogger();
 		log = LoggerFactory.getLogger(Main.class);
-		SysOutOverSLF4J.sendSystemOutAndErrToSLF4J(LogLevel.DEBUG, LogLevel.WARN);
 	}
 
 	/**

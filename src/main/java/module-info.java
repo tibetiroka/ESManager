@@ -25,7 +25,6 @@ module ESManager {
 	requires org.apache.commons.codec;
 	requires org.apache.commons.io;
 	requires org.jetbrains.annotations;
-	requires sysout.over.slf4j;
 
 	exports tibetiroka.esmanager.audio to genson;
 	opens tibetiroka.esmanager.audio to genson;
