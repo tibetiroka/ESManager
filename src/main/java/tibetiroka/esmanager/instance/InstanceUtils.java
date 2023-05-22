@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.source.*;
 import tibetiroka.esmanager.ui.InstanceController;
 import tibetiroka.esmanager.ui.MainController;
@@ -75,6 +76,8 @@ public class InstanceUtils {
 			//
 			instance.getTracker().endAll();
 			//
+			AppConfiguration.saveInstances();
+			//
 			return instance;
 		} catch(Exception e) {
 			instance.getTracker().reset();
@@ -116,6 +119,7 @@ public class InstanceUtils {
 		}
 		try {
 			instance.remove();
+			AppConfiguration.saveInstances();
 		} finally {
 			if(instance.getSource().isGit()) {
 				GIT_SEMAPHORE.release();
@@ -143,6 +147,8 @@ public class InstanceUtils {
 		try {
 			instance.update();
 			instance.getTracker().endAll();
+			//
+			AppConfiguration.saveInstances();
 		} catch(Exception e) {
 			instance.getTracker().reset();
 			instance.getTracker().setFailedUpdate(true);

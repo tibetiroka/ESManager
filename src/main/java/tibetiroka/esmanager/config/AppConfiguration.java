@@ -440,7 +440,7 @@ public class AppConfiguration {
 	 * @return The loaded object
 	 * @since 0.0.1
 	 */
-	private static <T> T loadConfigFile(String file, Class<T> type, Supplier<Boolean> checker, Supplier<T> onFailure) {
+	private static synchronized <T> T loadConfigFile(String file, Class<T> type, Supplier<Boolean> checker, Supplier<T> onFailure) {
 		File config = new File(CONFIG_HOME, file);
 		if(config.isFile()) {
 			try {
@@ -462,7 +462,7 @@ public class AppConfiguration {
 	 * @param object The object to save
 	 * @since 0.0.1
 	 */
-	private static void saveConfigFile(String file, Object object) {
+	private static synchronized void saveConfigFile(String file, Object object) {
 		try {
 			Files.writeString(
 					new File(CONFIG_HOME, file).toPath(),

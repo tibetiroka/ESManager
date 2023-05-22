@@ -121,6 +121,7 @@ public class LocalPlugin {
 		}
 		FileUtils.deleteDirectory(getInstallLocation());
 		PluginManager.getManager().getInstalledPlugins().remove(this);
+		AppConfiguration.savePluginConfiguration();
 	}
 
 	/**

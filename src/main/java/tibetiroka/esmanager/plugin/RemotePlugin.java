@@ -15,6 +15,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.utils.UpdateProgressTracker;
 
 import java.io.IOException;
@@ -296,6 +297,7 @@ public class RemotePlugin {
 		FileUtils.deleteDirectory(local.getInstallLocation());
 		local.getInstallLocation().mkdirs();
 		download(local);
+		AppConfiguration.savePluginConfiguration();
 	}
 
 	/**

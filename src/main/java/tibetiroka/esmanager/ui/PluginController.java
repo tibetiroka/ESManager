@@ -27,6 +27,7 @@ import javafx.scene.text.FontWeight;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.SessionHelper;
 import tibetiroka.esmanager.plugin.LocalPlugin;
@@ -123,6 +124,7 @@ public class PluginController {
 				log.info(localize("log.plugin.download", plugin.getName()));
 				try {
 					PluginManager.getManager().getInstalledPlugins().add(plugin.install());
+					AppConfiguration.savePluginConfiguration();
 					deleteButton.setDisable(false);
 					log.info(localize("log.plugin.download.done", plugin.getName()));
 				} catch(IOException e) {
