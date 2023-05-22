@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.regex.Pattern;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
 
@@ -249,6 +250,19 @@ public class InstanceUtils {
 		 */
 		public @NotNull InstanceBuilder withDownloadSource(@NotNull URI target) {
 			FileSource source = new FileSource(target.getPath(), SourceType.DIRECT_DOWNLOAD, target.toString());
+			return withSource(source);
+		}
+
+		/**
+		 * Adds a {@link DynamicRefSource} to the {@link #sources list of sources}.
+		 *
+		 * @param repo    The repository to choose refs from
+		 * @param pattern The pattern for selecting refs
+		 * @return This builder
+		 * @since 0.0.6
+		 */
+		public @NotNull InstanceBuilder withDynamicRefSource(@NotNull URI repo, @NotNull Pattern pattern) {
+			DynamicRefSource source = new DynamicRefSource("Generated source for pattern " + pattern.pattern() + " over " + repo, repo.toString(), pattern.pattern());
 			return withSource(source);
 		}
 

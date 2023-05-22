@@ -36,6 +36,8 @@ public enum SourceType {
 	PULL_REQUEST,
 	/**
 	 * A specific git commit.
+	 *
+	 * @since 0.0.6
 	 */
 	COMMIT,
 	/**
@@ -56,6 +58,12 @@ public enum SourceType {
 	 * @since 0.0.1
 	 */
 	LATEST_RELEASE,
+	/**
+	 * A dynamically changing set of refs chosen from a repository.
+	 *
+	 * @since 0.0.6
+	 */
+	DYNAMIC_REFS,
 	/**
 	 * Multiple git sources combined into a single source. Merge conflicts between sources might cause issues.
 	 *

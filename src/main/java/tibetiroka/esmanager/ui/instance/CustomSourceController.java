@@ -27,6 +27,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CustomSourceController {
 	@FXML
@@ -37,11 +38,14 @@ public class CustomSourceController {
 	protected TextField url;
 
 	public InstanceBuilder addToBuilder(InstanceBuilder builder) throws MalformedURLException, URISyntaxException {
-		return builder.withRemoteGitSource(new URL(url.getText()).toURI(), type.getValue(), target.getText());
+		return switch(type.getValue()) {
+			case DYNAMIC_REFS -> builder.withDynamicRefSource(new URL(url.getText()).toURI(), Pattern.compile(target.getText()));
+			default -> builder.withRemoteGitSource(new URL(url.getText()).toURI(), type.getValue(), target.getText());
+		};
 	}
 
 	public boolean isEmpty() {
-		return url.getText().isEmpty() && target.getText().isBlank();
+		return url.getText().isBlank() && target.getText().isBlank();
 	}
 
 	public boolean isValid() {
@@ -53,7 +57,7 @@ public class CustomSourceController {
 
 	@FXML
 	protected void initialize() {
-		type.setItems(FXCollections.observableList(List.of(SourceType.RELEASE, SourceType.LATEST_RELEASE, SourceType.BRANCH, SourceType.PULL_REQUEST, SourceType.COMMIT)));
+		type.setItems(FXCollections.observableList(List.of(SourceType.RELEASE, SourceType.LATEST_RELEASE, SourceType.BRANCH, SourceType.PULL_REQUEST, SourceType.COMMIT, SourceType.DYNAMIC_REFS)));
 		type.setConverter(new StringConverter<>() {
 			@Override
 			public String toString(SourceType object) {
@@ -79,23 +83,33 @@ public class CustomSourceController {
 			if(url.getText().isBlank()) {
 				return false;
 			}
-			if(type.getValue() == SourceType.COMMIT) {
-				return true;
-			}
-			String remoteURI = new URL(url.getText()).toURI().toString();
-			LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remoteURI);
-			switch(type.getValue()) {
-				case LATEST_RELEASE, RELEASE -> command.setHeads(false).setTags(true);
-				case BRANCH -> command.setHeads(true).setTags(false);
-				case PULL_REQUEST -> command.setTags(false).setHeads(false);
-			}
-			Map<String, Ref> refs = command.callAsMap();
 			return switch(type.getValue()) {
-				case LATEST_RELEASE -> !refs.isEmpty();
-				case RELEASE -> refs.containsKey("refs/tags/" + target.getText());
-				case PULL_REQUEST -> refs.containsKey("refs/pull/" + target.getText() + "/head");
-				case BRANCH -> refs.containsKey("refs/heads/" + target.getText());
-				default -> false;
+				case COMMIT -> true;
+				case DYNAMIC_REFS -> {
+					try {
+						Pattern.compile(target.getText());
+						yield true;
+					} catch(Exception e) {
+						yield false;
+					}
+				}
+				default -> {
+					String remoteURI = new URL(url.getText()).toURI().toString();
+					LsRemoteCommand command = Git.lsRemoteRepository().setRemote(remoteURI);
+					switch(type.getValue()) {
+						case LATEST_RELEASE, RELEASE -> command.setHeads(false).setTags(true);
+						case BRANCH -> command.setHeads(true).setTags(false);
+						case PULL_REQUEST -> command.setTags(false).setHeads(false);
+					}
+					Map<String, Ref> refs = command.callAsMap();
+					yield switch(type.getValue()) {
+						case LATEST_RELEASE -> !refs.isEmpty();
+						case RELEASE -> refs.containsKey("refs/tags/" + target.getText());
+						case PULL_REQUEST -> refs.containsKey("refs/pull/" + target.getText() + "/head");
+						case BRANCH -> refs.containsKey("refs/heads/" + target.getText());
+						default -> false;
+					};
+				}
 			};
 		} catch(Exception e) {
 			return false;

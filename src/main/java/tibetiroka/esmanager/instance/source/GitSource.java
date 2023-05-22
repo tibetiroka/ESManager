@@ -147,6 +147,9 @@ public class GitSource extends Source {
 
 	@Override
 	public boolean needsUpdate() {
+		if(!initialized) {
+			return true;
+		}
 		if(type == SourceType.COMMIT) {
 			return false;
 		}
