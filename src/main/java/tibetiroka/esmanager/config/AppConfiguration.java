@@ -173,9 +173,9 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	public static void discoverInstances() {
-		File instanceFile = new File(AppConfiguration.CONFIG_HOME, "instances.json");
+		File instanceFile = new File(CONFIG_HOME, "instances.json");
 		if(instanceFile.exists()) {
-			Instance[] instances = AppConfiguration.loadConfiguration(instanceFile, Instance[].class);
+			Instance[] instances = loadConfiguration(instanceFile, Instance[].class);
 			for(Instance instance : instances) {
 				instance.getSource().setInstance(instance);
 				InstanceUtils.createDisplay(instance);

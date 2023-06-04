@@ -22,15 +22,20 @@ import tibetiroka.esmanager.instance.BuildHelper.BuildSystem;
 import java.util.Arrays;
 
 public class BuildSettingsController {
+	private static BuildSettingsController CONTROLLER;
 	@FXML
 	protected ChoiceBox<BuildSystem> buildSystem;
 	@FXML
 	protected Label buildSystemLabel;
 
+	public static void bind() {
+		CONTROLLER.buildSystem.valueProperty().bindBidirectional(BuildHelper.getBuilder().buildSystemProperty());
+	}
+
 	@FXML
 	public void initialize() {
+		CONTROLLER = this;
 		buildSystem.setItems(FXCollections.observableList(Arrays.stream(BuildSystem.values()).toList()));
-		buildSystem.valueProperty().bindBidirectional(BuildHelper.getBuilder().buildSystemProperty());
 		Launcher.getLauncher().disableSelfLocalization(buildSystem);
 		Launcher.getLauncher().disableChildrenLocalization(buildSystem);
 		buildSystem.setConverter(new StringConverter<>() {

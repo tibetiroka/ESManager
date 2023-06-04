@@ -19,6 +19,7 @@ import tibetiroka.esmanager.audio.AudioPlayer;
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 
 public class AudioSettingsController {
+	private static AudioSettingsController CONTROLLER;
 	@FXML
 	protected CheckBox autopause;
 	@FXML
@@ -34,15 +35,18 @@ public class AudioSettingsController {
 	@FXML
 	protected Label volumeLabel;
 
+	public static void bind() {
+		CONTROLLER.autoplay.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().autoPlayProperty());
+		CONTROLLER.autopause.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().autoPause);
+		CONTROLLER.builtin.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().builtinMusicProperty());
+		CONTROLLER.custom.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().customMusicProperty());
+		CONTROLLER.mute.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().isMuted());
+		CONTROLLER.volume.valueProperty().bindBidirectional(AudioPlayer.getPlayer().getVolume());
+	}
+
 	@FXML
 	public void initialize() {
-		autoplay.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().autoPlayProperty());
-		autopause.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().autoPause);
-		builtin.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().builtinMusicProperty());
-		custom.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().customMusicProperty());
-		mute.selectedProperty().bindBidirectional(AudioPlayer.getPlayer().isMuted());
-		volume.valueProperty().bindBidirectional(AudioPlayer.getPlayer().getVolume());
-		//
+		CONTROLLER = this;
 		LAUNCHER.disableSelfLocalization(volume);
 		LAUNCHER.disableChildrenLocalization(volume);
 	}

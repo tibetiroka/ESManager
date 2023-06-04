@@ -259,10 +259,21 @@ public class MainApplication extends Application {
 			refreshTheme();
 			//
 			primaryStage.show();
-
+			//
+			MainController.getController().getPluginListBox().setDisable(true);
+			//loading data
+			AppConfiguration.discoverInstances();
+			AppConfiguration.loadPluginConfiguration();
+			GameSettingsController.bind();
+			UpdateSettingsController.bind();
+			AppConfiguration.loadBuildConfiguration();
+			BuildSettingsController.bind();
+			AppConfiguration.loadGitConfiguration();
+			GitSettingsController.bind();
+			AppConfiguration.loadAudioPlayer();
+			AudioSettingsController.bind();
 			//background tasks: plugin loading, audio, updating
 			//Launcher updates are always done before instance updates to prevent messing up the launcher in the middle of an instance update
-			MainController.getController().getPluginListBox().setDisable(true);
 			new Thread(() -> {
 				Main.configureThread(Thread.currentThread(), false);
 				try {

@@ -17,14 +17,19 @@ import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.plugin.PluginManager.MANAGER;
 
 public class GameSettingsController {
+	private static GameSettingsController CONTROLLER;
 	@FXML
 	protected CheckBox debug;
 	@FXML
 	protected CheckBox preservePlugins;
 
+	public static void bind() {
+		CONTROLLER.debug.selectedProperty().bindBidirectional(LAUNCHER.debugByDefaultProperty());
+		CONTROLLER.preservePlugins.selectedProperty().bindBidirectional(MANAGER.getPreservePlugins());
+	}
+
 	@FXML
 	public void initialize() {
-		debug.selectedProperty().bindBidirectional(LAUNCHER.debugByDefaultProperty());
-		preservePlugins.selectedProperty().bindBidirectional(MANAGER.getPreservePlugins());
+		CONTROLLER = this;
 	}
 }

@@ -26,6 +26,7 @@ import java.util.List;
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 
 public class GitSettingsController {
+	private static GitSettingsController CONTROLLER;
 	@FXML
 	protected ChoiceBox<ContentMergeStrategy> contentMergeStrategy;
 	@FXML
@@ -35,8 +36,14 @@ public class GitSettingsController {
 	@FXML
 	protected Label mergeStrategyLabel;
 
+	public static void bind() {
+		CONTROLLER.mergeStrategy.valueProperty().bindBidirectional(GitSettings.getSettings().mergeStrategyProperty());
+		CONTROLLER.contentMergeStrategy.valueProperty().bindBidirectional(GitSettings.getSettings().contentMergeStrategyProperty());
+	}
+
 	@FXML
 	protected void initialize() {
+		CONTROLLER = this;
 		mergeStrategy.setConverter(new StringConverter<>() {
 			@Override
 			public String toString(MergeStrategy object) {
@@ -56,8 +63,6 @@ public class GitSettingsController {
 		});
 		mergeStrategy.setItems(FXCollections.observableList(List.of(MergeStrategy.RESOLVE, MergeStrategy.RECURSIVE, MergeStrategy.OURS, MergeStrategy.SIMPLE_TWO_WAY_IN_CORE, MergeStrategy.THEIRS)));
 		contentMergeStrategy.setItems(FXCollections.observableList(Arrays.stream(ContentMergeStrategy.values()).toList()));
-		mergeStrategy.valueProperty().bindBidirectional(GitSettings.getSettings().mergeStrategyProperty());
-		contentMergeStrategy.valueProperty().bindBidirectional(GitSettings.getSettings().contentMergeStrategyProperty());
 		LAUNCHER.disableSelfLocalization(mergeStrategy);
 		LAUNCHER.disableChildrenLocalization(mergeStrategy);
 		LAUNCHER.disableSelfLocalization(contentMergeStrategy);

@@ -118,17 +118,11 @@ public class MainController {
 	protected void initialize() {
 		//logger config
 		logScroll.vvalueProperty().bind(logArea.heightProperty());
-		//loading data
-		AppConfiguration.discoverInstances();
-		AppConfiguration.loadPluginConfiguration();
-		AppConfiguration.loadBuildConfiguration();
-		AppConfiguration.loadGitConfiguration();
-		AppConfiguration.loadAudioPlayer();
 		//settings panel
 		try {
 			audioSettings.getChildren().setAll((Node) new FXMLLoader(AudioSettingsController.class.getResource("audio-settings.fxml")).load());
 			updateSettings.getChildren().setAll((Node) new FXMLLoader(UpdateSettingsController.class.getResource("update-settings.fxml")).load());
-			gitSettings.getChildren().setAll((Node) new FXMLLoader(UpdateSettingsController.class.getResource("git-settings.fxml")).load());
+			gitSettings.getChildren().setAll((Node) new FXMLLoader(GitSettingsController.class.getResource("git-settings.fxml")).load());
 			gameSettings.getChildren().setAll((Node) new FXMLLoader(GameSettingsController.class.getResource("game-settings.fxml")).load());
 			buildSettings.getChildren().setAll((Node) new FXMLLoader(BuildSettingsController.class.getResource("build-settings.fxml")).load());
 			launcherSettings.getChildren().setAll((Node) new FXMLLoader(LauncherSettingsController.class.getResource("launcher-settings.fxml")).load());

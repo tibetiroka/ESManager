@@ -16,6 +16,7 @@ import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.plugin.PluginManager;
 
 public class UpdateSettingsController {
+	private static UpdateSettingsController CONTROLLER;
 	@FXML
 	protected CheckBox instanceUpdate;
 	@FXML
@@ -23,10 +24,14 @@ public class UpdateSettingsController {
 	@FXML
 	protected CheckBox pluginUpdate;
 
+	public static void bind() {
+		CONTROLLER.instanceUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().AutoUpdateInstancesProperty());
+		CONTROLLER.pluginUpdate.selectedProperty().bindBidirectional(PluginManager.getManager().getAutoUpdatePlugins());
+		CONTROLLER.launcherUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().autoUpdateLauncherProperty());
+	}
+
 	@FXML
 	public void initialize() {
-		instanceUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().AutoUpdateInstancesProperty());
-		pluginUpdate.selectedProperty().bindBidirectional(PluginManager.getManager().getAutoUpdatePlugins());
-		launcherUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().autoUpdateLauncherProperty());
+		CONTROLLER = this;
 	}
 }
