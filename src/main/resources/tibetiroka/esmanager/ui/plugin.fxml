@@ -20,6 +20,20 @@
 	<styleClass>
 		<String fx:value="plugin-box"/>
 	</styleClass>
+	<fx:define>
+		<ContextMenu fx:id="contextMenu">
+			<items>
+				<MenuItem text="plugin.menu.download" onAction="#download"/>
+				<MenuItem text="plugin.menu.opendirectory" onAction="#openDirectory" fx:id="open"/>
+				<SeparatorMenuItem/>
+				<MenuItem text="plugin.menu.delete" onAction="#delete" fx:id="delete"/>
+				<SeparatorMenuItem/>
+			</items>
+		</ContextMenu>
+	</fx:define>
+	<userData>
+		<fx:reference source="controller"/>
+	</userData>
 	<children>
 		<BorderPane fx:id="imagePane" cache="true" cacheHint="SPEED" maxHeight="80.0" maxWidth="80.0" minHeight="80.0"
 					minWidth="80.0" HBox.hgrow="NEVER">

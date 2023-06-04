@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
+import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.source.ReleaseSource;
 import tibetiroka.esmanager.utils.LogUtils;
@@ -61,14 +62,15 @@ public class SessionHelper {
 		}
 		if(debug) {
 			commands.add("--debug");
-			log.info(localize("log.instance.play.debug", instance.getName()));
+			log.info(localize("log.instance.play.debug", instance.getPublicName()));
 		} else {
-			log.info(localize("log.instance.play.normal", instance.getName()));
+			log.info(localize("log.instance.play.normal", instance.getPublicName()));
 		}
 		ProcessBuilder builder = new ProcessBuilder(commands);
 		log.debug(localize("log.instance.play.command", builder.command().toString()));
 		//starting process
 		new Thread(() -> {
+			Main.configureThread(Thread.currentThread(), false);
 			try {
 				Process process = builder.start();
 				LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
@@ -77,7 +79,7 @@ public class SessionHelper {
 			} catch(IOException | InterruptedException e) {
 				throw new RuntimeException(e);
 			} finally {
-				log.info(localize("log.instance.play.end", instance.getName()));
+				log.info(localize("log.instance.play.end", instance.getPublicName()));
 				Platform.runLater(() -> ANY_RUNNING.set(false));
 			}
 		}).start();

@@ -15,11 +15,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.instance.Instance;
 import tibetiroka.esmanager.instance.InstanceUtils;
 import tibetiroka.esmanager.instance.InstanceUtils.InstanceBuilder;
@@ -44,7 +43,7 @@ public class InstanceNameController {
 			this.name.pseudoClassStateChanged(MainApplication.TEXT_ERROR_CLASS, true);
 		} else {
 			for(Instance instance : Instance.getInstances()) {
-				if(instance.getName().equalsIgnoreCase(name)) {
+				if(instance.getPublicName().equalsIgnoreCase(name)) {
 					this.name.pseudoClassStateChanged(MainApplication.TEXT_ERROR_CLASS, true);
 					errorLabel.setVisible(true);
 					return;
@@ -52,6 +51,7 @@ public class InstanceNameController {
 			}
 			stage.close();
 			new Thread(() -> {
+				Main.configureThread(Thread.currentThread(), false);
 				Platform.runLater(() -> MainController.getController().newInstanceButton.setDisable(true));
 				try {
 					InstanceUtils.create(builder.name(name));
@@ -67,20 +67,5 @@ public class InstanceNameController {
 	@FXML
 	public void initialize() {
 		errorLabel.setVisible(false);
-		name.setTextFormatter(new TextFormatter<String>(new StringConverter<>() {
-			@Override
-			public String toString(String object) {
-				if(object == null) {
-					return null;
-				}
-				String sanitized = object.replaceAll("([/\\\\\\n^#$%&]|[^\\x20-\\x7D])", "");
-				return sanitized.substring(0, Math.min(sanitized.length(), 50));
-			}
-
-			@Override
-			public String fromString(String string) {
-				return string;
-			}
-		}));
 	}
 }

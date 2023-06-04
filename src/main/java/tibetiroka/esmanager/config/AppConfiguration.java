@@ -27,8 +27,6 @@ import tibetiroka.esmanager.ui.PluginController;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
@@ -178,8 +176,6 @@ public class AppConfiguration {
 		File instanceFile = new File(AppConfiguration.CONFIG_HOME, "instances.json");
 		if(instanceFile.exists()) {
 			Instance[] instances = AppConfiguration.loadConfiguration(instanceFile, Instance[].class);
-			Arrays.sort(instances, Comparator.comparing(a -> a.getName().toLowerCase()));
-
 			for(Instance instance : instances) {
 				instance.getSource().setInstance(instance);
 				InstanceUtils.createDisplay(instance);

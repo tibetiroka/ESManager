@@ -203,6 +203,26 @@ public class GensonFactory {
 	}
 
 	/**
+	 * Converts a {@link SimpleObjectProperty}&lt;{@link Source}&gt; to {@link Source}.
+	 *
+	 * @since 0.0.6
+	 */
+	public static class SourcePropertyConverter implements Converter<SimpleObjectProperty<?>> {
+		public SourcePropertyConverter() {
+		}
+
+		@Override
+		public void serialize(SimpleObjectProperty<?> object, ObjectWriter writer, Context ctx) throws Exception {
+			GENSON.provideConverter(Source.class).serialize(object.get(), writer, ctx);
+		}
+
+		@Override
+		public SimpleObjectProperty<Source> deserialize(ObjectReader reader, Context ctx) throws Exception {
+			return new SimpleObjectProperty<>((Source) GENSON.provideConverter(Source.class).deserialize(reader, ctx));
+		}
+	}
+
+	/**
 	 * Converts a {@link ContentMergeStrategy} to {@link String}.
 	 *
 	 * @since 0.0.1

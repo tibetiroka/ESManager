@@ -29,6 +29,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import tibetiroka.esmanager.config.GensonFactory.LocalePropertyConverter;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -212,6 +213,16 @@ public class Launcher {
 	}
 
 	/**
+	 * Disables localization for the context menu of the specified node.
+	 *
+	 * @param node The node to disable context menu localization for
+	 * @since 0.0.6
+	 */
+	public void disableContextMenuLocalization(@NotNull Node node) {
+		node.getProperties().put("localization.contextmenu", false);
+	}
+
+	/**
 	 * Disables all localization for the specified node, its children and its tooltip.
 	 *
 	 * @param node The node to disable localization for
@@ -221,6 +232,7 @@ public class Launcher {
 		disableChildrenLocalization(node);
 		disableSelfLocalization(node);
 		disableTooltipLocalization(node);
+		disableContextMenuLocalization(node);
 	}
 
 	/**
@@ -272,7 +284,7 @@ public class Launcher {
 	 * <br>
 	 * Uses the text, title and promptText values of the node as the localization key. No localization is performed on blank, empty or nonexistent properties.
 	 * <br>
-	 * If this component has a tooltip, the tooltip is recursively passed to this method.
+	 * If this component has a tooltip or a context menu, they are recursively passed to this method.
 	 * <p>
 	 * <br>
 	 * A {@link ChangeListener} is registered on stages to automatically localize their future {@link Stage#sceneProperty() scenes}. Localized scenes localize their {@link Scene#getRoot() root}. {@link Parent Parents} localize all their current and future children.
@@ -292,10 +304,12 @@ public class Launcher {
 			boolean selfAllowed = !(node instanceof FontIcon);
 			boolean childrenAllowed = !(node instanceof FontIcon || node instanceof ButtonBase || node instanceof Menu || node instanceof Label || node instanceof TextInputControl || node instanceof TextFlow);
 			boolean tooltipAllowed = true;
+			boolean contextMenuAllowed = true;
 			if(node instanceof Node n) {
 				Object self = n.getProperties().get("localization.self");
 				Object children = n.getProperties().get("localization.children");
 				Object tooltip = n.getProperties().get("localization.tooltip");
+				Object contextMenu = n.getProperties().get("localization.contextmenu");
 				if(self instanceof Boolean b) {
 					selfAllowed = b;
 				}
@@ -304,6 +318,9 @@ public class Launcher {
 				}
 				if(tooltip instanceof Boolean b) {
 					tooltipAllowed = b;
+				}
+				if(contextMenu instanceof Boolean b) {
+					contextMenuAllowed = b;
 				}
 			}
 			if(selfAllowed) {
@@ -326,7 +343,7 @@ public class Launcher {
 			if(selfAllowed) {
 				if(node instanceof MenuButton button) {
 					for(MenuItem item : button.getItems()) {
-						localizeNode(item);
+						localizeNode(item, suppliers);
 					}
 					button.getItems().addListener((ListChangeListener<MenuItem>) c -> {
 						while(c.next()) {
@@ -338,7 +355,19 @@ public class Launcher {
 				}
 				if(node instanceof Menu menu) {
 					for(MenuItem item : menu.getItems()) {
-						localizeNode(item);
+						localizeNode(item, suppliers);
+					}
+					menu.getItems().addListener((ListChangeListener<MenuItem>) c -> {
+						while(c.next()) {
+							for(MenuItem node1 : c.getAddedSubList()) {
+								localizeNode(node1, suppliers);
+							}
+						}
+					});
+				}
+				if(node instanceof ContextMenu menu) {
+					for(MenuItem item : menu.getItems()) {
+						localizeNode(item, suppliers);
 					}
 					menu.getItems().addListener((ListChangeListener<MenuItem>) c -> {
 						while(c.next()) {
@@ -358,9 +387,28 @@ public class Launcher {
 					}
 				}
 			}
+			if(contextMenuAllowed) {
+				Optional<Method> contextMenu = Arrays.stream(node.getClass().getMethods()).filter(m -> m.getName().equals("getContextMenu")).filter(m -> m.getParameterCount() == 0).findAny();
+				if(contextMenu.isPresent()) {
+					ContextMenu menu = (ContextMenu) contextMenu.get().invoke(node);
+					if(menu != null) {
+						localizeNode(menu, suppliers);
+					}
+				} else {
+					if(node instanceof Node n) {
+						Object o = n.getUserData();
+						if(o != null) {
+							Optional<Field> f = Arrays.stream(o.getClass().getFields()).filter(field -> field.getName().equals("contextMenu")).findAny();
+							if(f.isPresent()) {
+								localizeNode(f.get().get(o), suppliers);
+							}
+						}
+					}
+				}
+			}
 			if(childrenAllowed) {
 				if(node instanceof Stage stage) {
-					localizeNode(stage.getScene());
+					localizeNode(stage.getScene(), suppliers);
 					stage.sceneProperty().addListener((observable, oldValue, newValue) -> {
 						if(newValue != null) {
 							localizeNode(newValue, suppliers);

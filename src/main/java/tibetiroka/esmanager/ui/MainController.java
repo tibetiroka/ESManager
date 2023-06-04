@@ -17,21 +17,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.eclipse.jgit.annotations.Nullable;
 import org.kordamp.ikonli.javafx.FontIcon;
 import tibetiroka.esmanager.audio.AudioPlayer;
 import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.instance.SystemUtils;
 import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.ui.instance.NewInstanceController;
 
+import java.io.File;
 import java.io.IOException;
 
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
@@ -111,6 +110,10 @@ public class MainController {
 		});
 	}
 
+	public void openLogFile() {
+		SystemUtils.openFile(new File(AppConfiguration.LOG_HOME, "latest.log"));
+	}
+
 	@FXML
 	protected void initialize() {
 		//logger config
@@ -151,27 +154,8 @@ public class MainController {
 		try {
 			FXMLLoader loader = new FXMLLoader(NewInstanceController.class.getResource("new-instance.fxml"));
 			Parent p = loader.load();
-			//
-			Stage dialog = new Stage();
 			Scene scene = new Scene(p);
-			//
-			MainApplication.STYLE_SHEET_LISTS.add(scene.getStylesheets());
-			MainApplication.refreshTheme();
-			dialog.setScene(scene);
-			dialog.initOwner(MainApplication.PRIMARY_STAGE);
-			dialog.initModality(Modality.WINDOW_MODAL);
-			dialog.setTitle("instance.add.title");
-			LAUNCHER.localizeNode(dialog);
-			//
-			((NewInstanceController) loader.getController()).stage = dialog;
-			//
-			GaussianBlur blurEffect = new GaussianBlur(5);
-			MainApplication.PRIMARY_STAGE.getScene().getRoot().setEffect(blurEffect);
-			//
-			dialog.showAndWait();
-			//
-			MainApplication.PRIMARY_STAGE.getScene().getRoot().setEffect(null);
-			MainApplication.removeExtraStyles();
+			MainApplication.createBlockingStage(scene, "instance.add.title", s -> ((NewInstanceController) loader.getController()).stage = s, null);
 		} catch(IOException e) {
 			throw new RuntimeException(e);
 		}

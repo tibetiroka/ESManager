@@ -20,6 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.ReleaseUtils;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.EditableSource;
+import tibetiroka.esmanager.instance.annotation.NonEditable;
+import tibetiroka.esmanager.instance.annotation.Validator;
 import tibetiroka.esmanager.utils.FileUtils;
 import tibetiroka.esmanager.utils.VersioningUtils;
 
@@ -33,12 +37,14 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
+import static tibetiroka.esmanager.instance.annotation.Validator.NOT_BLANK_STRING;
 
 /**
  * A {@link Source} that uses an official release of Endless Sky as its source. Limited support is available for forks using the same naming scheme for their releases. Supported types: {@link SourceType#LATEST_RELEASE LATEST_RELEASE}, {@link SourceType#RELEASE RELEASE}.
  *
  * @since 0.0.1
  */
+@EditableSource
 public class ReleaseSource extends Source {
 	/**
 	 * The {@link String} representation of the {@link URI} of the official repository.
@@ -61,18 +67,21 @@ public class ReleaseSource extends Source {
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	private String commitHash;
 	/**
 	 * The {@link String} representation of the {@link URI} of the remote repository. Defaults to {@link #OFFICIAL_REMOTE_URI}.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(Validator.URI)
 	private String remoteURI = OFFICIAL_REMOTE_URI;
 	/**
 	 * The name of the PR, branch, or release targeted.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(NOT_BLANK_STRING)
 	private String targetName;
 
 	public ReleaseSource() {

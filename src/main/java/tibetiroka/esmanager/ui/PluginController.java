@@ -14,9 +14,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.CacheHint;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -27,9 +25,11 @@ import javafx.scene.text.FontWeight;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.SessionHelper;
+import tibetiroka.esmanager.instance.SystemUtils;
 import tibetiroka.esmanager.plugin.LocalPlugin;
 import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.plugin.RemotePlugin;
@@ -44,6 +44,10 @@ public class PluginController {
 	@FXML
 	protected Label authors;
 	@FXML
+	protected ContextMenu contextMenu;
+	@FXML
+	protected MenuItem delete;
+	@FXML
 	protected Button deleteButton;
 	@FXML
 	protected Label description;
@@ -53,6 +57,8 @@ public class PluginController {
 	protected BorderPane imagePane;
 	@FXML
 	protected Label name;
+	@FXML
+	protected MenuItem open;
 	protected RemotePlugin plugin;
 	@FXML
 	protected HBox pluginBox;
@@ -84,6 +90,7 @@ public class PluginController {
 		}
 		if(plugin.getIconUrl() != null) {
 			new Thread(() -> {
+				Main.configureThread(Thread.currentThread(), false);
 				ImageView pluginImage = new ImageView(new Image(plugin.getIconUrl().toExternalForm()));
 				pluginImage.setCache(true);
 				pluginImage.setCacheHint(CacheHint.SPEED);
@@ -94,6 +101,13 @@ public class PluginController {
 				Platform.runLater(() -> imagePane.setCenter(pluginImage));
 			}).start();
 		}
+		open.disableProperty().bind(plugin.installedProperty().map(o -> !o));
+		delete.disableProperty().bind(plugin.installedProperty().map(o -> !o));
+	}
+
+	@FXML
+	public void openDirectory() {
+		SystemUtils.openDirectory(plugin.findLocal().getInstallLocation());
 	}
 
 	@FXML
@@ -147,5 +161,6 @@ public class PluginController {
 		Launcher.getLauncher().disableLocalization(name);
 		Launcher.getLauncher().disableLocalization(description);
 		Launcher.getLauncher().disableLocalization(authors);
+		MainApplication.setContextMenu(pluginBox, contextMenu);
 	}
 }

@@ -15,6 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.EditableSource;
+import tibetiroka.esmanager.instance.annotation.NonEditable;
+import tibetiroka.esmanager.instance.annotation.Validator;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +34,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  *
  * @since 0.0.1
  */
+@EditableSource
 public class FileSource extends Source {
 	private static final Logger log = LoggerFactory.getLogger(FileSource.class);
 	/**
@@ -37,12 +42,14 @@ public class FileSource extends Source {
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	private String hash;
 	/**
 	 * The {@link String} representation of the {@link URI} of the target file.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(Validator.URI)
 	private String remoteURI;
 
 	public FileSource() {

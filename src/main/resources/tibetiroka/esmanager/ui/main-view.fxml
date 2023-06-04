@@ -342,6 +342,13 @@
 					</children>
 				</AnchorPane>
 			</content>
+			<contextMenu>
+				<ContextMenu>
+					<items>
+						<MenuItem text="log.menu.file.open" onAction="#openLogFile"/>
+					</items>
+				</ContextMenu>
+			</contextMenu>
 		</ScrollPane>
 	</children>
 </VBox>

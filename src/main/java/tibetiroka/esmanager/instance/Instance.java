@@ -11,8 +11,10 @@
 package tibetiroka.esmanager.instance;
 
 import com.owlike.genson.annotation.JsonIgnore;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.SimpleStringProperty;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,12 +69,19 @@ public class Instance {
 	@NotNull
 	private Date lastUpdated = Date.from(Instant.now());
 	/**
-	 * The name of this instance. This is displayed in the GUI.
+	 * The name of this instance. This is used in the file system.
 	 *
 	 * @since 0.0.1
 	 */
 	@NotNull
 	private String name;
+	/**
+	 * The public name of this instance. This is displayed in the GUI.
+	 *
+	 * @since 0.0.6
+	 */
+	@NotNull
+	private SimpleStringProperty publicName = new SimpleStringProperty();
 	/**
 	 * The source of this instance. Each instance has exactly one source.
 	 *
@@ -87,15 +96,17 @@ public class Instance {
 	/**
 	 * Creates a new instance with the specified name and source. The source's instance is set to be this instance.
 	 *
-	 * @param name   The name of the instance
-	 * @param source The source of this instance
+	 * @param publicName   The public name of the instance
+	 * @param internalName The private name of this instance
+	 * @param source       The source of this instance
 	 * @see #name
 	 * @see #source
 	 * @since 0.0.1
 	 */
-	public Instance(@NotNull String name, @NotNull Source source) {
+	public Instance(@NotNull String publicName, @NotNull String internalName, @NotNull Source source) {
 		this();
-		this.name = name;
+		this.publicName.set(publicName);
+		this.name = internalName;
 		this.source = source;
 		source.setInstance(this);
 	}
@@ -115,12 +126,12 @@ public class Instance {
 	 * @since 0.0.1
 	 */
 	public void create() {
-		log.info(localize("log.instance.create", name, source.getName(), source.getType()));
+		log.info(localize("log.instance.create", getPublicName(), source.getName(), source.getType()));
 		remove();
 		tracker.beginTask(0.66);
 		tracker.beginTask(0.5);
 		source.getDirectory().mkdirs();
-		log.info(localize("log.instance.create.source", name, source.getName(), source.getType()));
+		log.info(localize("log.instance.create.source", getPublicName(), source.getName(), source.getType()));
 		source.create();
 		tracker.endTask();
 		tracker.beginTask(0.5);
@@ -131,10 +142,21 @@ public class Instance {
 		executable = source.getExecutable();
 		tracker.endTask();
 		tracker.beginTask(0.33);
-		log.info(localize("log.instance.create.update", name, source.getName(), source.getType()));
+		log.info(localize("log.instance.create.update", getPublicName(), source.getName(), source.getType()));
 		update();
 		tracker.endTask();
 		INSTANCES.add(this);
+	}
+
+	/**
+	 * Creates a binding for the public name of this instance.
+	 *
+	 * @return The name of the instance
+	 * @see #getPublicName()
+	 * @since 0.0.6
+	 */
+	public @NotNull StringBinding createNameStringBinding() {
+		return Bindings.createStringBinding(this::getPublicName, publicName);
 	}
 
 	/**
@@ -179,6 +201,15 @@ public class Instance {
 	}
 
 	/**
+	 * Gets the name of this instance. This is used in the file system.
+	 *
+	 * @since 0.0.6
+	 */
+	public @NotNull String getInternalName() {
+		return name;
+	}
+
+	/**
 	 * Gets the last time this instance was updated
 	 *
 	 * @since 0.0.1
@@ -188,12 +219,25 @@ public class Instance {
 	}
 
 	/**
-	 * Gets the name of this instance. This is displayed in the GUI.
+	 * Gets the public name of this instance. This name is used in the GUI.
 	 *
-	 * @since 0.0.1
+	 * @return 0.0.6
 	 */
-	public @NotNull String getName() {
-		return name;
+	public @NotNull String getPublicName() {
+		return publicName.get() == null ? name : publicName.get();
+	}
+
+	/**
+	 * Changes the public name of the instance. This doesn't affect the {@link #name internal name} of the instance. All bindings created via {@link #createNameStringBinding()} are automatically updated.
+	 *
+	 * @param name The new public name
+	 * @since 0.0.6
+	 */
+	public void setPublicName(@NotNull String name) {
+		Platform.runLater(() -> {
+			publicName.set(name);
+			new Thread(AppConfiguration::saveInstances).start();
+		});
 	}
 
 	/**
@@ -222,22 +266,17 @@ public class Instance {
 	 */
 	public void remove() {
 		INSTANCES.remove(this);
+		//deleting source
+		log.debug(localize("log.instance.delete.source", getPublicName(), source.getName(), source.getVersion()));
+		source.delete();
 		//deleting directory (with all the sources)
 		if(getDirectory().exists()) {
-			log.info(localize("log.instance.delete.files", name, source.getName(), source.getVersion()));
+			log.info(localize("log.instance.delete.files", getPublicName(), source.getName(), source.getVersion()));
 			try(var dirStream = Files.walk(getDirectory().toPath())) {
-				dirStream
-						.map(Path::toFile)
-						.sorted(Comparator.reverseOrder())
-						.forEach(File::delete);
+				dirStream.map(Path::toFile).sorted(Comparator.reverseOrder()).forEach(File::delete);
 			} catch(IOException e) {
 				throw new RuntimeException(e);
 			}
-		}
-		//deleting git branches
-		if(source.getBranchName() != null) {
-			log.info(localize("log.instance.delete.branch", name, source.getName(), source.getVersion(), source.getBranchName()));
-			source.deleteBranch();
 		}
 	}
 
@@ -250,7 +289,7 @@ public class Instance {
 	 */
 	public void update() {
 		try {
-			log.info(localize("log.instance.update", name));
+			log.info(localize("log.instance.update", getPublicName()));
 			tracker.beginTask(0.1);
 			boolean needsUpdate = source.needsUpdate();
 			tracker.endTask();
@@ -265,13 +304,13 @@ public class Instance {
 				}
 				executable = source.getExecutable();
 				lastUpdated = Date.from(Instant.now());
-				log.info(localize("log.instance.update.done", name));
+				log.info(localize("log.instance.update.done", getPublicName()));
 			} else {
-				log.info(localize("log.instance.update.skip", name));
+				log.info(localize("log.instance.update.skip", getPublicName()));
 			}
 		} catch(Exception e) {
 			log.error(e.getMessage(), e);
-			log.error(localize("log.instance.update.fail", name, e.getMessage()));
+			log.error(localize("log.instance.update.fail", getPublicName(), e.getMessage()));
 			throw e;
 		}
 	}

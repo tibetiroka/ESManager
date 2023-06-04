@@ -16,6 +16,7 @@ import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.BuildHelper;
 import tibetiroka.esmanager.instance.Instance;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.NonEditable;
 import tibetiroka.esmanager.utils.ProgressUtils;
 import tibetiroka.esmanager.utils.ProgressUtils.FakeTask;
 
@@ -30,7 +33,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -43,6 +45,8 @@ import java.util.Date;
 import java.util.Random;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
+import static tibetiroka.esmanager.instance.annotation.Validator.NON_NULL;
+import static tibetiroka.esmanager.instance.annotation.Validator.NOT_BLANK_STRING;
 
 /**
  * Sources are used to download, update or combine different versions of Endless Sky. Each {@link Instance} has exactly one source. Sources are serialized with their instances and written into the configuration files.
@@ -62,6 +66,9 @@ public abstract class Source {
 		try {
 			if(getRepository().isDirectory()) {
 				GIT = Git.open(getRepository());
+				StoredConfig config = GIT.getRepository().getConfig();
+				config.setBoolean("commit", null, "gpgsign", false);
+				config.save();
 			}
 			getRepository().getParentFile().mkdirs();
 		} catch(IOException ignored) {
@@ -73,12 +80,14 @@ public abstract class Source {
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	protected boolean initialized;
 	/**
 	 * The time this source was last updated.
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	protected @Nullable Date lastUpdated;
 	/**
 	 * The name of this source.
@@ -86,6 +95,7 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	@NotNull
+	@Editable(NOT_BLANK_STRING)
 	protected String name;
 	/**
 	 * The type of this source.
@@ -93,6 +103,7 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	@NotNull
+	@Editable(NON_NULL)
 	protected SourceType type;
 	/**
 	 * The name of the branch of this source in the local repository, if any. Only {@link GitSource git} and {@link MultiSource multi} sources have branches.
@@ -100,6 +111,7 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	@Nullable
+	@NonEditable
 	private String branchName;
 	/**
 	 * The {@link Instance} this {@link Source} is used in.
@@ -113,6 +125,7 @@ public abstract class Source {
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	private @NotNull String internalID = new Random().nextLong() + "_" + new Random().nextLong() + "_" + new Random().nextLong();
 	/**
 	 * The property describing the version of this source. This is not localized text, just the textual representation of the version (such as a release number or a commit hash).
@@ -120,6 +133,7 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	@NotNull
+	@NonEditable
 	private SimpleStringProperty version = new SimpleStringProperty("...");
 
 	public Source() {
@@ -224,10 +238,7 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	public boolean canBeBuilt() {
-		return switch(type) {
-			case RELEASE, PULL_REQUEST, BRANCH, COMMIT, LATEST_RELEASE, MULTIPLE_SOURCES -> true;
-			default -> false;
-		};
+		return isGit();
 	}
 
 	/**
@@ -236,6 +247,15 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	public abstract void create();
+
+	/**
+	 * Deletes this source.
+	 *
+	 * @since 0.0.6
+	 */
+	public void delete() {
+		deleteBranch();
+	}
 
 	/**
 	 * Deletes the branch of this source in the local repository, if any.
@@ -247,6 +267,7 @@ public abstract class Source {
 			return;
 		}
 		try {
+			log.info(localize("log.instance.source.delete.branch", name, branchName));
 			GIT.checkout().setName("master").setCreateBranch(false).call();
 			GIT.branchDelete().setForce(true).setBranchNames(branchName).call();
 		} catch(GitAPIException e) {
@@ -272,7 +293,7 @@ public abstract class Source {
 	 * @since 0.0.1
 	 */
 	public @NotNull File getDirectory() {
-		return new File(AppConfiguration.DATA_HOME + "/instances/" + instance.getName() + "/sources/" + internalID);
+		return new File(AppConfiguration.DATA_HOME + "/instances/" + instance.getInternalName() + "/sources/" + internalID);
 	}
 
 	/**
@@ -419,7 +440,10 @@ public abstract class Source {
 				GIT = Git.cloneRepository().setDirectory(getRepository()).setURI(new URL(repo).toURI().toString()).call();
 				task.end();
 				log.info(localize("log.git.clone.done", repo, name));
-			} catch(URISyntaxException | MalformedURLException | GitAPIException e) {
+				StoredConfig config = GIT.getRepository().getConfig();
+				config.setBoolean("commit", null, "gpgsign", false);
+				config.save();
+			} catch(URISyntaxException | GitAPIException | IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
@@ -499,7 +523,7 @@ public abstract class Source {
 				if(Files.isSymbolicLink(getExecutable().toPath())) {
 					getExecutable().delete();
 				} else {
-					log.warn(localize("log.source.symlink.regular", name, instance.getName(), getExecutable().getAbsolutePath()));
+					log.warn(localize("log.source.symlink.regular", name, instance.getInternalName(), getExecutable().getAbsolutePath()));
 					return;
 				}
 			}
@@ -508,7 +532,7 @@ public abstract class Source {
 				log.warn(localize("log.source.symlink.executable.fail"));
 			}
 		} catch(IOException e) {
-			log.error(localize("log.source.symlink.fail", name, instance.getName(), getExecutable().getAbsolutePath(), target.getAbsolutePath()));
+			log.error(localize("log.source.symlink.fail", name, instance.getInternalName(), getExecutable().getAbsolutePath(), target.getAbsolutePath()));
 			throw new RuntimeException(e);
 		}
 	}

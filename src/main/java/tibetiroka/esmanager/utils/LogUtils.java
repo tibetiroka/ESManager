@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
+import tibetiroka.esmanager.Main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class LogUtils {
 	 */
 	public static void logAsync(@NotNull InputStream stream, @NotNull Level level) {
 		new Thread(() -> {
+			Main.configureThread(Thread.currentThread(), true);
 			try {
 				log(stream, level);
 			} catch(IOException e) {

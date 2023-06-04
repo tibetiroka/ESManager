@@ -17,12 +17,14 @@ import javafx.css.PseudoClass;
 import javafx.scene.text.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.ui.MainApplication;
 import tibetiroka.esmanager.ui.MainController;
+import tibetiroka.esmanager.utils.LogUtils;
 
 import javax.swing.JOptionPane;
-import java.io.File;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -58,7 +60,11 @@ public class Main {
 	private static final Logger log;
 
 	static {
-		configureLogger();
+		try {
+			configureLogger();
+		} catch(IOException e) {
+			throw new RuntimeException(e);
+		}
 		log = LoggerFactory.getLogger(Main.class);
 	}
 
@@ -107,9 +113,9 @@ public class Main {
 	/**
 	 * Configures the global logger
 	 *
-	 * @since 0.1.0
+	 * @since 0.0.1
 	 */
-	private static void configureLogger() {
+	private static void configureLogger() throws IOException {
 		System.setProperty("esmanager.log.directory", AppConfiguration.LOG_HOME.getAbsolutePath());
 		AppConfiguration.LOG_HOME.mkdirs();
 		File file = new File(AppConfiguration.LOG_HOME, "latest.log");
@@ -117,12 +123,20 @@ public class Main {
 			// >10MB
 			file.delete();
 		}
+		PipedInputStream outLog = new PipedInputStream();
+		PipedOutputStream out = new PipedOutputStream(outLog);
+		System.setOut(new PrintStream(out, true));
+		PipedInputStream errLog = new PipedInputStream();
+		PipedOutputStream err = new PipedOutputStream(errLog);
+		System.setErr(new PrintStream(err, true));
+		LogUtils.logAsync(outLog, Level.DEBUG);
+		LogUtils.logAsync(errLog, Level.WARN);
 	}
 
 	/**
 	 * Prints debug information about the underlying OS, the java instance, and the runtime in general.
 	 *
-	 * @since 0.1.0
+	 * @since 0.0.1
 	 */
 	private static void printSystemDebugInfo() {
 		log.debug("\n=======DEBUG INFO=======\n");
@@ -153,7 +167,7 @@ public class Main {
 	/**
 	 * Dumps the thread stacks to the output and the log.
 	 *
-	 * @since 0.1.0
+	 * @since 0.0.1
 	 */
 	private static void printThreadDump() {
 		log.info("\n---THREAD DUMP---");

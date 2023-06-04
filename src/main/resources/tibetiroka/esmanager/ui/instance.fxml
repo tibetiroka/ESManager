@@ -22,6 +22,25 @@
 	<styleClass>
 		<String fx:value="instance-box"/>
 	</styleClass>
+	<fx:define>
+		<ContextMenu fx:id="contextMenu">
+			<items>
+				<MenuItem text="instance.menu.play" onAction="#play"/>
+				<MenuItem text="instance.menu.update" onAction="#update"/>
+				<MenuItem text="instance.menu.opendirectory" onAction="#openDirectory"/>
+				<SeparatorMenuItem/>
+				<Menu text="instance.menu.edit">
+					<MenuItem text="instance.menu.edit.rename" onAction="#rename"/>
+				</Menu>
+				<MenuItem text="instance.menu.source.edit" onAction="#editSource" fx:id="sourceEdit"/>
+				<SeparatorMenuItem/>
+				<MenuItem text="instance.menu.delete" onAction="#delete"/>
+			</items>
+		</ContextMenu>
+	</fx:define>
+	<userData>
+		<fx:reference source="controller"/>
+	</userData>
 	<children>
 		<VBox cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
 			  style="-fx-box-border: transparent;" HBox.hgrow="ALWAYS">
@@ -140,15 +159,15 @@
 						</FontIcon>
 					</graphic>
 				</Button>
-				<Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#openFolder"
+				<Button cache="true" cacheHint="SPEED" mnemonicParsing="false" onAction="#openDirectory"
 						GridPane.columnIndex="3">
 					<styleClass>
-						<String fx:value="instance-open-folder-button"/>
+						<String fx:value="instance-open-directory-button"/>
 					</styleClass>
 					<tooltip>
-						<Tooltip text="instance.openfolder.button.tooltip">
+						<Tooltip text="instance.opendirectory.button.tooltip">
 							<styleClass>
-								<String fx:value="instance-open-folder-button-tooltip"/>
+								<String fx:value="instance-open-directory-button-tooltip"/>
 							</styleClass>
 						</Tooltip>
 					</tooltip>

@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.instance.Instance;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.Validator;
 
 import java.time.Instant;
 import java.util.Collection;
@@ -41,6 +43,7 @@ public class MultiSource extends Source {
 	 * @since 0.0.1
 	 */
 	@NotNull
+	@Editable(Validator.NON_NULL)
 	protected SourceSet sources = new SourceSet();
 
 	public MultiSource() {
@@ -100,11 +103,16 @@ public class MultiSource extends Source {
 	}
 
 	@Override
+	public void delete() {
+		super.delete();
+		for(Source source : sources) {
+			source.delete();
+		}
+	}
+
+	@Override
 	public void deleteBranch() {
 		super.deleteBranch();
-		for(Source source : sources) {
-			source.deleteBranch();
-		}
 	}
 
 	@Override
@@ -165,12 +173,12 @@ public class MultiSource extends Source {
 				getInstance().getTracker().beginTask(0.33);
 				source.update();
 				getInstance().getTracker().endTask();
-				getInstance().getTracker().beginTask(0.33);
-				merge(source);
-				getInstance().getTracker().endTask();
 			} else {
 				getInstance().getTracker().endTask();
 			}
+			getInstance().getTracker().beginTask(0.33);
+			merge(source);
+			getInstance().getTracker().endTask();
 			getInstance().getTracker().endTask();
 		}
 	}

@@ -27,6 +27,15 @@
 	-fx-text-box-border: red;
 }
 
+.checkbox:error {
+	-fx-focus-color: red;
+}
+
+.spinner:error {
+    -fx-focus-color: red;
+    -fx-box-border: red;
+}
+
 .error-label {
 	-fx-text-fill: red;
 }

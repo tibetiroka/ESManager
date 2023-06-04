@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.InstanceUtils.InstanceBuilder;
 import tibetiroka.esmanager.ui.MainApplication;
@@ -78,6 +79,7 @@ public class PullRequestChooserController {
 			String pr = this.pr.getText();
 			if(pr != null && !pr.isBlank()) {
 				new Thread(() -> {
+					Main.configureThread(Thread.currentThread(), false);
 					try {
 						boolean present = Git.lsRemoteRepository()
 						                     .setRemote(remoteURI)

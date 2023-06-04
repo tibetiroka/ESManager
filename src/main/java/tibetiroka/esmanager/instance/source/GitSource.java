@@ -11,8 +11,11 @@
 package tibetiroka.esmanager.instance.source;
 
 import javafx.application.Platform;
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.merge.ContentMergeStrategy;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -22,6 +25,10 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.instance.ReleaseUtils;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.EditableSource;
+import tibetiroka.esmanager.instance.annotation.NonEditable;
+import tibetiroka.esmanager.instance.annotation.Validator;
 
 import java.net.URI;
 import java.time.Instant;
@@ -34,6 +41,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  *
  * @since 0.0.1
  */
+@EditableSource
 public class GitSource extends Source {
 	private static final Logger log = LoggerFactory.getLogger(GitSource.class);
 	/**
@@ -41,18 +49,21 @@ public class GitSource extends Source {
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	private String lastCommit;
 	/**
 	 * The {@link String} representation of the {@link URI} of the source Git repository.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(Validator.URI)
 	private String remoteURI;
 	/**
 	 * The name of the PR, branch, or release targeted. Ignored for {@link SourceType#LATEST_RELEASE}.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(Validator.NOT_BLANK_STRING)
 	private String targetName;
 
 	public GitSource() {
@@ -87,24 +98,25 @@ public class GitSource extends Source {
 		getInstance().getTracker().endTask();
 		getInstance().getTracker().beginTask(0.5);
 		try {
-			getInstance().getTracker().beginTask(0.3);
-			String remote = getRemoteRefName();
-			getInstance().getTracker().endTask();
-			getInstance().getTracker().beginTask(0.3);
-			FetchResult result = fetch(remote, false);
-			getInstance().getTracker().endTask();
-			getInstance().getTracker().beginTask(0.2);
 			GIT.checkout().setName(getBranchName()).setCreateBranch(false).call();
+			getInstance().getTracker().beginTask(0.3);
 			getInstance().getTracker().endTask();
+			getInstance().getTracker().beginTask(0.5);
+			Ref ref = fetch(getRemoteRefName(), false).getAdvertisedRef(getRemoteRefName());
+			MergeResult result = merge(ref);
+			getInstance().getTracker().endTask();
+			if(!result.getMergeStatus().isSuccessful()) {
+				throw new IllegalStateException(localize("log.git.create.merge.fail.state", getName(), remoteURI, targetName, result.getMergeStatus()));
+			}
 			getInstance().getTracker().beginTask(0.2);
 			RevCommit latest = GIT.log().setMaxCount(1).call().iterator().next();
 			lastCommit = latest.getName();
 			lastUpdated = Date.from(Instant.now());
 			Platform.runLater(() -> getVersion().set(lastCommit.substring(0, 7)));
 			getInstance().getTracker().endTask();
-			log.debug(localize("log.git.create.fetch.message", getName(), result.getMessages().trim(), remoteURI, targetName));
+			log.debug(localize("log.git.create.fetch.message", getName(), remoteURI, targetName));
 			initialized = true;
-		} catch(GitAPIException e) {
+		} catch(GitAPIException | IllegalStateException e) {
 			log.error(localize("log.git.create.fetch.fail", getName(), e.getMessage(), remoteURI, targetName));
 			throw new RuntimeException(e);
 		}
@@ -157,7 +169,7 @@ public class GitSource extends Source {
 			localize("log.source.update.fetch", getName(), remoteURI, lastCommit, targetName);
 			FetchResult result = fetch(getRemoteRefName(), true);
 			TrackingRefUpdate update = result.getTrackingRefUpdates().iterator().next();
-			return update.getOldObjectId().getName().equals(update.getNewObjectId().getName());
+			return !update.getOldObjectId().getName().equals(update.getNewObjectId().getName());
 		} catch(GitAPIException e) {
 			throw new RuntimeException(e);
 		}
@@ -251,5 +263,17 @@ public class GitSource extends Source {
 			}
 			default -> throw new UnsupportedOperationException(localize("log.git.remote.branch.fail", getName(), type, targetName, getBranchName()));
 		};
+	}
+
+	/**
+	 * Merges any fetched changes.
+	 *
+	 * @param ref The ref to merge
+	 * @return The result of the fetch
+	 * @since 0.0.6
+	 */
+	protected @NotNull MergeResult merge(Ref ref) throws GitAPIException {
+		log.debug(localize("log.git.merge", ref.getName(), getBranchName()));
+		return GIT.merge().include(ref).setStrategy(MergeStrategy.THEIRS).setContentMergeStrategy(ContentMergeStrategy.THEIRS).call();
 	}
 }

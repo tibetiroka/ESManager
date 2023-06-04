@@ -18,6 +18,10 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.EditableSource;
+import tibetiroka.esmanager.instance.annotation.NonEditable;
+import tibetiroka.esmanager.instance.annotation.Validator;
 import tibetiroka.esmanager.utils.FileUtils;
 
 import java.io.File;
@@ -31,12 +35,14 @@ import java.util.Map;
 import java.util.Objects;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
+import static tibetiroka.esmanager.instance.annotation.Validator.NOT_BLANK_STRING;
 
 /**
  * A {@link Source} that uses a pull request's workflow artifacts as its source. Only {@link SourceType#PULL_REQUEST} is supported.
  *
  * @since 0.0.1
  */
+@EditableSource
 public class PullRequestSource extends Source {
 	private static final Logger log = LoggerFactory.getLogger(GitSource.class);
 	/**
@@ -44,18 +50,21 @@ public class PullRequestSource extends Source {
 	 *
 	 * @since 0.0.1
 	 */
+	@NonEditable
 	private String lastCommit;
 	/**
 	 * The {@link String} representation of the {@link URI} of the source Git repository.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(Validator.URI)
 	private String remoteURI;
 	/**
 	 * The name of the PR, branch, or release targeted. Ignored for {@link SourceType#LATEST_RELEASE}.
 	 *
 	 * @since 0.0.1
 	 */
+	@Editable(NOT_BLANK_STRING)
 	private String targetName;
 
 	public PullRequestSource() {

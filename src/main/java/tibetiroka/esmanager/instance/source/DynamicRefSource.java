@@ -16,6 +16,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tibetiroka.esmanager.instance.annotation.Editable;
+import tibetiroka.esmanager.instance.annotation.EditableSource;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,12 +30,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
+import static tibetiroka.esmanager.instance.annotation.Validator.PATTERN;
+import static tibetiroka.esmanager.instance.annotation.Validator.URI;
 
 /**
  * A special MultiSource for handling {@link SourceType#DYNAMIC_REFS}. The list of git sources is changed depending on what is available on the remote. This source only uses {@link GitSource} internally, and doesn't support adding different sources to the list of sources.
  *
  * @since 0.0.6
  */
+@EditableSource
 public class DynamicRefSource extends MultiSource {
 	private static final Logger log = LoggerFactory.getLogger(DynamicRefSource.class);
 	/**
@@ -41,12 +46,14 @@ public class DynamicRefSource extends MultiSource {
 	 *
 	 * @since 0.0.6
 	 */
+	@Editable(PATTERN)
 	protected String pattern;
 	/**
 	 * The URI of the remote repository.
 	 *
 	 * @since 0.0.6
 	 */
+	@Editable(URI)
 	protected String remoteURI;
 
 	public DynamicRefSource() {
@@ -91,7 +98,7 @@ public class DynamicRefSource extends MultiSource {
 	@Override
 	public @NotNull String getPublicVersion() {
 		if(type == SourceType.DYNAMIC_REFS) {
-			return localize("instance.version.dynamic.text", name, type.name());
+			return localize("instance.version.dynamic.text", name, type.name(), lastUpdated);
 		}
 		return super.getPublicName();
 	}

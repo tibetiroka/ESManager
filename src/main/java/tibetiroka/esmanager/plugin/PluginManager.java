@@ -193,5 +193,8 @@ public class PluginManager {
 				}
 			}
 		}
+		for(RemotePlugin remotePlugin : remotePlugins) {
+			remotePlugin.updateInstalledStatus();
+		}
 	}
 }

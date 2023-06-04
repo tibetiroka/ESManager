@@ -25,13 +25,15 @@ import java.util.ArrayList;
 
 public class GitCombinedChooserController {
 	private final ArrayList<CustomSourceController> controllers = new ArrayList<>();
+	public InstanceBuilder builder;
+	public Stage stage;
+	public boolean stop = false;
 	@FXML
 	protected Label errorLabel;
 	@FXML
 	protected ScrollPane scrollPane;
 	@FXML
 	protected VBox sources;
-	protected Stage stage;
 
 	@FXML
 	protected void addSource() {
@@ -60,21 +62,25 @@ public class GitCombinedChooserController {
 			if(error || count == 0) {
 				return;
 			}
-			InstanceBuilder builder = new InstanceBuilder();
+			builder = new InstanceBuilder();
 			for(CustomSourceController controller : controllers) {
 				if(!controller.isEmpty()) {
 					controller.addToBuilder(builder);
 				}
 			}
 			//
-			FXMLLoader loader = new FXMLLoader(InstanceNameController.class.getResource("new-instance-name.fxml"));
-			Parent p = loader.load();
-			Scene scene = new Scene(p);
-			//
-			((InstanceNameController) loader.getController()).stage = stage;
-			((InstanceNameController) loader.getController()).builder = builder;
-			//
-			MainApplication.switchScene(stage, scene);
+			if(stop) {
+				stage.close();
+			} else {
+				FXMLLoader loader = new FXMLLoader(InstanceNameController.class.getResource("new-instance-name.fxml"));
+				Parent p = loader.load();
+				Scene scene = new Scene(p);
+				//
+				((InstanceNameController) loader.getController()).stage = stage;
+				((InstanceNameController) loader.getController()).builder = builder;
+				//
+				MainApplication.switchScene(stage, scene);
+			}
 		} catch(Exception e) {
 			errorLabel.setVisible(true);
 		}

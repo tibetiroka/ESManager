@@ -15,12 +15,18 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +51,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Phaser;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
@@ -56,12 +64,39 @@ public class MainApplication extends Application {
 	public static ObservableList<String> MAIN_WINDOW_STYLESHEETS;
 	protected static Stage PRIMARY_STAGE;
 
+	public static void createBlockingStage(Scene scene, String titleKey, Consumer<Stage> beforeShowAction, Consumer<Stage> afterHideAction) {
+		Stage dialog = new Stage();
+		//
+		STYLE_SHEET_LISTS.add(scene.getStylesheets());
+		refreshTheme();
+		dialog.setScene(scene);
+		dialog.initOwner(PRIMARY_STAGE);
+		dialog.initModality(Modality.WINDOW_MODAL);
+		dialog.setTitle(titleKey);
+		LAUNCHER.localizeNode(dialog, LAUNCHER.localeProperty());
+		//
+		if(beforeShowAction != null) {
+			beforeShowAction.accept(dialog);
+		}
+		//
+		GaussianBlur blurEffect = new GaussianBlur(5);
+		PRIMARY_STAGE.getScene().getRoot().setEffect(blurEffect);
+		//
+		dialog.showAndWait();
+		//
+		PRIMARY_STAGE.getScene().getRoot().setEffect(null);
+		removeExtraStyles();
+		if(afterHideAction != null) {
+			afterHideAction.accept(dialog);
+		}
+	}
+
 	public static boolean createDialog(String message, boolean isYesNo) {
 		Phaser p = new Phaser(2);
 		AtomicBoolean value = new AtomicBoolean();
 		Platform.runLater(() -> {
 			Dialog<ButtonType> dialog = new Dialog<>();
-			MainApplication.STYLE_SHEET_LISTS.add(dialog.getDialogPane().getStylesheets());
+			STYLE_SHEET_LISTS.add(dialog.getDialogPane().getStylesheets());
 			dialog.setTitle(localize(message + ".title"));
 			dialog.setContentText(localize(message));
 			if(isYesNo) {
@@ -70,9 +105,44 @@ public class MainApplication extends Application {
 			} else {
 				dialog.getDialogPane().getButtonTypes().add(new ButtonType(localize(message + ".ok"), ButtonData.OK_DONE));
 			}
+			refreshTheme();
+			//
+			GaussianBlur blurEffect = new GaussianBlur(5);
+			PRIMARY_STAGE.getScene().getRoot().setEffect(blurEffect);
+			//
 			Optional<ButtonType> result = dialog.showAndWait();
 			value.set(result.isPresent() && result.get().getButtonData() == ButtonData.YES);
-			MainApplication.STYLE_SHEET_LISTS.remove(dialog.getDialogPane().getStylesheets());
+			STYLE_SHEET_LISTS.remove(dialog.getDialogPane().getStylesheets());
+			//
+			PRIMARY_STAGE.getScene().getRoot().setEffect(null);
+			//
+			p.arriveAndDeregister();
+		});
+		p.arriveAndAwaitAdvance();
+		return value.get();
+	}
+
+	public static String createTextInputDialog(String message, String defaultValue) {
+		Phaser p = new Phaser(2);
+		AtomicReference<String> value = new AtomicReference<>();
+		Platform.runLater(() -> {
+			TextInputDialog dialog = new TextInputDialog(defaultValue);
+			STYLE_SHEET_LISTS.add(dialog.getDialogPane().getStylesheets());
+			dialog.setTitle(localize(message + ".title"));
+			dialog.setContentText(localize(message));
+			dialog.setGraphic(null);
+			dialog.setHeaderText(null);
+			refreshTheme();
+			//
+
+			//
+			GaussianBlur blurEffect = new GaussianBlur(5);
+			PRIMARY_STAGE.getScene().getRoot().setEffect(blurEffect);
+			//
+			value.set(dialog.showAndWait().orElse(defaultValue));
+			STYLE_SHEET_LISTS.remove(dialog.getDialogPane().getStylesheets());
+			PRIMARY_STAGE.getScene().getRoot().setEffect(null);
+			//
 			p.arriveAndDeregister();
 		});
 		p.arriveAndAwaitAdvance();
@@ -116,6 +186,12 @@ public class MainApplication extends Application {
 		STYLE_SHEET_LISTS.add(MAIN_WINDOW_STYLESHEETS);
 	}
 
+	public static void setContextMenu(Node node, ContextMenu menu) {
+		LAUNCHER.localizeNode(menu, LAUNCHER.localeProperty());
+		node.setOnContextMenuRequested(e -> menu.show(node, e.getScreenX(), e.getScreenY()));
+		node.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> menu.hide());
+	}
+
 	public static void setTheme(String name) {
 		String sheet;
 		File customDir = new File(AppConfiguration.CONFIG_HOME, "themes");
@@ -137,9 +213,9 @@ public class MainApplication extends Application {
 
 	public static void switchScene(Stage stage, Scene newScene) {
 		if(newScene != null) {
-			MainApplication.STYLE_SHEET_LISTS.remove(stage.getScene().getStylesheets());
-			MainApplication.STYLE_SHEET_LISTS.add(newScene.getRoot().getStylesheets());
-			MainApplication.refreshTheme();
+			STYLE_SHEET_LISTS.remove(stage.getScene().getStylesheets());
+			STYLE_SHEET_LISTS.add(newScene.getRoot().getStylesheets());
+			refreshTheme();
 			double prevH = stage.getHeight();
 			double prevW = stage.getWidth();
 			stage.setScene(newScene);
@@ -157,7 +233,7 @@ public class MainApplication extends Application {
 			Scene scene = new Scene(fxmlLoader.load());
 			configureGlobalKeyBinds(scene);
 			primaryStage.setTitle("title");
-			LAUNCHER.localizeNode(primaryStage);
+			LAUNCHER.localizeNode(primaryStage, LAUNCHER.localeProperty());
 			primaryStage.getIcons().add(new Image(MainApplication.class.getResourceAsStream("icon.png")));
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
@@ -210,10 +286,10 @@ public class MainApplication extends Application {
 					Platform.runLater(() -> {
 						for(Instance instance : Instance.getInstances()) {
 							new Thread(() -> {
-								log.info(localize("log.launcher.autoupdate.instance.begin", instance.getName()));
+								log.info(localize("log.launcher.autoupdate.instance.begin", instance.getPublicName()));
 								InstanceUtils.update(instance);
-								log.info(localize("log.launcher.autoupdate.instance.end", instance.getName()));
-							}, "Updater thread for " + instance.getName()).start();
+								log.info(localize("log.launcher.autoupdate.instance.end", instance.getPublicName()));
+							}, "Updater thread for " + instance.getPublicName()).start();
 						}
 					});
 				}

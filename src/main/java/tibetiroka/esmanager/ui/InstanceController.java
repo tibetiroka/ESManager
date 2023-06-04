@@ -11,29 +11,28 @@
 package tibetiroka.esmanager.ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.Tooltip;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.instance.Instance;
 import tibetiroka.esmanager.instance.InstanceUtils;
 import tibetiroka.esmanager.instance.SessionHelper;
-
-import java.awt.Desktop;
-import java.awt.Desktop.Action;
-import java.io.IOException;
+import tibetiroka.esmanager.instance.SystemUtils;
+import tibetiroka.esmanager.instance.annotation.EditableSource;
 
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 public class InstanceController {
 	private static final Logger log = LoggerFactory.getLogger(InstanceController.class);
+	@FXML
+	public ContextMenu contextMenu;
 	@FXML
 	protected HBox container;
 	@FXML
@@ -42,6 +41,8 @@ public class InstanceController {
 	protected SplitMenuButton playButton;
 	@FXML
 	protected ProgressIndicator progressIndicator;
+	@FXML
+	protected MenuItem sourceEdit;
 	@FXML
 	protected Label sourceField;
 	@FXML
@@ -56,6 +57,19 @@ public class InstanceController {
 		((Pane) container.getParent()).getChildren().remove(container);
 	}
 
+	@FXML
+	public void editSource() {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(SourceEditorController.class.getResource(instance.getSource().getClass().getAnnotation(EditableSource.class).value()));
+			SplitPane pane = fxmlLoader.load();
+			((SourceEditorController) fxmlLoader.getController()).initialize(instance.getSource());
+			Scene scene = new Scene(pane);
+			MainApplication.createBlockingStage(scene, "source.editor.title", null, null);
+		} catch(Exception e) {
+			log.error(localize("log.source.editor.fail", instance.getPublicName(), e.getMessage()), e);
+		}
+	}
+
 	public void initialize(Instance instance) {
 		this.instance = instance;
 		//
@@ -63,14 +77,15 @@ public class InstanceController {
 		container.parentProperty().addListener((observable, oldValue, newValue) -> {
 			if(newValue == null) {
 				new Thread(() -> {
-					log.warn(localize("log.instance.delete.start", instance.getName()));
+					Main.configureThread(Thread.currentThread(), false);
+					log.warn(localize("log.instance.delete.start", instance.getPublicName()));
 					InstanceUtils.remove(instance);
-					log.warn(localize("log.instance.delete.end", instance.getName()));
-				}, "Remover thread for " + instance.getName()).start();
+					log.warn(localize("log.instance.delete.end", instance.getPublicName()));
+				}, "Remover thread for " + instance.getPublicName()).start();
 			}
 		});
 		container.disableProperty().bind(instance.getTracker().isWorkingProperty());
-		nameField.textProperty().set(instance.getName());
+		nameField.textProperty().bind(instance.createNameStringBinding());
 		LAUNCHER.disableLocalization(nameField);
 		sourceField.textProperty().bind(instance.createSourceStringBinding());
 		LAUNCHER.disableLocalization(sourceField);
@@ -79,35 +94,19 @@ public class InstanceController {
 		Tooltip tooltip = new Tooltip("instance.error.tooltip");
 		tooltip.getStyleClass().setAll("instance-warning-pane-tooltip");
 		Tooltip.install(warningNode, tooltip);
-		LAUNCHER.localizeNode(tooltip);
+		LAUNCHER.localizeNode(tooltip, LAUNCHER.localeProperty());
 		warningNode.visibleProperty().bind(instance.getTracker().failedUpdateProperty());
 		progressIndicator.visibleProperty().bind(instance.getTracker().hasUpdatedProperty());
 		progressIndicator.progressProperty().bind(instance.getTracker().updateProgressProperty());
 		LAUNCHER.disableLocalization(progressIndicator);
 		playButton.disableProperty().bind(SessionHelper.ANY_RUNNING);
+		MainApplication.setContextMenu(container, contextMenu);
+		sourceEdit.setDisable(!instance.getSource().getClass().isAnnotationPresent(EditableSource.class));
 	}
 
 	@FXML
-	public void openFolder() {
-		if(Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.OPEN) && Desktop.getDesktop().isSupported(Action.BROWSE) && Desktop.getDesktop().isSupported(Action.BROWSE_FILE_DIR)) {
-			try {
-				log.info(localize("log.instance.open", instance.getName()));
-				Desktop.getDesktop().open(instance.getDirectory());
-			} catch(IOException e) {
-				log.error(localize("log.instance.open.fail", instance.getName(), e.getMessage()));
-				throw new RuntimeException(e);
-			}
-		} else if(isGioSupported()) {
-			ProcessBuilder builder = new ProcessBuilder("gio", "open", instance.getDirectory().getAbsolutePath());
-			try {
-				builder.start();
-			} catch(IOException e) {
-				log.error(localize("log.instance.open.fail", instance.getName(), e.getMessage()));
-				throw new RuntimeException(e);
-			}
-		} else {
-			log.error(localize("log.instance.open.unsupported", instance.getName()));
-		}
+	public void openDirectory() {
+		SystemUtils.openDirectory(instance.getDirectory());
 	}
 
 	@FXML
@@ -130,24 +129,20 @@ public class InstanceController {
 	}
 
 	@FXML
-	public void update() {
-		log.info(localize("log.instance.update.manual", instance.getName()));
+	public void rename() {
 		new Thread(() -> {
-			InstanceUtils.update(instance);
-			log.info(localize("log.instance.update.manual.done", instance.getName()));
-		}, "Force-updater thread for " + instance.getName()).start();
+			Main.configureThread(Thread.currentThread(), false);
+			instance.setPublicName(MainApplication.createTextInputDialog("instance.rename", instance.getPublicName()));
+		}, "Instance renaming thread").start();
 	}
 
-	private boolean isGioSupported() {
-		if(AppConfiguration.isWindows()) {
-			return false;
-		}
-		try {
-			Process p = Runtime.getRuntime().exec(new String[]{"which", "gio"});
-			int result = p.waitFor();
-			return result == 0;
-		} catch(Exception e) {
-			return false;
-		}
+	@FXML
+	public void update() {
+		log.info(localize("log.instance.update.manual", instance.getPublicName()));
+		new Thread(() -> {
+			Main.configureThread(Thread.currentThread(), false);
+			InstanceUtils.update(instance);
+			log.info(localize("log.instance.update.manual.done", instance.getPublicName()));
+		}, "Force-updater thread for " + instance.getPublicName()).start();
 	}
 }

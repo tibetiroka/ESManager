@@ -21,6 +21,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.InstanceUtils.InstanceBuilder;
 import tibetiroka.esmanager.instance.ReleaseUtils;
@@ -60,6 +61,7 @@ public class ReleaseVersionChooserController {
 
 	protected void listReleases() {
 		new Thread(() -> {
+			Main.configureThread(Thread.currentThread(), false);
 			try {
 				List<String> refs = Git.lsRemoteRepository()
 				                       .setRemote(remoteURI)

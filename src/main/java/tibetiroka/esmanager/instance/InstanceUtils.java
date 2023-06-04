@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Pattern;
 
@@ -128,6 +129,18 @@ public class InstanceUtils {
 	}
 
 	/**
+	 * Creates a shortened and sanitized version of the specified string that is safe to use as an instance name.
+	 *
+	 * @param name The name to sanitize
+	 * @return The safe name, possibly empty
+	 * @since 0.0.6
+	 */
+	public static @NotNull String sanitizeInstanceName(@NotNull String name) {
+		String sanitized = name.replaceAll("([/\\\\\\n^#$%&]|[^\\x20-\\x7D]|^..?$|\\x00)", "").trim();
+		return sanitized.substring(0, Math.min(sanitized.length(), 50));
+	}
+
+	/**
 	 * Updates the specified instance, if necessary.
 	 *
 	 * @param instance The instance to update
@@ -192,10 +205,24 @@ public class InstanceUtils {
 			if(!isValid()) {
 				throw new IllegalStateException(localize("log.instance.builder.build.invalid"));
 			}
-			return new Instance(name, switch(sources.size()) {
+			String internalName = sanitizeInstanceName(name).trim();
+			while(internalName.isBlank() || internalName.length() < 5 || Instance.getInstances().stream().anyMatch(p -> p.getInternalName().equalsIgnoreCase(this.name))) {
+				internalName += "_" + (int) (Math.random() * 1000);
+			}
+			return new Instance(name, internalName, switch(sources.size()) {
 				case 1 -> sources.get(0);
 				default -> new MultiSource("Generated MultiSource for " + name, sources);
 			});
+		}
+
+		/**
+		 * Gets the list of sources added to this builder.
+		 *
+		 * @return The list of sources
+		 * @since 0.0.6
+		 */
+		public @NotNull List<Source> getSources() {
+			return sources;
 		}
 
 		/**
@@ -228,7 +255,7 @@ public class InstanceUtils {
 				return false;
 			}
 			for(Instance instance : Instance.getInstances()) {
-				if(instance.getName().equalsIgnoreCase(name)) {
+				if(name.equalsIgnoreCase(instance.getPublicName())) {
 					return false;
 				}
 			}
@@ -268,7 +295,7 @@ public class InstanceUtils {
 		 * @since 0.0.6
 		 */
 		public @NotNull InstanceBuilder withDynamicRefSource(@NotNull URI repo, @NotNull Pattern pattern) {
-			DynamicRefSource source = new DynamicRefSource("Generated source for pattern " + pattern.pattern() + " over " + repo, repo.toString(), pattern.pattern());
+			DynamicRefSource source = new DynamicRefSource("Pattern " + pattern.pattern() + " over " + repo, repo.toString(), pattern.pattern());
 			return withSource(source);
 		}
 
@@ -283,7 +310,7 @@ public class InstanceUtils {
 			if(!target.isFile()) {
 				throw new IllegalArgumentException(localize("log.instance.builder.source.file.invalid", target.getAbsolutePath()));
 			}
-			FileSource source = new FileSource("Generated source for local file " + target.getName(), SourceType.LOCAL_EXECUTABLE, target.toURI().toString());
+			FileSource source = new FileSource("File " + target.getName(), SourceType.LOCAL_EXECUTABLE, target.toURI().toString());
 			return withSource(source);
 		}
 
@@ -299,7 +326,7 @@ public class InstanceUtils {
 			if(!repo.isDirectory()) {
 				throw new IllegalArgumentException(localize("log.instance.builder.source.git.local.invalid", repo.getAbsolutePath(), branch));
 			}
-			GitSource source = new GitSource("Generated source for local branch " + branch, SourceType.BRANCH, repo.toURI().toString(), branch);
+			GitSource source = new GitSource("Branch " + branch, SourceType.BRANCH, repo.toURI().toString(), branch);
 			return withSource(source);
 		}
 
@@ -382,25 +409,11 @@ public class InstanceUtils {
 			source.setType(type);
 			source.setRemoteURI(repo.toString());
 			switch(type) {
-				case RELEASE -> {
-					source.setName("Generated source for version " + target + " of " + repo);
+				case RELEASE, BRANCH, COMMIT, PULL_REQUEST -> {
+					source.setName(target + " of " + repo);
 					source.setTargetName(target);
 				}
-				case BRANCH -> {
-					source.setName("Generated source for branch " + target + " of " + repo);
-					source.setTargetName(target);
-				}
-				case COMMIT -> {
-					source.setName("Generated source for commit " + target + " of " + repo);
-					source.setTargetName(target);
-				}
-				case PULL_REQUEST -> {
-					source.setName("Generated source for pull request " + target + " of " + repo);
-					source.setTargetName(target);
-				}
-				case LATEST_RELEASE -> {
-					source.setName("Generated source for latest release of " + repo);
-				}
+				case LATEST_RELEASE -> source.setName("Latest release of " + repo);
 				default -> throw new IllegalArgumentException(localize("log.instance.builder.source.git.remote.invalid", type, target, repo.toString()));
 			}
 			return withSource(source);

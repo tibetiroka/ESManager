@@ -11,6 +11,7 @@
 package tibetiroka.esmanager.plugin;
 
 import com.owlike.genson.annotation.JsonIgnore;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +37,13 @@ public class RemotePlugin {
 	 */
 	@JsonIgnore
 	private final transient @NotNull SimpleBooleanProperty downloadInProgress = new SimpleBooleanProperty();
+	/**
+	 * Stores whether this plugin is installed.
+	 *
+	 * @since 0.0.6
+	 */
+	@JsonIgnore
+	private final transient @NotNull SimpleBooleanProperty installed = new SimpleBooleanProperty(false);
 	/**
 	 * The progress indicator used for update tracking.
 	 *
@@ -274,6 +282,16 @@ public class RemotePlugin {
 	}
 
 	/**
+	 * Stores whether the plugin is installed locally. If true, {@link #findLocal()} should return a non-null value, and null when false.
+	 *
+	 * @return The property
+	 * @since 0.0.6
+	 */
+	public @NotNull ReadOnlyBooleanProperty installedProperty() {
+		return installed;
+	}
+
+	/**
 	 * Checks whether the locally installed version of this plugin is out of date. If this plugin is not installed, returns {@code false}.
 	 *
 	 * @return True if an update is needed
@@ -301,6 +319,15 @@ public class RemotePlugin {
 	}
 
 	/**
+	 * Checks whether this plugin is installed, and updates {@link #installed} accordingly.
+	 *
+	 * @since 0.0.6
+	 */
+	protected void updateInstalledStatus() {
+		installed.set(findLocal() != null);
+	}
+
+	/**
 	 * Downloads this remote plugin into the installation directory of the specified local plugin. The target directory should be empty.
 	 *
 	 * @param local The local plugin
@@ -314,6 +341,7 @@ public class RemotePlugin {
 		local.symlinkPlugin();
 		local.setVersion(version);
 		downloadInProgress.set(false);
+		installed.set(true);
 	}
 
 	/**
