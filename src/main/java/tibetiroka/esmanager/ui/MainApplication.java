@@ -130,6 +130,7 @@ public class MainApplication extends Application {
 			STYLE_SHEET_LISTS.add(dialog.getDialogPane().getStylesheets());
 			dialog.setTitle(localize(message + ".title"));
 			dialog.setContentText(localize(message));
+			dialog.getDialogPane().getButtonTypes().setAll(new ButtonType(localize(message + ".ok"), ButtonData.OK_DONE), new ButtonType(localize(message + ".cancel"), ButtonData.CANCEL_CLOSE));
 			dialog.setGraphic(null);
 			dialog.setHeaderText(null);
 			refreshTheme();
