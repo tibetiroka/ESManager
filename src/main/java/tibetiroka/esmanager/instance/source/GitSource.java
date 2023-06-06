@@ -270,7 +270,7 @@ public class GitSource extends Source {
 	 *
 	 * @param ref The ref to merge
 	 * @return The result of the fetch
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	protected @NotNull MergeResult merge(Ref ref) throws GitAPIException {
 		log.debug(localize("log.git.merge", ref.getName(), getBranchName()));

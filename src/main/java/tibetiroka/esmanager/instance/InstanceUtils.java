@@ -133,7 +133,7 @@ public class InstanceUtils {
 	 *
 	 * @param name The name to sanitize
 	 * @return The safe name, possibly empty
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public static @NotNull String sanitizeInstanceName(@NotNull String name) {
 		String sanitized = name.replaceAll("([/\\\\\\n^#$%&]|[^\\x20-\\x7D]|^..?$|\\x00)", "").trim();
@@ -219,7 +219,7 @@ public class InstanceUtils {
 		 * Gets the list of sources added to this builder.
 		 *
 		 * @return The list of sources
-		 * @since 0.0.6
+		 * @since 1.0.0
 		 */
 		public @NotNull List<Source> getSources() {
 			return sources;
@@ -292,7 +292,7 @@ public class InstanceUtils {
 		 * @param repo    The repository to choose refs from
 		 * @param pattern The pattern for selecting refs
 		 * @return This builder
-		 * @since 0.0.6
+		 * @since 1.0.0
 		 */
 		public @NotNull InstanceBuilder withDynamicRefSource(@NotNull URI repo, @NotNull Pattern pattern) {
 			DynamicRefSource source = new DynamicRefSource("Pattern " + pattern.pattern() + " over " + repo, repo.toString(), pattern.pattern());

@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 /**
  * Marks a property that can be edited in the GUI.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
@@ -29,7 +29,7 @@ public @interface Editable {
 	 * The validator used for the property.
 	 *
 	 * @return The validator
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	@NotNull Validator value() default Validator.VALID;
 }

@@ -216,7 +216,7 @@ public class Launcher {
 	 * Disables localization for the context menu of the specified node.
 	 *
 	 * @param node The node to disable context menu localization for
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public void disableContextMenuLocalization(@NotNull Node node) {
 		node.getProperties().put("localization.contextmenu", false);
