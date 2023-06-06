@@ -187,6 +187,17 @@
 		"allPublicClasses": true
 	},
 	{
+		"name": "tibetiroka.esmanager.instance.source.DynamicRefSource",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true,
+		"allDeclaredClasses": true,
+		"allPublicClasses": true
+	},
+	{
 		"name": "tibetiroka.esmanager.instance.source.Source",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,
@@ -253,6 +264,11 @@
 		"allPublicClasses": true
 	},
 	{
+		"name": "tibetiroka.esmanager.plugin.RemotePlugin$PluginAutoUpdate$UpdateType",
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
 		"name": "tibetiroka.esmanager.plugin.PluginManager",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,
@@ -266,7 +282,20 @@
 	{
 		"name": "tibetiroka.esmanager.instance.BuildHelper",
 		"allDeclaredConstructors": true,
-		"allPublicConstructors": true
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true,
+		"allDeclaredClasses": true,
+		"allPublicClasses": true
+	},
+	{
+		"name": "tibetiroka.esmanager.instance.BuildHelper$BuildSystem",
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
 	},
 	{
 		"name": "tibetiroka.esmanager.ui.MainApplication",
@@ -450,6 +479,69 @@
 	},
 	{
 		"name": "tibetiroka.esmanager.ui.UpdateSettingsController",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "tibetiroka.esmanager.ui.SourceEditorController",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "tibetiroka.esmanager.instance.annotation.Editable",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "tibetiroka.esmanager.instance.annotation.EditableCollection",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "tibetiroka.esmanager.instance.annotation.EditableSource",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "tibetiroka.esmanager.instance.annotation.NonEditable",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "com.owlike.genson.annotations.JsonIgnore",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "com.owlike.genson.annotations.JsonConverter",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,
 		"allDeclaredMethods": true,
@@ -801,6 +893,31 @@
 		"allPublicMethods": true
 	},
 	{
+		"name": "java.lang.Integer",
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "java.lang.Long",
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "java.lang.Double",
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "java.lang.Float",
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "java.lang.Boolean",
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
 		"name": "javafx.beans.property.SimpleBooleanProperty",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,
@@ -928,6 +1045,15 @@
 		"allPublicFields": true
 	},
 	{
+		"name": "javafx.scene.control.SplitPane",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
 		"name": "javafx.scene.control.Slider",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,
@@ -982,6 +1108,51 @@
 		"allPublicFields": true
 	},
 	{
+		"name": "javafx.scene.control.Menu",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "javafx.scene.control.ContextMenu",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "javafx.scene.control.MenuItem",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "javafx.scene.control.SeparatorMenuItem",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "javafx.stage.Stage",
+		"allDeclaredConstructors": true,
+		"allPublicConstructors": true,
+		"allDeclaredMethods": true,
+		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
 		"name": "org.kordamp.ikonli.javafx.FontIcon",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,
@@ -1003,6 +1174,11 @@
 		"name": "org.eclipse.jgit.lib.CoreConfig$TrustPackedRefsStat",
 		"allDeclaredMethods": true,
 		"allPublicMethods": true,
+		"allDeclaredFields": true,
+		"allPublicFields": true
+	},
+	{
+		"name": "org.eclipse.jgit.merge.MergeStrategy",
 		"allDeclaredFields": true,
 		"allPublicFields": true
 	},
