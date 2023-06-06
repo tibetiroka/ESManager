@@ -251,7 +251,7 @@ public abstract class Source {
 	/**
 	 * Deletes this source.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public void delete() {
 		deleteBranch();

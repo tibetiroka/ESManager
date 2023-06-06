@@ -36,7 +36,7 @@ import static tibetiroka.esmanager.instance.annotation.Validator.URI;
 /**
  * A special MultiSource for handling {@link SourceType#DYNAMIC_REFS}. The list of git sources is changed depending on what is available on the remote. This source only uses {@link GitSource} internally, and doesn't support adding different sources to the list of sources.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 @EditableSource
 public class DynamicRefSource extends MultiSource {
@@ -44,14 +44,14 @@ public class DynamicRefSource extends MultiSource {
 	/**
 	 * The regex pattern used to select refs
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	@Editable(PATTERN)
 	protected String pattern;
 	/**
 	 * The URI of the remote repository.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	@Editable(URI)
 	protected String remoteURI;
@@ -66,7 +66,7 @@ public class DynamicRefSource extends MultiSource {
 	 * @param name      The name of the source
 	 * @param remoteURI The URI of the remote repository
 	 * @param pattern   The pattern used to select refs
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public DynamicRefSource(@NotNull String name, @NotNull String remoteURI, @NotNull String pattern) {
 		super(name, SourceType.DYNAMIC_REFS);
@@ -166,7 +166,7 @@ public class DynamicRefSource extends MultiSource {
 	 *
 	 * @param ref The ref
 	 * @return The source
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	protected @NotNull GitSource createSource(@NotNull String ref) {
 		String name = "Dynamic source for " + ref + " of " + remoteURI;
@@ -187,7 +187,7 @@ public class DynamicRefSource extends MultiSource {
 	 *
 	 * @return The set of refs
 	 * @throws GitAPIException if the remote cannot be listed
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	protected @NotNull Set<@NotNull String> listMatchingRefs() throws GitAPIException {
 		HashSet<String> refs = new HashSet<>(Git.lsRemoteRepository().setRemote(remoteURI).setHeads(true).setTags(true).callAsMap().keySet());

@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 /**
  * Logging utilities, mainly used for getting around the limitations of the default streams.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 public class LogUtils {
 	private static final Logger log = LoggerFactory.getLogger(LogUtils.class);
@@ -34,7 +34,7 @@ public class LogUtils {
 	 *
 	 * @param stream The stream to read
 	 * @param level  The logging level
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public static void log(@NotNull InputStream stream, @NotNull Level level) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -48,7 +48,7 @@ public class LogUtils {
 	 *
 	 * @param stream The stream to read
 	 * @param level  The logging level
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public static void logAsync(@NotNull InputStream stream, @NotNull Level level) {
 		new Thread(() -> {

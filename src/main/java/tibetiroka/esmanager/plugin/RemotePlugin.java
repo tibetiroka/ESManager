@@ -40,7 +40,7 @@ public class RemotePlugin {
 	/**
 	 * Stores whether this plugin is installed.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	@JsonIgnore
 	private final transient @NotNull SimpleBooleanProperty installed = new SimpleBooleanProperty(false);
@@ -285,7 +285,7 @@ public class RemotePlugin {
 	 * Stores whether the plugin is installed locally. If true, {@link #findLocal()} should return a non-null value, and null when false.
 	 *
 	 * @return The property
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public @NotNull ReadOnlyBooleanProperty installedProperty() {
 		return installed;
@@ -321,7 +321,7 @@ public class RemotePlugin {
 	/**
 	 * Checks whether this plugin is installed, and updates {@link #installed} accordingly.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	protected void updateInstalledStatus() {
 		installed.set(findLocal() != null);

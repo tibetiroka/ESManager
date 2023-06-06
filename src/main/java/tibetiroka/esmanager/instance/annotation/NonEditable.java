@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 /**
  * Marks a property that is displayed, but cannot be edited.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

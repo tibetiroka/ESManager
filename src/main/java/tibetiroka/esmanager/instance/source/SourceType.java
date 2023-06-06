@@ -37,7 +37,7 @@ public enum SourceType {
 	/**
 	 * A specific git commit.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	COMMIT,
 	/**
@@ -61,7 +61,7 @@ public enum SourceType {
 	/**
 	 * A dynamically changing set of refs chosen from a repository.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	DYNAMIC_REFS,
 	/**

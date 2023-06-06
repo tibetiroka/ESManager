@@ -78,7 +78,7 @@ public class Instance {
 	/**
 	 * The public name of this instance. This is displayed in the GUI.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	@NotNull
 	private SimpleStringProperty publicName = new SimpleStringProperty();
@@ -153,7 +153,7 @@ public class Instance {
 	 *
 	 * @return The name of the instance
 	 * @see #getPublicName()
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public @NotNull StringBinding createNameStringBinding() {
 		return Bindings.createStringBinding(this::getPublicName, publicName);
@@ -203,7 +203,7 @@ public class Instance {
 	/**
 	 * Gets the name of this instance. This is used in the file system.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public @NotNull String getInternalName() {
 		return name;
@@ -221,7 +221,7 @@ public class Instance {
 	/**
 	 * Gets the public name of this instance. This name is used in the GUI.
 	 *
-	 * @return 0.0.6
+	 * @return 1.0.0
 	 */
 	public @NotNull String getPublicName() {
 		return publicName.get() == null ? name : publicName.get();
@@ -231,7 +231,7 @@ public class Instance {
 	 * Changes the public name of the instance. This doesn't affect the {@link #name internal name} of the instance. All bindings created via {@link #createNameStringBinding()} are automatically updated.
 	 *
 	 * @param name The new public name
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public void setPublicName(@NotNull String name) {
 		Platform.runLater(() -> {

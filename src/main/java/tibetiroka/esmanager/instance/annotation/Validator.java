@@ -19,13 +19,13 @@ import java.util.regex.Pattern;
 /**
  * An enum for structures that can check the validity and create valid versions of supported types, used in the instance editor panel.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 public enum Validator {
 	/**
 	 * Accepts all values of any type, including null.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	VALID {
 		@Override
@@ -41,7 +41,7 @@ public enum Validator {
 	/**
 	 * Accepts all non-blank string values.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	NOT_BLANK_STRING {
 		@Override
@@ -57,7 +57,7 @@ public enum Validator {
 	/**
 	 * Accepts all non-null values.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	NON_NULL {
 		@Override
@@ -73,7 +73,7 @@ public enum Validator {
 	/**
 	 * Accepts all strings that represent valid {@link Pattern patterns}.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	PATTERN {
 		@Override
@@ -96,7 +96,7 @@ public enum Validator {
 	/**
 	 * Accepts all strings that represent valid {@link URI URIs}.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	URI {
 		@Override
@@ -123,7 +123,7 @@ public enum Validator {
 	 * @param t   The object to convert
 	 * @param <T> The type of the object
 	 * @return The converted object
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public abstract <T> @Nullable Object convert(@Nullable T t);
 
@@ -133,7 +133,7 @@ public enum Validator {
 	 * @param t   The object to check
 	 * @param <T> The type of the object
 	 * @return True if valid
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public abstract <T> boolean isValid(@Nullable T t);
 }

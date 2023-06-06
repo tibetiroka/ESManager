@@ -25,7 +25,7 @@ import static tibetiroka.esmanager.config.Launcher.localize;
 /**
  * Utilities for managing os-dependent utilities, such as selecting programs for opening files.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 public class SystemUtils {
 	private static final Logger log = LoggerFactory.getLogger(SystemUtils.class);
@@ -34,7 +34,7 @@ public class SystemUtils {
 	 * Opens the specified directory, if supported by the operating system.
 	 *
 	 * @param file The directory to open
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public static void openDirectory(@NotNull File file) {
 		log.info(localize("log.directory.open", file.getPath()));
@@ -57,7 +57,7 @@ public class SystemUtils {
 	 * Opens the specified file for editing, if supported.
 	 *
 	 * @param file The file to open
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public static void openFile(@NotNull File file) {
 		if(!file.exists()) {
@@ -89,7 +89,7 @@ public class SystemUtils {
 	 * Checks whether the {@code gio} command is available on this platform. Always returns false on Windows.
 	 *
 	 * @return True if available, false otherwise
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	private static boolean isGioSupported() {
 		if(AppConfiguration.isWindows()) {

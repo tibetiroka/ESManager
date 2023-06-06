@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
 /**
  * Marks a source as editable and links the appropriate editor to it.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
@@ -29,7 +29,7 @@ public @interface EditableSource {
 	 * The FXML file containing the editor for this source, relative to the instance controller.
 	 *
 	 * @return The path to the FXML file
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	@NotNull String value() default "source-editor.fxml";
 }

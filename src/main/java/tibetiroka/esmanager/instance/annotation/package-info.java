@@ -10,6 +10,6 @@
 /**
  * Collection of annotations that handle how the instance editor should treat properties. It is erroneous to add more than one of these annotations to any field. Fields not marked with any such annotation will not be displayed.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 package tibetiroka.esmanager.instance.annotation;

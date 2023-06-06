@@ -13,7 +13,7 @@ package tibetiroka.esmanager.instance.annotation;
 /**
  * Marks a collection whose elements can be added, removed or edited individually.
  *
- * @since 0.0.6
+ * @since 1.0.0
  */
 public @interface EditableCollection {
 }

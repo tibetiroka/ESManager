@@ -205,7 +205,7 @@ public class GensonFactory {
 	/**
 	 * Converts a {@link SimpleObjectProperty}&lt;{@link Source}&gt; to {@link Source}.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	public static class SourcePropertyConverter implements Converter<SimpleObjectProperty<?>> {
 		public SourcePropertyConverter() {
@@ -379,7 +379,7 @@ public class GensonFactory {
 	/**
 	 * A special converter factory for sources. They use a custom class annotation scheme to support more drastic backend changes.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	private static class SourceConverterFactory implements Factory<Converter<Source>> {
 		@Override
@@ -412,7 +412,7 @@ public class GensonFactory {
 	/**
 	 * Decides whether a specific source should or should not be serialized by the default converters.
 	 *
-	 * @since 0.0.6
+	 * @since 1.0.0
 	 */
 	private static final class SourceSetDeserializer implements Deserializer<SourceSet> {
 		@Override
