@@ -6,7 +6,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 
 - Download the latest continuous
 - Download any pull request, release, or the latest release
-- Build any branch, PR or release from source
+- Build any branch, PR, commit or release from source
   - Supports forked repositories
 - Pull from multiple sources and merge them automatically
   - Look out for merge conflicts
@@ -20,7 +20,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
 
 ## ESL2 features missing from ESManager
 
-- Proper macOS/Windows support
+- Proper macOS support
   - I'm mainly using linux, so I cannot ensure anything will work on other systems. Most things should be ok. I'll try my best to fix any bugs that come up. As the project matures and becomes more stable, it will hopefully be usable on every platform.
 - The convenient instance creation panel on the main page
   - There are simply too many options for me to fit them all in there. A simplified version might be added later. You get an instance creation wizard instead.
@@ -74,7 +74,7 @@ An alternative for ESLauncher2, aimed at developers and advanced users.
   Feel free to look at the [fxml files](src/main/resources/tibetiroka/esmanager/ui) to see which style classes apply to certain components. 
   
 ### Localization
-  Pretty much all text you see in the launcher is localized. The application ships with a single English locale, but you can define your own locales as well. You can choose between locales in `Settings -> Launcher -> Language`.
+  Pretty much all text you see in the launcher is localized. The application ships with an English locale (and an experimental Hungarian translation), but you can define your own locales as well. You can choose between locales in `Settings -> Launcher -> Language`.
   
   To add a new language, navigate to the [data directory](#data-directory), and create a new subdirectory called `locales`. You can put your own locale files in this directory. Locale files are always named `ui_language.properties`, like `ui_hu.properties` or `ui_en_US.properties`. These locales will become available in the launcher after it is restarted.
   
