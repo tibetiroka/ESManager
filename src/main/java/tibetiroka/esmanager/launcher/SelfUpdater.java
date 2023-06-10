@@ -66,7 +66,7 @@ public class SelfUpdater {
 	 * @since 0.0.1
 	 */
 	public static boolean needsUpdate() throws GitAPIException, URISyntaxException {
-		return findLatest().filter(s -> !VersioningUtils.isSameRelease(s, (String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version"))).isPresent();
+		return findLatest().filter(s -> VersioningUtils.isNewerRelease((String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.version"),s)).isPresent();
 	}
 
 	/**

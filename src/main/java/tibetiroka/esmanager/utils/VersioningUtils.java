@@ -20,18 +20,32 @@ import java.util.Comparator;
  * @since 0.0.1
  */
 public class VersioningUtils {
-	public static boolean isSameRelease(String first, String second) {
-		if(first.startsWith("v")) {
-			first = first.substring("v".length());
-		}
-		if(second.startsWith("v")) {
-			second = second.substring("v".length());
-		}
-		return first.equalsIgnoreCase(second);
+	/**
+	 * Checks whether the second release is newer than the first one. It is newer if the semantic version number is greater.
+	 *
+	 * @param first  The first release
+	 * @param second The second release
+	 * @return True if the second is newer
+	 * @since 1.0.0
+	 */
+	public static boolean isNewerRelease(@NotNull String first, @NotNull String second) {
+		return semVerComparator().compare(first, second) > 0;
 	}
 
 	/**
-	 * Sorts the specified semantic version numbers, from latest to oldest.
+	 * Checks whether the two releases are the same. They are the same if they describe the same semantic version number.
+	 *
+	 * @param first  The first release
+	 * @param second The second release
+	 * @return True if the same release
+	 * @since 0.0.1
+	 */
+	public static boolean isSameRelease(@NotNull String first, @NotNull String second) {
+		return semVerComparator().compare(first, second) == 0;
+	}
+
+	/**
+	 * Sorts the specified semantic version numbers, from latest to oldest. The smaller value describes the newer release.
 	 *
 	 * @return The comparator
 	 * @since 0.0.1
