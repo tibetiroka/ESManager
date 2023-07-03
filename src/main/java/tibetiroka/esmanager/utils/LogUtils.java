@@ -36,10 +36,12 @@ public class LogUtils {
 	 * @param level  The logging level
 	 * @since 1.0.0
 	 */
-	public static void log(@NotNull InputStream stream, @NotNull Level level) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		for(String line = reader.readLine(); line != null; line = reader.readLine()) {
-			log.atLevel(level).log(line);
+	public static void log(@NotNull InputStream stream, @NotNull Level level) {
+		try(BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+			for(String line = reader.readLine(); line != null; line = reader.readLine()) {
+				log.atLevel(level).log(line);
+			}
+		} catch(IOException ignored) {
 		}
 	}
 
@@ -53,11 +55,7 @@ public class LogUtils {
 	public static void logAsync(@NotNull InputStream stream, @NotNull Level level) {
 		new Thread(() -> {
 			Main.configureThread(Thread.currentThread(), true);
-			try {
-				log(stream, level);
-			} catch(IOException e) {
-				throw new RuntimeException(e);
-			}
+			log(stream, level);
 		}, "Logging thread for stream").start();
 	}
 }
