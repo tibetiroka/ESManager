@@ -14,8 +14,6 @@ import javafx.application.Platform;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.merge.ContentMergeStrategy;
-import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
@@ -273,6 +271,6 @@ public class GitSource extends Source {
 	 */
 	protected @NotNull MergeResult merge(Ref ref) throws GitAPIException {
 		log.debug(localize("log.git.merge", ref.getName(), getBranchName()));
-		return GIT.merge().include(ref).setStrategy(MergeStrategy.THEIRS).setContentMergeStrategy(ContentMergeStrategy.THEIRS).call();
+		return GIT.merge().include(ref).setCommit(true).call();
 	}
 }

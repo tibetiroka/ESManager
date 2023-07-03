@@ -10,9 +10,11 @@
 
 package tibetiroka.esmanager.instance.source;
 
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import tibetiroka.esmanager.instance.Instance;
 import tibetiroka.esmanager.instance.annotation.Editable;
 import tibetiroka.esmanager.instance.annotation.Validator;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
@@ -201,12 +204,12 @@ public class MultiSource extends Source {
 	private void merge(@NotNull Source source) {
 		log.debug(localize("log.source.update.multi.merge", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
 		try {
-			Ref other = GIT.branchList().call().stream().filter(ref -> ref.getName().equals("refs/heads/" + source.getBranchName())).findAny().get();
+			ObjectId other = GIT.getRepository().resolve("refs/heads/" + source.getBranchName());
 			getInstance().getTracker().beginTask(0.5);
 			GIT.checkout().setName(getBranchName()).setCreateBranch(false).call();
 			getInstance().getTracker().endTask();
 			getInstance().getTracker().beginTask(0.5);
-			MergeResult result = GIT.merge().setStrategy(SETTINGS.mergeStrategyProperty().get()).setContentMergeStrategy(SETTINGS.contentMergeStrategyProperty().get()).setCommit(true).include(other).call();
+			MergeResult result = GIT.merge().setStrategy(SETTINGS.mergeStrategyProperty().get()).setContentMergeStrategy(SETTINGS.contentMergeStrategyProperty().get()).setFastForward(FastForwardMode.NO_FF).setCommit(true).include(other).call();
 			switch(result.getMergeStatus()) {
 				case CHECKOUT_CONFLICT ->
 						log.error(localize("log.source.update.multi.merge.fail.conflict.checkout", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
@@ -220,7 +223,7 @@ public class MultiSource extends Source {
 						log.error(localize("log.source.update.multi.merge.fail.merge.unknown", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName(), result.getMergeStatus().name()));
 			}
 			getInstance().getTracker().endTask();
-		} catch(GitAPIException | NoSuchElementException e) {
+		} catch(GitAPIException | NoSuchElementException | IOException e) {
 			log.error(localize("log.source.update.multi.merge.fail", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName(), e.getMessage()));
 			throw new RuntimeException(e);
 		}
