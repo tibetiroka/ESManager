@@ -16,7 +16,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.merge.ContentMergeStrategy;
 import org.eclipse.jgit.merge.MergeStrategy;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
@@ -33,6 +32,7 @@ import tibetiroka.esmanager.instance.annotation.Validator;
 import java.net.URI;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Objects;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
 
@@ -98,21 +98,20 @@ public class GitSource extends Source {
 		getInstance().getTracker().endTask();
 		getInstance().getTracker().beginTask(0.5);
 		try {
-			GIT.checkout().setName(getBranchName()).setCreateBranch(false).call();
 			getInstance().getTracker().beginTask(0.3);
+			GIT.checkout().setName(getBranchName()).setCreateBranch(false).call();
 			getInstance().getTracker().endTask();
-			getInstance().getTracker().beginTask(0.5);
+			getInstance().getTracker().beginTask(0.6);
 			Ref ref = fetch(getRemoteRefName(), false).getAdvertisedRef(getRemoteRefName());
 			MergeResult result = merge(ref);
 			getInstance().getTracker().endTask();
 			if(!result.getMergeStatus().isSuccessful()) {
 				throw new IllegalStateException(localize("log.git.create.merge.fail.state", getName(), remoteURI, targetName, result.getMergeStatus()));
 			}
-			getInstance().getTracker().beginTask(0.2);
-			RevCommit latest = GIT.log().setMaxCount(1).call().iterator().next();
-			lastCommit = latest.getName();
+			getInstance().getTracker().beginTask(0.1);
+			lastCommit = ref.getObjectId().getName();
 			lastUpdated = Date.from(Instant.now());
-			Platform.runLater(() -> getVersion().set(lastCommit.substring(0, 7)));
+			Platform.runLater(() -> getVersion().set(ref.getObjectId().abbreviate(7).name()));
 			getInstance().getTracker().endTask();
 			log.debug(localize("log.git.create.fetch.message", getName(), remoteURI, targetName));
 			initialized = true;
@@ -169,7 +168,7 @@ public class GitSource extends Source {
 			localize("log.source.update.fetch", getName(), remoteURI, lastCommit, targetName);
 			FetchResult result = fetch(getRemoteRefName(), true);
 			TrackingRefUpdate update = result.getTrackingRefUpdates().iterator().next();
-			return !update.getOldObjectId().getName().equals(update.getNewObjectId().getName());
+			return Objects.equals(lastCommit, update.getOldObjectId().getName());
 		} catch(GitAPIException e) {
 			throw new RuntimeException(e);
 		}
