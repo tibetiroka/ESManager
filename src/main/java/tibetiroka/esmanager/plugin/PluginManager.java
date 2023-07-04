@@ -136,6 +136,7 @@ public class PluginManager {
 			}, "Plugin updater thread for " + local.getName()).start();
 		}
 		phaser.arriveAndAwaitAdvance();
+		AppConfiguration.savePluginConfiguration();
 		UPDATE_IN_PROGRESS.set(false);
 	}
 

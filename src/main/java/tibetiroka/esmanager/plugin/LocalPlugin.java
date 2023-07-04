@@ -126,6 +126,7 @@ public class LocalPlugin {
 		if(r != null) {
 			r.updateInstalledStatus();
 		}
+		AppConfiguration.savePluginConfiguration();
 	}
 
 	/**

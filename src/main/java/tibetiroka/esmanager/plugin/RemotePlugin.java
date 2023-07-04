@@ -278,6 +278,7 @@ public class RemotePlugin {
 		}
 		LocalPlugin local = new LocalPlugin(name);
 		download(local);
+		AppConfiguration.savePluginConfiguration();
 		return local;
 	}
 
