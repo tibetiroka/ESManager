@@ -16,10 +16,25 @@
 		<junit.version>5.9.3</junit.version>
 		<java.version>17</java.version>
 		<javafx.version>20.0.1</javafx.version>
-		<logback.version>1.4.7</logback.version>
+		<logback.version>1.4.8</logback.version>
 		<slf4j.version>2.0.7</slf4j.version>
 		<ikonli.version>12.3.1</ikonli.version>
+		<controlsfx.version>11.1.2</controlsfx.version>
+		<jgit.version>6.6.0.202305301015-r</jgit.version>
+		<genson.version>1.6</genson.version>
+		<commons.codec.version>1.16.0</commons.codec.version>
+		<commons.io.version>2.13.0</commons.io.version>
 		<annotations.version>24.0.1</annotations.version>
+		<plugin.javadoc.version>3.5.0</plugin.javadoc.version>
+		<plugin.source.version>3.3.0</plugin.source.version>
+		<plugin.compiler.version>3.11.0</plugin.compiler.version>
+		<plugin.shade.version>3.5.0</plugin.shade.version>
+		<plugin.resources.version>3.3.1</plugin.resources.version>
+		<plugin.antrun.version>3.1.0</plugin.antrun.version>
+		<plugin.jar.version>3.3.0</plugin.jar.version>
+		<plugin.javapackager.version>1.7.2</plugin.javapackager.version>
+		<plugin.gluonfx.version>1.0.18</plugin.gluonfx.version>
+		<plugin.javafx.version>0.0.8</plugin.javafx.version>
 		<mainClass>tibetiroka.esmanager.Main</mainClass>
 	</properties>
 
@@ -176,7 +191,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.5.0</version>
+						<version>${plugin.javadoc.version}</version>
 						<configuration>
 							<doclint>none</doclint>
 						</configuration>
@@ -192,7 +207,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>3.2.1</version>
+						<version>${plugin.source.version}</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -205,7 +220,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-shade-plugin</artifactId>
-						<version>3.4.1</version>
+						<version>${plugin.shade.version}</version>
 						<configuration>
 							<transformers>
 								<transformer
@@ -239,7 +254,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>${plugin.antrun.version}</version>
                         <executions>
                             <execution>
                                 <id>rename-sources-and-javadoc</id>
@@ -304,7 +319,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-shade-plugin</artifactId>
-                        <version>3.4.1</version>
+                        <version>${plugin.shade.version}</version>
                         <configuration>
                             <transformers>
                                 <transformer
@@ -338,7 +353,7 @@
                     <plugin>
                         <groupId>io.github.fvarrui</groupId>
                         <artifactId>javapackager</artifactId>
-                        <version>1.7.2</version>
+                        <version>${plugin.javapackager.version}</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -403,7 +418,7 @@
                     <plugin>
                         <groupId>com.gluonhq</groupId>
                         <artifactId>gluonfx-maven-plugin</artifactId>
-                        <version>1.0.18</version>
+                        <version>${plugin.gluonfx.version}</version>
                         <configuration>
                             <target>host</target>
                             <mainClass>${mainClass}</mainClass>
@@ -435,7 +450,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.3.1</version>
+                        <version>${plugin.resources.version}</version>
                         <executions>
                             <execution>
                                 <id>copy-artifacts</id>
@@ -461,7 +476,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>${plugin.antrun.version}</version>
                         <executions>
                             <execution>
                                 <id>rename-dmg</id>
@@ -522,7 +537,7 @@
 		<dependency>
 			<groupId>org.controlsfx</groupId>
 			<artifactId>controlsfx</artifactId>
-			<version>11.1.2</version>
+			<version>${controlsfx.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.kordamp.ikonli</groupId>
@@ -554,12 +569,12 @@
 		<dependency>
 			<groupId>org.eclipse.jgit</groupId>
 			<artifactId>org.eclipse.jgit</artifactId>
-			<version>6.6.0.202305301015-r</version>
+			<version>${jgit.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.owlike</groupId>
 			<artifactId>genson</artifactId>
-			<version>1.6</version>
+			<version>${genson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -584,12 +599,12 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.15</version>
+			<version>${commons.codec.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.12.0</version>
+			<version>${commons.io.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -598,7 +613,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
+				<version>${plugin.compiler.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
@@ -636,7 +651,7 @@
 			<plugin>
 				<groupId>org.openjfx</groupId>
 				<artifactId>javafx-maven-plugin</artifactId>
-				<version>0.0.8</version>
+				<version>${plugin.javafx.version}</version>
 				<executions>
 					<execution>
 						<id>default-cli</id>
@@ -655,7 +670,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>${plugin.jar.version}</version>
 				<configuration>
 					<archive>
 						<manifest>
