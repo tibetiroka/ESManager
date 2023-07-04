@@ -11,7 +11,6 @@
 package tibetiroka.esmanager.utils;
 
 import com.owlike.genson.annotation.JsonIgnore;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleLongProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,6 +19,8 @@ import tibetiroka.esmanager.plugin.LocalPlugin;
 import tibetiroka.esmanager.plugin.PluginManager;
 
 import java.util.Date;
+
+import static tibetiroka.esmanager.utils.FxUtils.runOnPlatform;
 
 /**
  * Tracks various statistics and data about the user.
@@ -57,12 +58,7 @@ public class Statistics {
 	 * @since 1.1.0
 	 */
 	public void advanceActiveTimeCounter(long amount) {
-		Runnable r = () -> getTimeActive().set(getTimeActive().get() + amount);
-		if(Platform.isFxApplicationThread()) {
-			r.run();
-		} else {
-			Platform.runLater(r);
-		}
+		runOnPlatform(() -> getTimeActive().set(getTimeActive().get() + amount));
 	}
 
 	/**
@@ -71,12 +67,7 @@ public class Statistics {
 	 * @since 1.1.0
 	 */
 	public void advanceLaunchCounter() {
-		Runnable r = () -> getLaunches().set(getLaunches().get() + 1);
-		if(Platform.isFxApplicationThread()) {
-			r.run();
-		} else {
-			Platform.runLater(r);
-		}
+		runOnPlatform(() -> getLaunches().set(getLaunches().get() + 1));
 	}
 
 	/**
@@ -161,12 +152,7 @@ public class Statistics {
 		 * @since 1.1.0
 		 */
 		public void advanceInstanceCreationCounter() {
-			Runnable r = () -> instanceCreations.set(instanceCreations.get() + 1);
-			if(Platform.isFxApplicationThread()) {
-				r.run();
-			} else {
-				Platform.runLater(r);
-			}
+			runOnPlatform(() -> instanceCreations.set(instanceCreations.get() + 1));
 		}
 
 		/**
@@ -175,12 +161,7 @@ public class Statistics {
 		 * @since 1.1.0
 		 */
 		public void advancePluginDownloadCounter() {
-			Runnable r = () -> pluginDownloads.set(pluginDownloads.get() + 1);
-			if(Platform.isFxApplicationThread()) {
-				r.run();
-			} else {
-				Platform.runLater(r);
-			}
+			runOnPlatform(() -> pluginDownloads.set(pluginDownloads.get() + 1));
 		}
 
 		/**
@@ -241,7 +222,7 @@ public class Statistics {
 
 		@Override
 		public void advanceActiveTimeCounter(long amount) {
-			Runnable r = () -> {
+			FxUtils.runOnPlatform(() -> {
 				super.advanceActiveTimeCounter(amount);
 				GlobalStatistics.getGlobalStatistics().getInstanceStatistics().advanceActiveTimeCounter(amount);
 				for(LocalPlugin plugin : PluginManager.getManager().getInstalledPlugins()) {
@@ -249,17 +230,12 @@ public class Statistics {
 						plugin.getStatistics().advanceActiveTimeCounter(amount);
 					}
 				}
-			};
-			if(Platform.isFxApplicationThread()) {
-				r.run();
-			} else {
-				Platform.runLater(r);
-			}
+			});
 		}
 
 		@Override
 		public void advanceLaunchCounter() {
-			Runnable r = () -> {
+			runOnPlatform(() -> {
 				super.advanceLaunchCounter();
 				GlobalStatistics.getGlobalStatistics().getInstanceStatistics().advanceLaunchCounter();
 				for(LocalPlugin plugin : PluginManager.getManager().getInstalledPlugins()) {
@@ -267,12 +243,7 @@ public class Statistics {
 						plugin.getStatistics().advanceLaunchCounter();
 					}
 				}
-			};
-			if(Platform.isFxApplicationThread()) {
-				r.run();
-			} else {
-				Platform.runLater(r);
-			}
+			});
 		}
 
 		/**
@@ -294,28 +265,18 @@ public class Statistics {
 	public static class PluginStatistics extends Statistics {
 		@Override
 		public void advanceActiveTimeCounter(long amount) {
-			Runnable r = () -> {
+			runOnPlatform(() -> {
 				super.advanceActiveTimeCounter(amount);
 				GlobalStatistics.getGlobalStatistics().getPluginStatistics().advanceActiveTimeCounter(amount);
-			};
-			if(Platform.isFxApplicationThread()) {
-				r.run();
-			} else {
-				Platform.runLater(r);
-			}
+			});
 		}
 
 		@Override
 		public void advanceLaunchCounter() {
-			Runnable r = () -> {
+			runOnPlatform(() -> {
 				super.advanceLaunchCounter();
 				GlobalStatistics.getGlobalStatistics().getPluginStatistics().advanceLaunchCounter();
-			};
-			if(Platform.isFxApplicationThread()) {
-				r.run();
-			} else {
-				Platform.runLater(r);
-			}
+			});
 		}
 	}
 }
