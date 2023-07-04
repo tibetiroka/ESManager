@@ -43,7 +43,7 @@ import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 public class PluginController {
-	private static final Logger log = LoggerFactory.getLogger(PluginManager.class);
+	private static final Logger log = LoggerFactory.getLogger(PluginController.class);
 	@FXML
 	protected Label authors;
 	@FXML

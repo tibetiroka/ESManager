@@ -79,6 +79,7 @@ public class LocalPlugin {
 		if(instances == null) {
 			instances = Instance.getInstances().stream().map(Instance::getInternalName).collect(Collectors.toCollection(HashSet::new));
 		}
+		log.debug(localize("log.plugin.disable", name, version, instance.getPublicName()));
 		instances.remove(instance.getInternalName());
 	}
 
@@ -90,6 +91,7 @@ public class LocalPlugin {
 	 */
 	public void enableFor(@NotNull Instance instance) {
 		if(instances != null) {
+			log.debug(localize("log.plugin.enable", name, version, instance.getPublicName()));
 			instances.add(instance.getInternalName());
 		}
 	}
@@ -100,6 +102,7 @@ public class LocalPlugin {
 	 * @since 1.1.0
 	 */
 	public void enableForAll() {
+		log.debug(localize("log.plugin.enable.all", name, version));
 		instances = null;
 	}
 
