@@ -19,6 +19,7 @@ import org.slf4j.event.Level;
 import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.source.ReleaseSource;
+import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.utils.LogUtils;
 
 import java.io.IOException;
@@ -49,6 +50,8 @@ public class SessionHelper {
 	 */
 	public static void start(@NotNull Instance instance, boolean debug) {
 		Platform.runLater(() -> ANY_RUNNING.set(true));
+		//
+		PluginManager.getManager().installPluginsFor(instance);
 		//
 		ArrayList<String> commands = new ArrayList<>();
 		if(!AppConfiguration.isLinux() && !AppConfiguration.isWindows() && instance.getSource() instanceof ReleaseSource s && "continuous".equals(s.getTargetName())) {

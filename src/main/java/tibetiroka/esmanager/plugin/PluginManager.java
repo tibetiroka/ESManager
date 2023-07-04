@@ -17,9 +17,11 @@ import org.jetbrains.annotations.Nullable;
 import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.GensonFactory;
+import tibetiroka.esmanager.instance.Instance;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.Phaser;
 
@@ -174,6 +176,26 @@ public class PluginManager {
 	 */
 	public @NotNull ArrayList<@NotNull RemotePlugin> getRemotePlugins() {
 		return remotePlugins;
+	}
+
+	/**
+	 * Installs all enabled plugins for this instance, and uninstalls all disabled ones. This only changes how the game sees installed plugins, and doesn't affect the internal mechanics of the launcher.
+	 *
+	 * @param instance The instance to configure plugins for
+	 * @since 1.1.0
+	 */
+	public void installPluginsFor(@NotNull Instance instance) {
+		for(LocalPlugin plugin : installedPlugins) {
+			if(plugin.isEnabledFor(instance)) {
+				if(!plugin.getSymlink().exists()) {
+					plugin.symlinkPlugin();
+				}
+			} else {
+				if(plugin.getSymlink().exists() && Files.isSymbolicLink(plugin.getSymlink().toPath())) {
+					plugin.getSymlink().delete();
+				}
+			}
+		}
 	}
 
 	/**

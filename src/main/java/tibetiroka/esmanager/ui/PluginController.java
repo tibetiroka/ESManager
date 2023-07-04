@@ -13,7 +13,10 @@ package tibetiroka.esmanager.ui;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.CacheHint;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -55,6 +58,8 @@ public class PluginController {
 	protected Button downloadButton;
 	@FXML
 	protected BorderPane imagePane;
+	@FXML
+	protected MenuItem manage;
 	@FXML
 	protected Label name;
 	@FXML
@@ -103,6 +108,7 @@ public class PluginController {
 		}
 		open.disableProperty().bind(plugin.installedProperty().map(o -> !o));
 		delete.disableProperty().bind(plugin.installedProperty().map(o -> !o));
+		manage.disableProperty().bind(plugin.installedProperty().map(o -> !o));
 	}
 
 	@FXML
@@ -162,5 +168,18 @@ public class PluginController {
 		Launcher.getLauncher().disableLocalization(description);
 		Launcher.getLauncher().disableLocalization(authors);
 		MainApplication.setContextMenu(pluginBox, contextMenu);
+	}
+
+	@FXML
+	protected void manage() {
+		try {
+			FXMLLoader loader = new FXMLLoader(PluginManagerController.class.getResource("plugin-manager.fxml"));
+			Parent p = loader.load();
+			Scene scene = new Scene(p);
+			((PluginManagerController) loader.getController()).initialize(PluginManager.findLocal(plugin.getName()));
+			MainApplication.createBlockingStage(scene, "plugin.manage.title", null, null);
+		} catch(IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

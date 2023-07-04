@@ -16,10 +16,13 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.instance.Instance;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
 
@@ -30,6 +33,13 @@ import static tibetiroka.esmanager.config.Launcher.localize;
  */
 public class LocalPlugin {
 	private static final Logger log = LoggerFactory.getLogger(LocalPlugin.class);
+	/**
+	 * The name of instances this plugin is enabled for. When null, the plugin is enabled for all instances.
+	 *
+	 * @since 1.1.0
+	 */
+	@Nullable
+	private HashSet<String> instances = null;
 	/**
 	 * The name of the plugin. This is the same as the name of this plugin in the plugin index, and is unique to each plugin. Never null after the installation of this plugin is finished.
 	 *
@@ -57,6 +67,40 @@ public class LocalPlugin {
 	public LocalPlugin(@NotNull String name) {
 		this();
 		this.name = name;
+	}
+
+	/**
+	 * Disables this plugin for the specified instance. No-op if the plugin is already {@link #isEnabledFor(Instance) disabled for this instance}.
+	 *
+	 * @param instance The instance to disable the plugin for
+	 * @since 1.1.0
+	 */
+	public void disableFor(@NotNull Instance instance) {
+		if(instances == null) {
+			instances = Instance.getInstances().stream().map(Instance::getInternalName).collect(Collectors.toCollection(HashSet::new));
+		}
+		instances.remove(instance.getInternalName());
+	}
+
+	/**
+	 * Enables this plugin for the specified instance. No-op if the plugin is already {@link #isEnabledFor(Instance) enabled for the instance}.
+	 *
+	 * @param instance The instance to enable the plugin for
+	 * @since 1.1.0
+	 */
+	public void enableFor(@NotNull Instance instance) {
+		if(instances != null) {
+			instances.add(instance.getInternalName());
+		}
+	}
+
+	/**
+	 * Enables this plugin for all current and future instances.
+	 *
+	 * @since 1.1.0
+	 */
+	public void enableForAll() {
+		instances = null;
 	}
 
 	/**
@@ -107,6 +151,27 @@ public class LocalPlugin {
 	 */
 	public void setVersion(@NotNull String version) {
 		this.version = version;
+	}
+
+	/**
+	 * Checks whether the plugin is enabled for the specified instance.
+	 *
+	 * @param instance The instance
+	 * @return True if enabled
+	 * @since 1.1.0
+	 */
+	public boolean isEnabledFor(@NotNull Instance instance) {
+		return instances == null || instances.contains(instance.getInternalName());
+	}
+
+	/**
+	 * Checks whether this plugin is enabled for all current and future instances.
+	 *
+	 * @return True if enabled for all instances
+	 * @since 1.1.0
+	 */
+	public boolean isEnabledForAll() {
+		return instances == null;
 	}
 
 	/**

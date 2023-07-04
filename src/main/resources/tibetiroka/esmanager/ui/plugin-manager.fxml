@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
+
+<VBox spacing="7.0" styleClass="plugin-manager-box" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.PluginManagerController">
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+	</padding>
+	<children>
+		<RadioButton fx:id="all" mnemonicParsing="false" text="plugin.manage.all.button">
+			<styleClass>
+				<String fx:value="plugin-manager-button" />
+				<String fx:value="plugin-manager-all-button" />
+			</styleClass>
+			<tooltip>
+				<Tooltip text="plugin.manage.all.button.tooltip">
+					<styleClass>
+						<String fx:value="plugin-manager-all-tooltip" />
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+			<toggleGroup>
+				<ToggleGroup fx:id="toggleGroup" />
+			</toggleGroup>
+		</RadioButton>
+		<RadioButton fx:id="specific" mnemonicParsing="false" text="plugin.manage.specific.button" toggleGroup="$toggleGroup">
+			<styleClass>
+				<String fx:value="plugin-manager-button" />
+				<String fx:value="plugin-manager-specific-button" />
+			</styleClass>
+			<tooltip>
+				<Tooltip text="plugin.manage.specific.button.tooltip">
+					<styleClass>
+						<String fx:value="plugin-manager-specific-tooltip" />
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</RadioButton>
+		<CheckComboBox fx:id="chooser">
+			<VBox.margin>
+				<Insets left="28.0" />
+			</VBox.margin>
+			<styleClass>
+				<String fx:value="plugin-manager-combo-box" />
+				<String fx:value="plugin-manager-instance-chooser-combo-box" />
+			</styleClass>
+			<tooltip>
+				<Tooltip text="plugin.manage.instance.chooser.tooltip">
+					<styleClass>
+						<String fx:value="plugin-manager-instance-chooser-tooltip" />
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</CheckComboBox>
+      <Button mnemonicParsing="false" onAction="#apply" text="plugin.manage.apply.button">
+         <styleClass>
+            <String fx:value="plugin-manager-button" />
+            <String fx:value="plugin-manager-apply-button" />
+         </styleClass>
+		  <tooltip>
+			  <Tooltip text="plugin.manage.apply.button.tooltip">
+				  <styleClass>
+					  <String fx:value="plugin-manager-apply-button-tooltip" />
+				  </styleClass>
+			  </Tooltip>
+		  </tooltip>
+      </Button>
+	</children>
+</VBox>

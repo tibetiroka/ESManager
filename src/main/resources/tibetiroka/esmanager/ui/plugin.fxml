@@ -26,6 +26,8 @@
 				<MenuItem text="plugin.menu.download" onAction="#download"/>
 				<MenuItem text="plugin.menu.opendirectory" onAction="#openDirectory" fx:id="open"/>
 				<SeparatorMenuItem/>
+				<MenuItem text="plugin.menu.manage" onAction="#manage" fx:id="manage"/>
+				<SeparatorMenuItem/>
 				<MenuItem text="plugin.menu.delete" onAction="#delete" fx:id="delete"/>
 			</items>
 		</ContextMenu>

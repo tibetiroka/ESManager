@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.source.Source;
+import tibetiroka.esmanager.plugin.LocalPlugin;
+import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.utils.UpdateProgressTracker;
 
 import java.io.File;
@@ -278,6 +280,13 @@ public class Instance {
 				throw new RuntimeException(e);
 			}
 		}
+		//removing from plugin configurations
+		for(LocalPlugin plugin : PluginManager.getManager().getInstalledPlugins()) {
+			if(!plugin.isEnabledForAll() && plugin.isEnabledFor(this)) {
+				plugin.disableFor(this);
+			}
+		}
+		AppConfiguration.savePluginConfiguration();
 	}
 
 	/**
