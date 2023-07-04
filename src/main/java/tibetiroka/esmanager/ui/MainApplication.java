@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.Main;
@@ -39,12 +41,14 @@ import tibetiroka.esmanager.instance.InstanceUtils;
 import tibetiroka.esmanager.launcher.SelfUpdater;
 import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.utils.FileUtils;
+import tibetiroka.esmanager.utils.Statistics.GlobalStatistics;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystemNotFoundException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
@@ -240,19 +244,25 @@ public class MainApplication extends Application {
 			primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(200);
 			primaryStage.setMinWidth(200);
-			primaryStage.setOnCloseRequest(event -> {
-				event.consume();
-				//prevent exiting if updates are in progress
-				if(PluginManager.updateInProgressProperty().get()) {
-					return;
-				}
-				for(Instance instance : Instance.getInstances()) {
-					if(instance.getTracker().isWorkingProperty().get()) {
+			primaryStage.setOnCloseRequest(new EventHandler<>() {
+				private final Instant launcherLoaded = Instant.now();
+
+				@Override
+				public void handle(WindowEvent event) {
+					event.consume();
+					//prevent exiting if updates are in progress
+					if(PluginManager.updateInProgressProperty().get()) {
 						return;
 					}
+					for(Instance instance : Instance.getInstances()) {
+						if(instance.getTracker().isWorkingProperty().get()) {
+							return;
+						}
+					}
+					GlobalStatistics.getGlobalStatistics().advanceActiveTimeCounter(Instant.now().toEpochMilli() - launcherLoaded.toEpochMilli());
+					AppConfiguration.saveAll();
+					primaryStage.close();
 				}
-				AppConfiguration.saveAll();
-				primaryStage.close();
 			});
 			MAIN_WINDOW_STYLESHEETS = scene.getRoot().getStylesheets();
 			STYLE_SHEET_LISTS.add(MAIN_WINDOW_STYLESHEETS);
@@ -265,6 +275,9 @@ public class MainApplication extends Application {
 			//loading data
 			AppConfiguration.discoverInstances();
 			AppConfiguration.loadPluginConfiguration();
+			AppConfiguration.loadStatisticsConfiguration();
+			StatisticsController.bind();
+			GlobalStatistics.getGlobalStatistics().advanceLaunchCounter();
 			GameSettingsController.bind();
 			UpdateSettingsController.bind();
 			AppConfiguration.loadBuildConfiguration();

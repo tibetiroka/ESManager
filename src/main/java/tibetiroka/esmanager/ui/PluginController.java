@@ -80,18 +80,18 @@ public class PluginController {
 		progressIndicator.visibleProperty().bind(plugin.downloadInProgressProperty());
 		LAUNCHER.disableLocalization(progressIndicator);
 		if(plugin.getShortDescription() == null) {
-			description.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.description.text.missing")));
+			description.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.description.text.missing"), Launcher.getLauncher().localeProperty()));
 			Font f = Font.font(description.getFont().getFamily(), FontWeight.NORMAL, FontPosture.ITALIC, description.getFont().getSize());
 			description.setFont(f);
 		} else {
 			description.setText(plugin.getShortDescription());
 		}
 		if(plugin.getAuthors() == null) {
-			authors.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.author.text.missing")));
+			authors.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.author.text.missing"), Launcher.getLauncher().localeProperty()));
 			Font f = Font.font(authors.getFont().getFamily(), FontWeight.NORMAL, FontPosture.ITALIC, authors.getFont().getSize());
 			authors.setFont(f);
 		} else {
-			authors.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.author.text", plugin.getAuthors())));
+			authors.textProperty().bind(Bindings.createStringBinding(() -> localize("plugin.author.text", plugin.getAuthors()), Launcher.getLauncher().localeProperty()));
 		}
 		if(plugin.getIconUrl() != null) {
 			new Thread(() -> {

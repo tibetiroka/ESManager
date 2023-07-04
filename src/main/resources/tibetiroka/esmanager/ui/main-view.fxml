@@ -306,6 +306,45 @@
 						</AnchorPane>
 					</content>
 				</Tab>
+				<Tab closable="false" text="tab.statistics">
+					<styleClass>
+						<String fx:value="main-tab"/>
+						<String fx:value="main-tab-statistics"/>
+					</styleClass>
+					<content>
+						<AnchorPane cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"
+									style="-fx-box-border: transparent;">
+							<styleClass>
+								<String fx:value="main-tab-pane"/>
+								<String fx:value="main-tab-pane-statistics"/>
+							</styleClass>
+							<children>
+								<ScrollPane cache="true" cacheHint="SPEED" fitToHeight="true" fitToWidth="true"
+											maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+											style="-fx-box-border: transparent;" AnchorPane.bottomAnchor="0.0"
+											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+											AnchorPane.topAnchor="0.0">
+									<styleClass>
+										<String fx:value="main-scroll-pane"/>
+										<String fx:value="statistics-scroll-pane"/>
+									</styleClass>
+									<content>
+										<AnchorPane cache="true" cacheHint="SPEED" maxHeight="1.7976931348623157E308"
+													maxWidth="1.7976931348623157E308" fx:id="statisticsPane">
+											<styleClass>
+												<String fx:value="scroll-pane-pane"/>
+												<String fx:value="statistics-scroll-pane-pane"/>
+											</styleClass>
+										</AnchorPane>
+									</content>
+								</ScrollPane>
+							</children>
+							<padding>
+								<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+							</padding>
+						</AnchorPane>
+					</content>
+				</Tab>
 			</tabs>
 		</TabPane>
 		<HBox fx:id="audioBox" alignment="BOTTOM_RIGHT" cache="true" cacheHint="SPEED">

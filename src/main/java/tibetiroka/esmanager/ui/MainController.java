@@ -74,6 +74,8 @@ public class MainController {
 	@FXML
 	protected VBox pluginListBox;
 	@FXML
+	protected AnchorPane statisticsPane;
+	@FXML
 	protected TabPane tabs;
 	@FXML
 	protected TitledPane update;
@@ -118,14 +120,16 @@ public class MainController {
 	protected void initialize() {
 		//logger config
 		logScroll.vvalueProperty().bind(logArea.heightProperty());
-		//settings panel
 		try {
+			//settings tab
 			audioSettings.getChildren().setAll((Node) new FXMLLoader(AudioSettingsController.class.getResource("audio-settings.fxml")).load());
 			updateSettings.getChildren().setAll((Node) new FXMLLoader(UpdateSettingsController.class.getResource("update-settings.fxml")).load());
 			gitSettings.getChildren().setAll((Node) new FXMLLoader(GitSettingsController.class.getResource("git-settings.fxml")).load());
 			gameSettings.getChildren().setAll((Node) new FXMLLoader(GameSettingsController.class.getResource("game-settings.fxml")).load());
 			buildSettings.getChildren().setAll((Node) new FXMLLoader(BuildSettingsController.class.getResource("build-settings.fxml")).load());
 			launcherSettings.getChildren().setAll((Node) new FXMLLoader(LauncherSettingsController.class.getResource("launcher-settings.fxml")).load());
+			//statistics tab
+			statisticsPane.getChildren().setAll((Node) new FXMLLoader(StatisticsController.class.getResource("statistics.fxml")).load());
 		} catch(IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -23,6 +23,7 @@ import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.plugin.RemotePlugin;
 import tibetiroka.esmanager.ui.MainController;
 import tibetiroka.esmanager.ui.PluginController;
+import tibetiroka.esmanager.utils.Statistics.GlobalStatistics;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -123,6 +124,12 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	private static final AtomicBoolean PLUGINS_LOADED = new AtomicBoolean(false);
+	/**
+	 * Stores whether the statistics configuration has been loaded.
+	 *
+	 * @since 1.1.0
+	 */
+	private static final AtomicBoolean STATISTICS_LOADED = new AtomicBoolean(false);
 
 	static {
 		if(isWindows()) {
@@ -178,6 +185,7 @@ public class AppConfiguration {
 			Instance[] instances = loadConfiguration(instanceFile, Instance[].class);
 			for(Instance instance : instances) {
 				instance.getSource().setInstance(instance);
+				instance.getStatistics().setInstance(instance);
 				InstanceUtils.createDisplay(instance);
 				Instance.getInstances().add(instance);
 			}
@@ -327,6 +335,16 @@ public class AppConfiguration {
 	}
 
 	/**
+	 * Loads the global statistics' configuration.
+	 *
+	 * @since 1.1.0
+	 */
+	public static void loadStatisticsConfiguration() {
+		loadConfigFile("statistics.json", GlobalStatistics.class, () -> GlobalStatistics.getGlobalStatistics() != null, GlobalStatistics::new);
+		STATISTICS_LOADED.set(true);
+	}
+
+	/**
 	 * Saves all loaded configurations.
 	 *
 	 * @since 0.0.1
@@ -341,6 +359,7 @@ public class AppConfiguration {
 		saveBuildConfiguration();
 		saveGitConfiguration();
 		saveLauncherConfiguration();
+		saveStatisticsConfiguration();
 	}
 
 	/**
@@ -398,7 +417,7 @@ public class AppConfiguration {
 	}
 
 	/**
-	 * SAves the launcher's configuration, if loaded.
+	 * Saves the launcher's configuration, if loaded.
 	 *
 	 * @since 0.0.1
 	 */
@@ -422,6 +441,20 @@ public class AppConfiguration {
 		}
 		if(PluginManager.getManager() != null) {
 			saveConfigFile("plugins.json", PluginManager.getManager());
+		}
+	}
+
+	/**
+	 * SAves the global statistics' configuration, if loaded.
+	 *
+	 * @since 0.0.1
+	 */
+	public static void saveStatisticsConfiguration() {
+		if(Main.ERROR.get() || !STATISTICS_LOADED.get()) {
+			return;
+		}
+		if(GlobalStatistics.getGlobalStatistics() != null) {
+			saveConfigFile("statistics.json", GlobalStatistics.getGlobalStatistics());
 		}
 	}
 

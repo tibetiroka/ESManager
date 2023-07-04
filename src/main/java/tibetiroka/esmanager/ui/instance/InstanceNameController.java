@@ -24,6 +24,7 @@ import tibetiroka.esmanager.instance.InstanceUtils;
 import tibetiroka.esmanager.instance.InstanceUtils.InstanceBuilder;
 import tibetiroka.esmanager.ui.MainApplication;
 import tibetiroka.esmanager.ui.MainController;
+import tibetiroka.esmanager.utils.Statistics.GlobalStatistics;
 
 public class InstanceNameController {
 	private static final Logger log = LoggerFactory.getLogger(InstanceNameController.class);
@@ -55,6 +56,7 @@ public class InstanceNameController {
 				Platform.runLater(() -> MainController.getController().newInstanceButton.setDisable(true));
 				try {
 					InstanceUtils.create(builder.name(name));
+					GlobalStatistics.getGlobalStatistics().advanceInstanceCreationCounter();
 				} catch(Exception e) {
 					log.error("Could not crete new instance", e);
 				} finally {

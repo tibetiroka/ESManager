@@ -23,6 +23,7 @@ import tibetiroka.esmanager.plugin.PluginManager;
 import tibetiroka.esmanager.utils.LogUtils;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static tibetiroka.esmanager.config.Launcher.localize;
@@ -74,16 +75,19 @@ public class SessionHelper {
 		//starting process
 		new Thread(() -> {
 			Main.configureThread(Thread.currentThread(), false);
+			Instant start = Instant.now();
 			try {
 				Process process = builder.start();
 				LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
 				LogUtils.logAsync(process.getErrorStream(), Level.WARN);
+				instance.getStatistics().advanceLaunchCounter();
 				process.waitFor();
 			} catch(IOException | InterruptedException e) {
 				throw new RuntimeException(e);
 			} finally {
 				log.info(localize("log.instance.play.end", instance.getPublicName()));
 				Platform.runLater(() -> ANY_RUNNING.set(false));
+				instance.getStatistics().advanceActiveTimeCounter(Instant.now().toEpochMilli() - start.toEpochMilli());
 			}
 		}).start();
 	}

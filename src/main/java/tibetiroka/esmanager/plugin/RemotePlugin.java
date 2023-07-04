@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tibetiroka.esmanager.config.AppConfiguration;
+import tibetiroka.esmanager.utils.Statistics.GlobalStatistics;
 import tibetiroka.esmanager.utils.UpdateProgressTracker;
 
 import java.io.IOException;
@@ -278,6 +279,7 @@ public class RemotePlugin {
 		}
 		LocalPlugin local = new LocalPlugin(name);
 		download(local);
+		GlobalStatistics.getGlobalStatistics().advancePluginDownloadCounter();
 		AppConfiguration.savePluginConfiguration();
 		return local;
 	}

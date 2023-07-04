@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2023 by tibetiroka.
+  ~
+  ~ ESManager is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ ESManager is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.*?>
+<HBox xmlns:fx="http://javafx.com/fxml/1" minHeight="-Infinity" minWidth="-Infinity" spacing="7.0"
+	  xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.StatisticsController">
+	<padding>
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+	</padding>
+	<styleClass>
+		<String fx:value="statistics-box"/>
+		<String fx:value="statistics-main-box"/>
+	</styleClass>
+	<children>
+		<VBox spacing="7.0">
+			<styleClass>
+				<String fx:value="statistics-box"/>
+				<String fx:value="statistics-name-box"/>
+			</styleClass>
+			<children>
+				<Label text="statistics.global.creation"/>
+				<Label text="statistics.global.launches"/>
+				<Label text="statistics.global.active"/>
+				<Label text="statistics.global.instance.launches"/>
+				<Label text="statistics.global.instance.best.launches"/>
+				<Label text="statistics.global.instance.active"/>
+				<Label text="statistics.global.instance.best.active"/>
+				<Label text="statistics.global.instance.creation"/>
+				<Label text="statistics.global.plugin.launches"/>
+				<Label text="statistics.global.plugin.best.launches"/>
+				<Label text="statistics.global.plugin.active"/>
+				<Label text="statistics.global.plugin.best.active"/>
+				<Label text="statistics.global.plugin.download"/>
+			</children>
+		</VBox>
+		<Separator orientation="VERTICAL" styleClass="statistics-separator"/>
+		<VBox fx:id="values" spacing="7.0">
+			<styleClass>
+				<String fx:value="statistics-box"/>
+				<String fx:value="statistics-value-box"/>
+			</styleClass>
+			<children>
+				<Label fx:id="creation"/>
+				<Label fx:id="launches"/>
+				<Label fx:id="active"/>
+				<Label fx:id="instanceLaunches"/>
+				<Label fx:id="bestInstanceLaunches"/>
+				<Label fx:id="instanceActive"/>
+				<Label fx:id="bestInstanceActive"/>
+				<Label fx:id="instanceCreation"/>
+				<Label fx:id="pluginLaunches"/>
+				<Label fx:id="bestPluginLaunches"/>
+				<Label fx:id="pluginActive"/>
+				<Label fx:id="bestPluginActive"/>
+				<Label fx:id="pluginDownload"/>
+			</children>
+		</VBox>
+	</children>
+</HBox>

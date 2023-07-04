@@ -10,74 +10,75 @@
   ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import org.controlsfx.control.*?>
-
-<VBox spacing="7.0" styleClass="plugin-manager-box" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.PluginManagerController">
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.control.CheckComboBox?>
+<?import java.lang.*?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" spacing="7.0" styleClass="plugin-manager-box"
+	  xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.PluginManagerController">
 	<padding>
-		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
 	</padding>
 	<children>
 		<RadioButton fx:id="all" mnemonicParsing="false" text="plugin.manage.all.button">
 			<styleClass>
-				<String fx:value="plugin-manager-button" />
-				<String fx:value="plugin-manager-all-button" />
+				<String fx:value="plugin-manager-button"/>
+				<String fx:value="plugin-manager-all-button"/>
 			</styleClass>
 			<tooltip>
 				<Tooltip text="plugin.manage.all.button.tooltip">
 					<styleClass>
-						<String fx:value="plugin-manager-all-tooltip" />
+						<String fx:value="plugin-manager-all-tooltip"/>
 					</styleClass>
 				</Tooltip>
 			</tooltip>
 			<toggleGroup>
-				<ToggleGroup fx:id="toggleGroup" />
+				<ToggleGroup fx:id="toggleGroup"/>
 			</toggleGroup>
 		</RadioButton>
-		<RadioButton fx:id="specific" mnemonicParsing="false" text="plugin.manage.specific.button" toggleGroup="$toggleGroup">
+		<RadioButton fx:id="specific" mnemonicParsing="false" text="plugin.manage.specific.button"
+					 toggleGroup="$toggleGroup">
 			<styleClass>
-				<String fx:value="plugin-manager-button" />
-				<String fx:value="plugin-manager-specific-button" />
+				<String fx:value="plugin-manager-button"/>
+				<String fx:value="plugin-manager-specific-button"/>
 			</styleClass>
 			<tooltip>
 				<Tooltip text="plugin.manage.specific.button.tooltip">
 					<styleClass>
-						<String fx:value="plugin-manager-specific-tooltip" />
+						<String fx:value="plugin-manager-specific-tooltip"/>
 					</styleClass>
 				</Tooltip>
 			</tooltip>
 		</RadioButton>
 		<CheckComboBox fx:id="chooser">
 			<VBox.margin>
-				<Insets left="28.0" />
+				<Insets left="28.0"/>
 			</VBox.margin>
 			<styleClass>
-				<String fx:value="plugin-manager-combo-box" />
-				<String fx:value="plugin-manager-instance-chooser-combo-box" />
+				<String fx:value="plugin-manager-combo-box"/>
+				<String fx:value="plugin-manager-instance-chooser-combo-box"/>
 			</styleClass>
 			<tooltip>
 				<Tooltip text="plugin.manage.instance.chooser.tooltip">
 					<styleClass>
-						<String fx:value="plugin-manager-instance-chooser-tooltip" />
+						<String fx:value="plugin-manager-instance-chooser-tooltip"/>
 					</styleClass>
 				</Tooltip>
 			</tooltip>
 		</CheckComboBox>
-      <Button mnemonicParsing="false" onAction="#apply" text="plugin.manage.apply.button">
-         <styleClass>
-            <String fx:value="plugin-manager-button" />
-            <String fx:value="plugin-manager-apply-button" />
-         </styleClass>
-		  <tooltip>
-			  <Tooltip text="plugin.manage.apply.button.tooltip">
-				  <styleClass>
-					  <String fx:value="plugin-manager-apply-button-tooltip" />
-				  </styleClass>
-			  </Tooltip>
-		  </tooltip>
-      </Button>
+		<Button mnemonicParsing="false" onAction="#apply" text="plugin.manage.apply.button">
+			<styleClass>
+				<String fx:value="plugin-manager-button"/>
+				<String fx:value="plugin-manager-apply-button"/>
+			</styleClass>
+			<tooltip>
+				<Tooltip text="plugin.manage.apply.button.tooltip">
+					<styleClass>
+						<String fx:value="plugin-manager-apply-button-tooltip"/>
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</Button>
 	</children>
 </VBox>

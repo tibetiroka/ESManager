@@ -23,6 +23,7 @@ import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.source.Source;
 import tibetiroka.esmanager.plugin.LocalPlugin;
 import tibetiroka.esmanager.plugin.PluginManager;
+import tibetiroka.esmanager.utils.Statistics.InstanceStatistics;
 import tibetiroka.esmanager.utils.UpdateProgressTracker;
 
 import java.io.File;
@@ -91,6 +92,13 @@ public class Instance {
 	 */
 	@NotNull
 	private Source source;
+	/**
+	 * Statistics about this instance.
+	 *
+	 * @since 1.1.0
+	 */
+	@NotNull
+	private InstanceStatistics statistics = new InstanceStatistics(this);
 
 	public Instance() {
 	}
@@ -249,6 +257,16 @@ public class Instance {
 	 */
 	public @NotNull Source getSource() {
 		return source;
+	}
+
+	/**
+	 * Gets the statistics tracker for this instance.
+	 *
+	 * @return {@link #statistics}
+	 * @since 1.1.0
+	 */
+	public @NotNull InstanceStatistics getStatistics() {
+		return statistics;
 	}
 
 	/**

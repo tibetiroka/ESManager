@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.Instance;
+import tibetiroka.esmanager.utils.Statistics.PluginStatistics;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,6 +48,12 @@ public class LocalPlugin {
 	 */
 	@NotNull
 	private String name;
+	/**
+	 * Statistics about this plugin.
+	 *
+	 * @since 1.1.0
+	 */
+	private @NotNull PluginStatistics statistics = new PluginStatistics();
 	/**
 	 * The version of this plugin. This is expected to be user-readable and should change for every update. This is the same version that is reported by the plugin index for the installed version.  Never null after the installation of this plugin is finished.
 	 *
@@ -134,6 +141,16 @@ public class LocalPlugin {
 	 */
 	public @NotNull String getName() {
 		return name;
+	}
+
+	/**
+	 * Gets the statistics tracker of this plugin.
+	 *
+	 * @return {@link #statistics}
+	 * @since 1.1.0
+	 */
+	public @NotNull PluginStatistics getStatistics() {
+		return statistics;
 	}
 
 	/**
