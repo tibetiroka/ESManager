@@ -61,7 +61,7 @@ public class StatisticsController {
 				return localize(key, best.get().getPublicName(), formatDuration(best.get().getStatistics().getTimeActive().get()));
 			}
 			return localize(key + ".none");
-		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getInstanceStatistics().getTimeActive()));
+		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getInstanceStatistics().getTimeActive(), getGlobalStatistics().getTimeActive()));
 		bestInstanceLaunches.textProperty().bind(Bindings.createStringBinding(() -> {
 			Optional<Instance> best = Instance.getInstances().stream().max(Comparator.comparingLong((Instance i) -> i.getStatistics().getLaunches().get()));
 			String key = "statistics.global.instance.best.launches.value";
@@ -69,7 +69,7 @@ public class StatisticsController {
 				return localize(key, best.get().getPublicName(), best.get().getStatistics().getLaunches().get());
 			}
 			return localize(key + ".none");
-		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getInstanceStatistics().getLaunches()));
+		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getInstanceStatistics().getLaunches(), getGlobalStatistics().getTimeActive()));
 		bestPluginActive.textProperty().bind(Bindings.createStringBinding(() -> {
 			Optional<LocalPlugin> best = PluginManager.getManager().getInstalledPlugins().stream().max(Comparator.comparingLong((LocalPlugin p) -> p.getStatistics().getTimeActive().get()));
 			String key = "statistics.global.plugin.best.active.value";
@@ -77,7 +77,7 @@ public class StatisticsController {
 				return localize(key, best.get().getName(), formatDuration(best.get().getStatistics().getTimeActive().get()));
 			}
 			return localize(key + ".none");
-		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getPluginStatistics().getTimeActive()));
+		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getPluginStatistics().getTimeActive(), getGlobalStatistics().getTimeActive()));
 		bestPluginLaunches.textProperty().bind(Bindings.createStringBinding(() -> {
 			Optional<LocalPlugin> best = PluginManager.getManager().getInstalledPlugins().stream().max(Comparator.comparingLong((LocalPlugin p) -> p.getStatistics().getLaunches().get()));
 			String key = "statistics.global.plugin.best.launches.value";
@@ -85,7 +85,7 @@ public class StatisticsController {
 				return localize(key, best.get().getName(), best.get().getStatistics().getLaunches().get());
 			}
 			return localize(key + ".none");
-		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getPluginStatistics().getLaunches()));
+		}, Launcher.getLauncher().localeProperty(), getGlobalStatistics().getPluginStatistics().getLaunches(), getGlobalStatistics().getTimeActive()));
 		creation.textProperty().bind(Bindings.createStringBinding(() -> localize("statistics.global.creation.value", getGlobalStatistics().getCreationTime()), Launcher.getLauncher().localeProperty()));
 		instanceActive.textProperty().bind(Bindings.createStringBinding(() -> formatDuration(getGlobalStatistics().getInstanceStatistics().getTimeActive().get()), Launcher.getLauncher().localeProperty(), getGlobalStatistics().getInstanceStatistics().getTimeActive()));
 		instanceCreation.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf(getGlobalStatistics().getInstanceCreations().get()), Launcher.getLauncher().localeProperty(), getGlobalStatistics().getInstanceCreations()));
