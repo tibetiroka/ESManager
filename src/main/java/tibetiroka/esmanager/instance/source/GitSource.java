@@ -166,7 +166,7 @@ public class GitSource extends Source {
 			localize("log.source.update.fetch", getName(), remoteURI, lastCommit, targetName);
 			FetchResult result = fetch(getRemoteRefName(), true);
 			TrackingRefUpdate update = result.getTrackingRefUpdates().iterator().next();
-			return Objects.equals(lastCommit, update.getOldObjectId().getName());
+			return update.getNewObjectId() != null && !Objects.equals(lastCommit, update.getNewObjectId().getName());
 		} catch(GitAPIException e) {
 			throw new RuntimeException(e);
 		}
