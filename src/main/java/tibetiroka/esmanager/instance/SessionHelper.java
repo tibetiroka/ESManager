@@ -10,8 +10,13 @@
 
 package tibetiroka.esmanager.instance;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,9 +80,20 @@ public class SessionHelper {
 		//starting process
 		new Thread(() -> {
 			Main.configureThread(Thread.currentThread(), false);
-			Instant start = Instant.now();
+			Timeline timer = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler<>() {
+				Instant last = Instant.now();
+
+				@Override
+				public void handle(ActionEvent event) {
+					Instant now = Instant.now();
+					instance.getStatistics().advanceActiveTimeCounter(now.toEpochMilli() - last.toEpochMilli());
+					last = now;
+				}
+			}), new KeyFrame(new Duration(100)));
+			timer.setCycleCount(Timeline.INDEFINITE);
 			try {
 				Process process = builder.start();
+				timer.play();
 				LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
 				LogUtils.logAsync(process.getErrorStream(), Level.WARN);
 				instance.getStatistics().advanceLaunchCounter();

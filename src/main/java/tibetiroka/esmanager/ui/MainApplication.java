@@ -10,10 +10,13 @@
 
 package tibetiroka.esmanager.ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,7 +32,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.Main;
@@ -244,25 +247,19 @@ public class MainApplication extends Application {
 			primaryStage.setMaximized(true);
 			primaryStage.setMinHeight(200);
 			primaryStage.setMinWidth(200);
-			primaryStage.setOnCloseRequest(new EventHandler<>() {
-				private final Instant launcherLoaded = Instant.now();
-
-				@Override
-				public void handle(WindowEvent event) {
-					event.consume();
-					//prevent exiting if updates are in progress
-					if(PluginManager.updateInProgressProperty().get()) {
+			primaryStage.setOnCloseRequest(event -> {
+				event.consume();
+				//prevent exiting if updates are in progress
+				if(PluginManager.updateInProgressProperty().get()) {
+					return;
+				}
+				for(Instance instance : Instance.getInstances()) {
+					if(instance.getTracker().isWorkingProperty().get()) {
 						return;
 					}
-					for(Instance instance : Instance.getInstances()) {
-						if(instance.getTracker().isWorkingProperty().get()) {
-							return;
-						}
-					}
-					GlobalStatistics.getGlobalStatistics().advanceActiveTimeCounter(Instant.now().toEpochMilli() - launcherLoaded.toEpochMilli());
-					AppConfiguration.saveAll();
-					primaryStage.close();
 				}
+				AppConfiguration.saveAll();
+				primaryStage.close();
 			});
 			MAIN_WINDOW_STYLESHEETS = scene.getRoot().getStylesheets();
 			STYLE_SHEET_LISTS.add(MAIN_WINDOW_STYLESHEETS);
@@ -332,6 +329,18 @@ public class MainApplication extends Application {
 				}
 				Platform.runLater(() -> MainController.getController().getPluginListBox().setDisable(false));
 			}, "Plugin Query Thread").start();
+			Timeline timer = new Timeline(new KeyFrame(Duration.ZERO, new EventHandler<>() {
+				Instant last = Instant.now();
+
+				@Override
+				public void handle(ActionEvent event) {
+					Instant now = Instant.now();
+					GlobalStatistics.getGlobalStatistics().advanceActiveTimeCounter(now.toEpochMilli() - last.toEpochMilli());
+					last = now;
+				}
+			}), new KeyFrame(new Duration(100)));
+			timer.setCycleCount(Timeline.INDEFINITE);
+			timer.play();
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw new Error(e);
