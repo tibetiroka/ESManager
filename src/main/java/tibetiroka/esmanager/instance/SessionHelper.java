@@ -87,7 +87,8 @@ public class SessionHelper {
 			} finally {
 				log.info(localize("log.instance.play.end", instance.getPublicName()));
 				Platform.runLater(() -> ANY_RUNNING.set(false));
-				instance.getStatistics().advanceActiveTimeCounter(Instant.now().toEpochMilli() - start.toEpochMilli());
+				timer.stop();
+				PluginManager.MANAGER.installAllPlugins();
 			}
 		}).start();
 	}

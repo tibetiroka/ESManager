@@ -14,6 +14,8 @@ import com.owlike.genson.annotation.JsonIgnore;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.Main;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.config.GensonFactory;
@@ -24,6 +26,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.Phaser;
+
+import static tibetiroka.esmanager.config.Launcher.localize;
 
 /**
  * Handles plugin-related settings and the list of installed plugins. Acts as a singleton for configuration purposes. This is often used as a switchboard between {@link LocalPlugin} and {@link RemotePlugin}.
@@ -37,6 +41,7 @@ public class PluginManager {
 	 * @since 0.0.1
 	 */
 	private static final @NotNull SimpleBooleanProperty UPDATE_IN_PROGRESS = new SimpleBooleanProperty(false);
+	private static final Logger log = LoggerFactory.getLogger(PluginManager.class);
 	/**
 	 * The active instance. Never null after the configuration is loaded.
 	 *
@@ -179,6 +184,15 @@ public class PluginManager {
 	}
 
 	/**
+	 * Installs all downloaded plugins. This only changes how the game sees installed plugins, and doesn't affect the internal mechanics of the launcher.
+	 */
+	public void installAllPlugins() {
+		for(LocalPlugin plugin : installedPlugins) {
+			managePlugin(plugin, true);
+		}
+	}
+
+	/**
 	 * Installs all enabled plugins for this instance, and uninstalls all disabled ones. This only changes how the game sees installed plugins, and doesn't affect the internal mechanics of the launcher.
 	 *
 	 * @param instance The instance to configure plugins for
@@ -186,15 +200,7 @@ public class PluginManager {
 	 */
 	public void installPluginsFor(@NotNull Instance instance) {
 		for(LocalPlugin plugin : installedPlugins) {
-			if(plugin.isEnabledFor(instance)) {
-				if(!plugin.getSymlink().exists()) {
-					plugin.symlinkPlugin();
-				}
-			} else {
-				if(plugin.getSymlink().exists() && Files.isSymbolicLink(plugin.getSymlink().toPath())) {
-					plugin.getSymlink().delete();
-				}
-			}
+			managePlugin(plugin, plugin.isEnabledFor(instance));
 		}
 	}
 
@@ -218,6 +224,27 @@ public class PluginManager {
 		}
 		for(RemotePlugin remotePlugin : remotePlugins) {
 			remotePlugin.updateInstalledStatus();
+		}
+	}
+
+	/**
+	 * Installs/uninstalls the specified plugin to/from the game's plugin directory. Doesn't delete or download plugins. This only changes how the game sees installed plugins, and doesn't affect the internal mechanics of the launcher.
+	 *
+	 * @param plugin  The plugin to install/uninstall
+	 * @param install True to install the plugin, false to uninstall
+	 * @since 1.1.1
+	 */
+	private void managePlugin(@NotNull LocalPlugin plugin, boolean install) {
+		if(install) {
+			if(!plugin.getSymlink().exists()) {
+				plugin.symlinkPlugin();
+				log.debug(localize("log.instance.plugin.install"), plugin.getName(), plugin.getVersion());
+			}
+		} else {
+			if(plugin.getSymlink().exists() && Files.isSymbolicLink(plugin.getSymlink().toPath())) {
+				plugin.getSymlink().delete();
+				log.debug(localize("log.instance.plugin.uninstall"), plugin.getName(), plugin.getVersion());
+			}
 		}
 	}
 }
