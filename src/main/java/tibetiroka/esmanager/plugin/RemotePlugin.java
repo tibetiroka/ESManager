@@ -316,6 +316,7 @@ public class RemotePlugin {
 			throw new IllegalStateException("Plugin doesn't exist!");
 		}
 		FileUtils.deleteDirectory(local.getInstallLocation());
+		local.getSymlink().delete();
 		local.getInstallLocation().mkdirs();
 		download(local);
 		AppConfiguration.savePluginConfiguration();
