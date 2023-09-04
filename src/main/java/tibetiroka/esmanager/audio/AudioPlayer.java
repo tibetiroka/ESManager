@@ -298,19 +298,26 @@ public class AudioPlayer {
 				}
 			});
 			musicPaths.removeIf(path -> path.toString().endsWith(".class"));
-			SessionHelper.ANY_RUNNING.addListener((observable, oldValue, noneRunning) -> {
-				if(noneRunning) {
-					if(autoPause.get()) {
-						if(currentPlayer != null) {
-							currentPlayer.pause();
-						}
+			SessionHelper.ANY_RUNNING.addListener((observable, oldValue, anyRunning) -> {
+				if(oldValue != anyRunning) {
+					boolean previousState = oldValue ? !autoPause.get() : autoPlay.get();
+					boolean manual = PLAYING.get() != previousState;
+					if(manual) {
+						return;
 					}
-				} else {
-					if(autoPlay.get()) {
-						if(currentPlayer == null) {
-							start();
-						} else {
-							currentPlayer.play();
+					if(anyRunning) {
+						if(autoPause.get()) {
+							if(currentPlayer != null) {
+								currentPlayer.pause();
+							}
+						}
+					} else {
+						if(autoPlay.get()) {
+							if(currentPlayer == null) {
+								start();
+							} else {
+								currentPlayer.play();
+							}
 						}
 					}
 				}
