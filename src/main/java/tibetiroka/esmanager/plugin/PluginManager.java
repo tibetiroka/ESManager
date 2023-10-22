@@ -12,6 +12,7 @@ package tibetiroka.esmanager.plugin;
 
 import com.owlike.genson.annotation.JsonIgnore;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -236,14 +237,12 @@ public class PluginManager {
 	 */
 	private void managePlugin(@NotNull LocalPlugin plugin, boolean install) {
 		if(install) {
-			if(!plugin.getSymlink().exists()) {
-				plugin.symlinkPlugin();
-				log.debug(localize("log.instance.plugin.install"), plugin.getName(), plugin.getVersion());
-			}
+			plugin.symlinkPlugin();
+			log.debug(localize("log.instance.plugin.install", plugin.getName(), plugin.getVersion()));
 		} else {
 			if(plugin.getSymlink().exists() && Files.isSymbolicLink(plugin.getSymlink().toPath())) {
-				plugin.getSymlink().delete();
-				log.debug(localize("log.instance.plugin.uninstall"), plugin.getName(), plugin.getVersion());
+				FileUtils.deleteQuietly(plugin.getSymlink());
+				log.debug(localize("log.instance.plugin.uninstall", plugin.getName(), plugin.getVersion()));
 			}
 		}
 	}
