@@ -33,9 +33,11 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Objects;
 import java.util.Optional;
 
+import static org.apache.commons.io.FileUtils.forceDelete;
 import static tibetiroka.esmanager.config.Launcher.localize;
 import static tibetiroka.esmanager.instance.annotation.Validator.NOT_BLANK_STRING;
 
@@ -119,24 +121,40 @@ public class ReleaseSource extends Source {
 		switch(type) {
 			case LATEST_RELEASE -> {
 				try {
-					getInstance().getTracker().beginTask(0.33);
+					getInstance().getTracker().beginTask(0.25);
 					Optional<String> branch = Git.lsRemoteRepository().setRemote(remoteURI).setHeads(false).setTags(true).call().stream().map(Ref::getName).filter(r -> r.startsWith("refs/tags/")).min(ReleaseUtils.latestFirst());
 					getInstance().getTracker().endTask();
 					if(branch.isPresent()) {
 						String b = branch.get();
 						String release = b.substring("refs/tags/".length());
 						//
-						getInstance().getTracker().beginTask(0.33);
-						File downloaded = new File(getDirectory(), getFileName(release));
+						getInstance().getTracker().beginTask(0.25);
+						File temp = Files.createTempDirectory(getDirectory().getName()).toFile();
+						File downloaded = new File(temp, getFileName(release));
 						if(AppConfiguration.isWindows()) {
 							FileUtils.unpackZipTracked(new URL(getDownloadURL(release)), downloaded.getParentFile(), getInstance().getTracker());
-							downloaded = new File(downloaded.getParentFile(), "Endless Sky.exe");
 						} else {
 							FileUtils.copyTracked(new URL(getDownloadURL(release)), downloaded, getInstance().getTracker());
 						}
 						getInstance().getTracker().endTask();
-						symlinkExecutable(downloaded);
-						getInstance().getTracker().beginTask(0.33);
+						getInstance().getTracker().beginTask(0.25);
+						// local copy
+						File backup = new File(getDirectory().getParent(), getDirectory().getName() + "-backup");
+						try {
+							getDirectory().renameTo(backup);
+							org.apache.commons.io.FileUtils.copyDirectory(temp, getDirectory());
+							forceDelete(backup);
+							symlinkExecutable(new File(getDirectory(), "Endless Sky.exe"));
+						} catch(Exception e) {
+							backup.renameTo(getDirectory());
+						} finally {
+							if(temp.exists()) {
+								forceDelete(temp);
+							}
+						}
+						//
+						getInstance().getTracker().endTask();
+						getInstance().getTracker().beginTask(0.25);
 						Ref ref = Git.lsRemoteRepository().setRemote(remoteURI).setHeads(false).setTags(true).call().stream().filter(r -> r.getName().equals(b)).findAny().get();
 						targetName = ref.getName().substring("refs/tags/".length());
 						commitHash = ref.getObjectId().getName();
