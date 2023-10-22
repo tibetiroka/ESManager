@@ -106,6 +106,6 @@ public class SessionHelper {
 				timer.stop();
 				PluginManager.MANAGER.installAllPlugins();
 			}
-		}).start();
+		}, "Instance manager thread for "+instance.getInternalName()).start();
 	}
 }
