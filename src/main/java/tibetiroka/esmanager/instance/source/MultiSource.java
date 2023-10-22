@@ -13,6 +13,7 @@ package tibetiroka.esmanager.instance.source;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -213,7 +214,14 @@ public class MultiSource extends Source {
 			switch(result.getMergeStatus()) {
 				case CHECKOUT_CONFLICT ->
 						log.error(localize("log.source.update.multi.merge.fail.conflict.checkout", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
-				case CONFLICTING -> log.error(localize("log.source.update.multi.merge.fail.conflict.merge", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
+				case CONFLICTING -> {
+					log.error(localize("log.source.update.multi.merge.fail.conflict.merge", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
+					// clear the merge state
+					GIT.getRepository().writeMergeCommitMsg(null);
+					GIT.getRepository().writeMergeHeads(null);
+					// reset the index and work directory to HEAD
+					GIT.reset().setMode(ResetType.HARD).call();
+				}
 				case ALREADY_UP_TO_DATE, FAST_FORWARD, FAST_FORWARD_SQUASHED, MERGED, MERGED_NOT_COMMITTED, MERGED_SQUASHED, MERGED_SQUASHED_NOT_COMMITTED -> {
 					RevCommit commit = GIT.log().setMaxCount(1).call().iterator().next();
 					log.debug(localize("log.source.update.multi.merge.done", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName(), result.getMergedCommits().length, commit.getName(), commit.getShortMessage(), commit.getFullMessage(), commit.getAuthorIdent().getName()));
