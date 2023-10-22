@@ -53,9 +53,11 @@ public class LogUtils {
 	 * @since 1.0.0
 	 */
 	public static void logAsync(@NotNull InputStream stream, @NotNull Level level) {
-		new Thread(() -> {
+		Thread t = new Thread(() -> {
 			Main.configureThread(Thread.currentThread(), true);
 			log(stream, level);
-		}, "Logging thread for stream").start();
+		}, "Logging thread for stream");
+		t.setDaemon(true);
+		t.start();
 	}
 }
