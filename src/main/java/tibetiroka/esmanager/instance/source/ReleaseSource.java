@@ -146,7 +146,12 @@ public class ReleaseSource extends Source {
 							forceDelete(backup);
 							symlinkExecutable(new File(getDirectory(), "Endless Sky.exe"));
 						} catch(Exception e) {
-							backup.renameTo(getDirectory());
+							if(backup.exists()) {
+								if(getDirectory().exists() && backup.exists()) {
+									forceDelete(getDirectory());
+								}
+								backup.renameTo(getDirectory());
+							}
 						} finally {
 							if(temp.exists()) {
 								forceDelete(temp);
