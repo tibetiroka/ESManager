@@ -12,6 +12,9 @@ package tibetiroka.esmanager.instance.source;
 
 import javafx.application.Platform;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.RebaseCommand.Operation;
+import org.eclipse.jgit.api.RebaseResult;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.FetchResult;
@@ -100,13 +103,9 @@ public class GitSource extends Source {
 			GIT.checkout().setName(getBranchName()).setCreateBranch(false).call();
 			getInstance().getTracker().endTask();
 			getInstance().getTracker().beginTask(0.6);
-			Ref ref = fetch(getRemoteRefName(), false).getAdvertisedRef(getRemoteRefName());
-			MergeResult result = merge(ref);
-			getInstance().getTracker().endTask();
-			if(!result.getMergeStatus().isSuccessful()) {
-				throw new IllegalStateException(localize("log.git.create.merge.fail.state", getName(), remoteURI, targetName, result.getMergeStatus()));
-			}
-			getInstance().getTracker().beginTask(0.1);
+			Ref ref = fetch(getRemoteRefName(), true).getAdvertisedRef(getRemoteRefName());
+			GIT.reset().setRef(ref.getObjectId().getName()).setMode(ResetType.HARD).call();
+			getInstance().getTracker().endTask();getInstance().getTracker().beginTask(0.1);
 			lastCommit = ref.getObjectId().getName();
 			lastUpdated = Date.from(Instant.now());
 			Platform.runLater(() -> getVersion().set(ref.getObjectId().abbreviate(7).name()));

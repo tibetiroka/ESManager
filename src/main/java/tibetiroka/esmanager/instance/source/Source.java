@@ -480,6 +480,7 @@ public abstract class Source {
 		log.debug(localize("log.git.branch.create", branchName));
 		try {
 			instance.getTracker().beginTask(0.33);
+			GIT.checkout().setName("master").setCreateBranch(false);
 			GIT.checkout().setOrphan(true).setName(branchName).setCreateBranch(true).call();
 			instance.getTracker().endTask();
 			instance.getTracker().beginTask(0.33);

@@ -10,12 +10,13 @@
 
 package tibetiroka.esmanager.instance.source;
 
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -210,6 +211,17 @@ public class MultiSource extends Source {
 			GIT.checkout().setName(getBranchName()).setCreateBranch(false).call();
 			getInstance().getTracker().endTask();
 			getInstance().getTracker().beginTask(0.5);
+			ThreeWayMerger merger = MergeStrategy.RECURSIVE.newMerger(GIT.getRepository(), true);
+			boolean canMerge = merger.merge(GIT.log().setMaxCount(1).call().iterator().next(), other);
+			if(!canMerge) {
+				log.warn(localize("log.source.update.multi.merge.pre.conflict", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
+				if(SETTINGS.mergeStrategyProperty().get() == MergeStrategy.RECURSIVE) {
+					log.error(localize("log.source.update.multi.merge.pre.fail", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
+					return;
+				} else {
+					log.warn(localize("log.source.update.multi.merge.pre.force", getName(), type, getBranchName(), source.getName(), source.type, source.getBranchName()));
+				}
+			}
 			MergeResult result = GIT.merge().setStrategy(SETTINGS.mergeStrategyProperty().get()).setContentMergeStrategy(SETTINGS.contentMergeStrategyProperty().get()).setFastForward(FastForwardMode.NO_FF).setCommit(true).include(other).call();
 			switch(result.getMergeStatus()) {
 				case CHECKOUT_CONFLICT ->
