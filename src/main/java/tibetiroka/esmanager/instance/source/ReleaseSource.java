@@ -144,7 +144,7 @@ public class ReleaseSource extends Source {
 							getDirectory().renameTo(backup);
 							org.apache.commons.io.FileUtils.copyDirectory(temp, getDirectory());
 							forceDelete(backup);
-							symlinkExecutable(new File(getDirectory(), "Endless Sky.exe"));
+							symlinkExecutable(new File(getDirectory(), AppConfiguration.isWindows() ? "Endless Sky.exe" : downloaded.getName()));
 						} catch(Exception e) {
 							if(backup.exists()) {
 								if(getDirectory().exists() && backup.exists()) {
