@@ -53,7 +53,7 @@ public class BuildHelper {
 	/**
 	 * Stores whether the build should have system-specific optimizations enabled
 	 *
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	private @NotNull SimpleBooleanProperty optimize = new SimpleBooleanProperty((Boolean) AppConfiguration.DEFAULT_CONFIGURATION.get("build.optimize"));
 
@@ -75,7 +75,7 @@ public class BuildHelper {
 	 * Sets environment variables common to scons and cmake.
 	 *
 	 * @param processBuilder The process to set environment variables for
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	private static void appendStandardEnv(@NotNull ProcessBuilder processBuilder) {
 		if(getBuilder().optimizeProperty().get()) {
@@ -146,7 +146,7 @@ public class BuildHelper {
 	 * Gets whether the build has system-specific optimizations.
 	 *
 	 * @return {@link #optimize}
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	public @NotNull SimpleBooleanProperty optimizeProperty() {
 		return optimize;

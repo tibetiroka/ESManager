@@ -231,7 +231,7 @@ public class AppConfiguration {
 	 * Checks whether the application is running inside a GraalVM native image.
 	 *
 	 * @return True if native image
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	public static boolean isNativeImage() {
 		return System.getProperty("org.graalvm.nativeimage.kind") != null;

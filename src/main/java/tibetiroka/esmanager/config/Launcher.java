@@ -108,7 +108,7 @@ public class Launcher {
 	/**
 	 * Whether the output of the game should get logged in the launcher.
 	 *
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	@NotNull
 	private SimpleBooleanProperty logGameOutput = new SimpleBooleanProperty((Boolean) AppConfiguration.DEFAULT_CONFIGURATION.get("game.log"));
@@ -447,7 +447,7 @@ public class Launcher {
 	 * Gets whether the output of the game should be logged.
 	 *
 	 * @return {@link #logGameOutput}
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	public @NotNull SimpleBooleanProperty logGameOutputProperty() {
 		return logGameOutput;

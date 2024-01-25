@@ -256,7 +256,7 @@ public class AudioPlayer {
 	 * Gets the file name of a URL. Might return bullshit values.
 	 *
 	 * @return The name of the resource
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	private @NotNull String getUrlFileName(@NotNull URL url) {
 		String[] parts = URLDecoder.decode(url.toString(), StandardCharsets.UTF_8).split("/");
