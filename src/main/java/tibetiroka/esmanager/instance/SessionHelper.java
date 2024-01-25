@@ -93,7 +93,7 @@ public class SessionHelper {
 			timer.setCycleCount(Timeline.INDEFINITE);
 			try {
 				Process process = builder.start();
-				timer.play();
+				Platform.runLater(timer::play);
 				LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
 				LogUtils.logAsync(process.getErrorStream(), Level.WARN);
 				instance.getStatistics().advanceLaunchCounter();
@@ -103,7 +103,7 @@ public class SessionHelper {
 			} finally {
 				log.info(localize("log.instance.play.end", instance.getPublicName()));
 				Platform.runLater(() -> ANY_RUNNING.set(false));
-				timer.stop();
+				Platform.runLater(timer::stop);
 				PluginManager.MANAGER.installAllPlugins();
 			}
 		}, "Instance manager thread for "+instance.getInternalName()).start();

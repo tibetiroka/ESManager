@@ -11,6 +11,7 @@
 package tibetiroka.esmanager.instance;
 
 import com.owlike.genson.annotation.JsonConverter;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -49,6 +50,12 @@ public class BuildHelper {
 	 */
 	@JsonConverter(BuildSystemPropertyConverter.class)
 	private @NotNull SimpleObjectProperty<@NotNull BuildSystem> buildSystem = new SimpleObjectProperty<>(BuildSystem.valueOf(AppConfiguration.DEFAULT_CONFIGURATION.get("build.system.preferred").toString().toUpperCase()));
+	/**
+	 * Stores whether the build should have system-specific optimizations enabled
+	 *
+	 * @since 1.1.4
+	 */
+	private @NotNull SimpleBooleanProperty optimize = new SimpleBooleanProperty((Boolean) AppConfiguration.DEFAULT_CONFIGURATION.get("build.optimize"));
 
 	public BuildHelper() {
 		BUILDER = this;
@@ -113,6 +120,12 @@ public class BuildHelper {
 		return process;
 	}
 
+	private static void appendStandardEnv(@NotNull ProcessBuilder processBuilder) {
+		if(getBuilder().optimizeProperty().get()) {
+			processBuilder.environment().put("CXXFLAGS", "-march=native -flto");
+		}
+	}
+
 	/**
 	 * Gets the preferred/active build system.
 	 *
@@ -121,6 +134,16 @@ public class BuildHelper {
 	 */
 	public @NotNull SimpleObjectProperty<@NotNull BuildSystem> buildSystemProperty() {
 		return buildSystem;
+	}
+
+	/**
+	 * Gets whether the build has system-specific optimizations.
+	 *
+	 * @return {@link #optimize}
+	 * @since 1.1.4
+	 */
+	public @NotNull SimpleBooleanProperty optimizeProperty() {
+		return optimize;
 	}
 
 	/**
@@ -155,6 +178,7 @@ public class BuildHelper {
 				//compilation
 				source.getInstance().getTracker().beginTask(0.5);
 				ProcessBuilder cmake = run(repo, "cmake", "--build", "--preset", preset + "-release");
+				appendStandardEnv(cmake);
 				cmake.environment().put("CMAKE_BUILD_PARALLEL_LEVEL", String.valueOf(Runtime.getRuntime().availableProcessors()));
 				log.info(localize("log.source.build.cmake.compile", String.join(" ", cmake.command())));
 				Process compileProcess = start(cmake);
@@ -177,6 +201,7 @@ public class BuildHelper {
 		SCONS(source -> {
 			try {
 				ProcessBuilder scons = run(Source.getRepository(), "scons", "-j", String.valueOf(Runtime.getRuntime().availableProcessors()));
+				appendStandardEnv(scons);
 				log.info(localize("log.source.build.scons", String.join(" ", scons.command())));
 				Process p = start(scons);
 				int result = p.waitFor();

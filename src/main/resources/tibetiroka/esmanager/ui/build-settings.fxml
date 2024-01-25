@@ -11,13 +11,11 @@
   -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<GridPane xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0"
-		  xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.BuildSettingsController">
+<GridPane cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+		  xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.BuildSettingsController">
 	<styleClass>
 		<String fx:value="setting-gridpane"/>
 		<String fx:value="setting-build-gridpane"/>
@@ -44,6 +42,21 @@
 				</Tooltip>
 			</tooltip>
 		</ChoiceBox>
+		<CheckBox fx:id="optimize" mnemonicParsing="false" text="build.optimize.setting" GridPane.columnSpan="2"
+				  GridPane.rowIndex="1">
+			<styleClass>
+				<String fx:value="setting-button"/>
+				<String fx:value="setting-build-optimize-button"/>
+			</styleClass>
+			<tooltip>
+				<Tooltip text="build.optimize.setting.tooltip">
+					<styleClass>
+						<String fx:value="setting-tooltip"/>
+						<String fx:value="setting-build-build-system-button-tooltip"/>
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</CheckBox>
 	</children>
 	<padding>
 		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
@@ -53,6 +66,7 @@
 		<ColumnConstraints/>
 	</columnConstraints>
 	<rowConstraints>
+		<RowConstraints/>
 		<RowConstraints/>
 	</rowConstraints>
 </GridPane>

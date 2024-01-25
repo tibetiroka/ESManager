@@ -11,6 +11,7 @@
 package tibetiroka.esmanager.plugin;
 
 import com.owlike.genson.annotation.JsonIgnore;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.apache.commons.io.FileUtils;
@@ -339,13 +340,15 @@ public class RemotePlugin {
 	 * @since 0.0.1
 	 */
 	private void download(@NotNull LocalPlugin local) throws IOException {
-		downloadInProgress.set(true);
+		Platform.runLater(() -> downloadInProgress.set(true));
 		progressTracker.reset();
 		tibetiroka.esmanager.utils.FileUtils.unpackZipTracked(url, local.getInstallLocation(), progressTracker);
 		local.symlinkPlugin();
 		local.setVersion(version);
-		downloadInProgress.set(false);
-		installed.set(true);
+		Platform.runLater(() -> {
+			downloadInProgress.set(false);
+			installed.set(true);
+		});
 	}
 
 	/**

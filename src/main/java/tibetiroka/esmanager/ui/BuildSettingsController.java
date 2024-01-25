@@ -12,6 +12,7 @@ package tibetiroka.esmanager.ui;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.util.StringConverter;
@@ -27,9 +28,12 @@ public class BuildSettingsController {
 	protected ChoiceBox<BuildSystem> buildSystem;
 	@FXML
 	protected Label buildSystemLabel;
+	@FXML
+	protected CheckBox optimize;
 
 	public static void bind() {
 		CONTROLLER.buildSystem.valueProperty().bindBidirectional(BuildHelper.getBuilder().buildSystemProperty());
+		CONTROLLER.optimize.selectedProperty().bindBidirectional(BuildHelper.getBuilder().optimizeProperty());
 	}
 
 	@FXML
