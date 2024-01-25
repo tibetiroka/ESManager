@@ -432,7 +432,6 @@ public class Launcher {
 				}
 			}
 		} catch(Exception e) {
-			System.err.println(node.getClass());
 			throw new RuntimeException(e);
 		}
 	}

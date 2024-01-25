@@ -56,7 +56,6 @@ public class GitRepositoryChooserController {
 			//
 			MainApplication.switchScene(stage, scene);
 		} catch(Exception e) {
-			e.printStackTrace();
 			input.pseudoClassStateChanged(MainApplication.TEXT_ERROR_CLASS, true);
 			errorLabel.setVisible(true);
 		}
