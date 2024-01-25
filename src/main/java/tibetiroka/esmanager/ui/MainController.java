@@ -137,9 +137,7 @@ public class MainController {
 		}
 		instanceListBox.disableProperty().bind(PluginManager.updateInProgressProperty());
 		LAUNCHER.disableLocalization(audioBox);
-		AudioPlayer.PLAYING.addListener((observable, oldValue, newValue) -> {
-			audioButton.setGraphic(getAudioButtonIcon(newValue));
-		});
+		AudioPlayer.PLAYING.addListener((observable, oldValue, newValue) -> audioButton.setGraphic(getAudioButtonIcon(newValue)));
 		audioButton.setGraphic(getAudioButtonIcon(AudioPlayer.PLAYING.get()));
 		audioLabel.textProperty().bind(AudioPlayer.CURRENT_TITLE_TEXT);
 	}
