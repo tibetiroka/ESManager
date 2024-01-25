@@ -12,8 +12,6 @@ package tibetiroka.esmanager.instance.source;
 
 import javafx.application.Platform;
 import org.eclipse.jgit.api.MergeResult;
-import org.eclipse.jgit.api.RebaseCommand.Operation;
-import org.eclipse.jgit.api.RebaseResult;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
@@ -105,7 +103,8 @@ public class GitSource extends Source {
 			getInstance().getTracker().beginTask(0.6);
 			Ref ref = fetch(getRemoteRefName(), true).getAdvertisedRef(getRemoteRefName());
 			GIT.reset().setRef(ref.getObjectId().getName()).setMode(ResetType.HARD).call();
-			getInstance().getTracker().endTask();getInstance().getTracker().beginTask(0.1);
+			getInstance().getTracker().endTask();
+			getInstance().getTracker().beginTask(0.1);
 			lastCommit = ref.getObjectId().getName();
 			lastUpdated = Date.from(Instant.now());
 			Platform.runLater(() -> getVersion().set(ref.getObjectId().abbreviate(7).name()));

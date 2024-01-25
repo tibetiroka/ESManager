@@ -21,9 +21,9 @@ public class GameSettingsController {
 	@FXML
 	protected CheckBox debug;
 	@FXML
-	protected CheckBox preservePlugins;
-	@FXML
 	protected CheckBox logOutput;
+	@FXML
+	protected CheckBox preservePlugins;
 
 	public static void bind() {
 		CONTROLLER.debug.selectedProperty().bindBidirectional(LAUNCHER.debugByDefaultProperty());

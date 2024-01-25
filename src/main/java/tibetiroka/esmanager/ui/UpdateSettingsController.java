@@ -25,7 +25,7 @@ public class UpdateSettingsController {
 	protected CheckBox pluginUpdate;
 
 	public static void bind() {
-		CONTROLLER.instanceUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().AutoUpdateInstancesProperty());
+		CONTROLLER.instanceUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().autoUpdateInstancesProperty());
 		CONTROLLER.pluginUpdate.selectedProperty().bindBidirectional(PluginManager.getManager().getAutoUpdatePlugins());
 		CONTROLLER.launcherUpdate.selectedProperty().bindBidirectional(Launcher.getLauncher().autoUpdateLauncherProperty());
 	}

@@ -307,7 +307,7 @@ public class MainApplication extends Application {
 				} catch(Exception e) {
 					log.warn(localize("log.launcher.update.fail", e.getMessage()), e);
 				}
-				if(LAUNCHER.AutoUpdateInstancesProperty().get()) {
+				if(LAUNCHER.autoUpdateInstancesProperty().get()) {
 					Platform.runLater(() -> {
 						for(Instance instance : Instance.getInstances()) {
 							new Thread(() -> {

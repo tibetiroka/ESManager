@@ -14,8 +14,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
-<GridPane cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-		  xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.BuildSettingsController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" hgap="14.0" vgap="7.0"
+		  xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.BuildSettingsController">
 	<styleClass>
 		<String fx:value="setting-gridpane"/>
 		<String fx:value="setting-build-gridpane"/>

@@ -210,16 +210,6 @@ public class Launcher {
 	}
 
 	/**
-	 * Gets whether the output of the game should be logged.
-	 *
-	 * @return {@link #logGameOutput}
-	 * @since 1.1.4
-	 */
-	public @NotNull SimpleBooleanProperty logGameOutputProperty() {
-		return logGameOutput;
-	}
-
-	/**
 	 * Disables localization for all children of the specified node, while allowing the node itself to be localized.
 	 *
 	 * @param node The node
@@ -451,6 +441,16 @@ public class Launcher {
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * Gets whether the output of the game should be logged.
+	 *
+	 * @return {@link #logGameOutput}
+	 * @since 1.1.4
+	 */
+	public @NotNull SimpleBooleanProperty logGameOutputProperty() {
+		return logGameOutput;
 	}
 
 	/**

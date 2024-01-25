@@ -72,6 +72,18 @@ public class BuildHelper {
 	}
 
 	/**
+	 * Sets environment variables common to scons and cmake.
+	 *
+	 * @param processBuilder The process to set environment variables for
+	 * @since 1.1.4
+	 */
+	private static void appendStandardEnv(@NotNull ProcessBuilder processBuilder) {
+		if(getBuilder().optimizeProperty().get()) {
+			processBuilder.environment().put("CXXFLAGS", "-march=native -flto");
+		}
+	}
+
+	/**
 	 * Returns a function that, when given a source, will determine the location of the built executable.
 	 *
 	 * @return The executable file; not the same location as {@link Source#getExecutable()}.
@@ -118,12 +130,6 @@ public class BuildHelper {
 		LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
 		LogUtils.logAsync(process.getErrorStream(), Level.WARN);
 		return process;
-	}
-
-	private static void appendStandardEnv(@NotNull ProcessBuilder processBuilder) {
-		if(getBuilder().optimizeProperty().get()) {
-			processBuilder.environment().put("CXXFLAGS", "-march=native -flto");
-		}
 	}
 
 	/**

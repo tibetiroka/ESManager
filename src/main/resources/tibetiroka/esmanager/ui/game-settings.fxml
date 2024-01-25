@@ -11,8 +11,7 @@
   -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import java.lang.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" cache="true" cacheHint="SPEED" maxWidth="1.7976931348623157E308"

@@ -10,12 +10,13 @@
   ~ You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
   -->
 
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
 <?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<HBox maxWidth="1.7976931348623157E308" spacing="14.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-	  xmlns:fx="http://javafx.com/fxml/1" fx:controller="tibetiroka.esmanager.ui.instance.CustomSourceController">
+<HBox xmlns:fx="http://javafx.com/fxml/1" maxWidth="1.7976931348623157E308" spacing="14.0"
+	  xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="tibetiroka.esmanager.ui.instance.CustomSourceController">
 	<styleClass>
 		<String fx:value="custom-source-hbox"/>
 	</styleClass>

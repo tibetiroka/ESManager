@@ -229,6 +229,7 @@ public class AppConfiguration {
 
 	/**
 	 * Checks whether the application is running inside a GraalVM native image.
+	 *
 	 * @return True if native image
 	 * @since 1.1.4
 	 */
