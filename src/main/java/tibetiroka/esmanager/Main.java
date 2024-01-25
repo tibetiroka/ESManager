@@ -87,6 +87,9 @@ public class Main {
 	public static void main(String[] args) {
 		AppConfiguration.loadLauncherConfiguration();
 		configureThread(Thread.currentThread(), true);
+		if(AppConfiguration.isNativeImage()) {
+			log.warn("Running inside native image!");
+		}
 		Application.launch(MainApplication.class);
 	}
 
@@ -123,14 +126,16 @@ public class Main {
 			// >10MB
 			file.delete();
 		}
-		PipedInputStream outLog = new PipedInputStream();
-		PipedOutputStream out = new PipedOutputStream(outLog);
-		System.setOut(new PrintStream(out, true));
-		PipedInputStream errLog = new PipedInputStream();
-		PipedOutputStream err = new PipedOutputStream(errLog);
-		System.setErr(new PrintStream(err, true));
-		LogUtils.logAsync(outLog, Level.DEBUG);
-		LogUtils.logAsync(errLog, Level.WARN);
+		if(!AppConfiguration.isNativeImage()) {
+			PipedInputStream outLog = new PipedInputStream();
+			PipedOutputStream out = new PipedOutputStream(outLog);
+			System.setOut(new PrintStream(out, true));
+			PipedInputStream errLog = new PipedInputStream();
+			PipedOutputStream err = new PipedOutputStream(errLog);
+			System.setErr(new PrintStream(err, true));
+			LogUtils.logAsync(outLog, Level.DEBUG);
+			LogUtils.logAsync(errLog, Level.WARN);
+		}
 	}
 
 	/**

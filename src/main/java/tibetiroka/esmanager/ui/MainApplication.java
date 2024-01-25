@@ -159,18 +159,21 @@ public class MainApplication extends Application {
 
 	public static Set<String> getThemeNames() {
 		HashSet<String> themeNames = new HashSet<>();
-		try {
-			themeNames.addAll(FileUtils.walk(MainApplication.class.getResource("themes/").toURI())
-			                           .stream()
-			                           .filter(path -> path.getFileName().toString().endsWith(".css"))
-			                           .map(path1 -> path1.getFileName().toString())
-			                           .map(s -> s.substring(0, s.length() - ".css".length()))
-			                           .toList()
-			);
-		} catch(IOException | URISyntaxException | FileSystemNotFoundException e) {
-			log.debug(localize("log.launcher.theme.query.error", e.getMessage()));
+		if(AppConfiguration.isNativeImage()) {
 			for(String s : (ArrayList<String>) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.themes")) {
 				themeNames.add(s);
+			}
+		} else {
+			try {
+				themeNames.addAll(FileUtils.walk(MainApplication.class.getResource("themes/").toURI())
+				                           .stream()
+				                           .filter(path -> path.getFileName().toString().endsWith(".css"))
+				                           .map(path1 -> path1.getFileName().toString())
+				                           .map(s -> s.substring(0, s.length() - ".css".length()))
+				                           .toList()
+				);
+			} catch(IOException | URISyntaxException | FileSystemNotFoundException e) {
+				log.debug(localize("log.launcher.theme.query.error", e.getMessage()));
 			}
 		}
 		File user = new File(AppConfiguration.CONFIG_HOME, "themes");

@@ -425,10 +425,19 @@
                             <verbose>true</verbose>
                             <nativeImageArgs>
                                 <nativeImageArg>--report-unsupported-elements-at-runtime</nativeImageArg>
-                                <nativeImageArg>--initialize-at-build-time=org.slf4j.LoggerFactory,ch.qos.logback,tibetiroka.esmanager.Main$DisplayAppender</nativeImageArg>
-                                <nativeImageArg>-H:ReflectionConfigurationFiles=${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/reflection-config.json</nativeImageArg>
+                                <nativeImageArg>--initialize-at-run-time=org.slf4j.LoggerFactory,ch.qos.logback,tibetiroka.esmanager.Main$DisplayAppender,com.sun.media.sound.DirectAudioDeviceProvider,com.sun.media.sound.DirectAudioDeviceProvider</nativeImageArg>
+                                <nativeImageArg>-H:ReflectionConfigurationFiles=${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/reflection-config.json,${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/reflection-config-jgit.json,${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/reflection-config-logback.json,${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/reflection-config-javafx.json</nativeImageArg>
+								<nativeImageArg>-H:JNIConfigurationFiles=${project.basedir}/src/main/resources/META-INF/native-image/tibetiroka/esmanager/jni-config.json</nativeImageArg>
                                 <nativeImageArg>-H:+IncludeAllLocales</nativeImageArg>
+                                <nativeImageArg>-H:Optimize=2</nativeImageArg>
                             </nativeImageArgs>
+							<bundlesList>
+								<list>tibetiroka.esmanager.config.locales.ui</list>
+							</bundlesList>
+							<verbose>true</verbose>
+							<javaStaticSdkVersion>${java.version}</javaStaticSdkVersion>
+							<javafxStaticSdkVersion>${javafx.version}</javafxStaticSdkVersion>
+							<enableSWRendering>true</enableSWRendering>
                         </configuration>
                         <!--executions>
 							<execution>
