@@ -53,6 +53,21 @@
 				</Tooltip>
 			</tooltip>
 		</CheckBox>
+		<CheckBox fx:id="logOutput" cache="true" cacheHint="SPEED" layoutX="24.0" layoutY="24.0"
+				  mnemonicParsing="false" text="game.log.setting">
+			<styleClass>
+				<String fx:value="setting-button"/>
+				<String fx:value="setting-log-button"/>
+			</styleClass>
+			<tooltip>
+				<Tooltip text="game.log.setting.tooltip">
+					<styleClass>
+						<String fx:value="setting-tooltip"/>
+						<String fx:value="setting-game-log-button-tooltip"/>
+					</styleClass>
+				</Tooltip>
+			</tooltip>
+		</CheckBox>
 	</children>
 	<padding>
 		<Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>

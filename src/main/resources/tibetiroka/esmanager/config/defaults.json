@@ -1,6 +1,7 @@
 {
 	"instance.autoupdate": true,
 	"instance.debug": false,
+	"game.log": true,
 	"plugins.preserve": true,
 	"plugins.autoupdate": true,
 	"plugins.index.remote": "https://raw.githubusercontent.com/endless-sky/endless-sky-plugins/master/generated/plugins.json",

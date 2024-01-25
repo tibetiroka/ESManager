@@ -22,10 +22,13 @@ public class GameSettingsController {
 	protected CheckBox debug;
 	@FXML
 	protected CheckBox preservePlugins;
+	@FXML
+	protected CheckBox logOutput;
 
 	public static void bind() {
 		CONTROLLER.debug.selectedProperty().bindBidirectional(LAUNCHER.debugByDefaultProperty());
 		CONTROLLER.preservePlugins.selectedProperty().bindBidirectional(MANAGER.getPreservePlugins());
+		CONTROLLER.logOutput.selectedProperty().bindBidirectional(LAUNCHER.logGameOutputProperty());
 	}
 
 	@FXML

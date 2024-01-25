@@ -106,6 +106,13 @@ public class Launcher {
 	@NotNull
 	private SimpleObjectProperty<@NotNull Locale> locale = new SimpleObjectProperty<>(DEFAULT_LOCALE);
 	/**
+	 * Whether the output of the game should get logged in the launcher.
+	 *
+	 * @since 1.1.4
+	 */
+	@NotNull
+	private SimpleBooleanProperty logGameOutput = new SimpleBooleanProperty((Boolean) AppConfiguration.DEFAULT_CONFIGURATION.get("game.log"));
+	/**
 	 * Stores the name of the theme file used in the launcher. This value is stored in the configuration files. The value of this property should never be null.
 	 *
 	 * @since 0.0.1
@@ -178,7 +185,7 @@ public class Launcher {
 	 * @return {@link #autoUpdateInstances}
 	 * @since 0.0.1
 	 */
-	public @NotNull SimpleBooleanProperty AutoUpdateInstancesProperty() {
+	public @NotNull SimpleBooleanProperty autoUpdateInstancesProperty() {
 		return autoUpdateInstances;
 	}
 
@@ -200,6 +207,16 @@ public class Launcher {
 	 */
 	public @NotNull SimpleBooleanProperty debugByDefaultProperty() {
 		return debugByDefault;
+	}
+
+	/**
+	 * Gets whether the output of the game should be logged.
+	 *
+	 * @return {@link #logGameOutput}
+	 * @since 1.1.4
+	 */
+	public @NotNull SimpleBooleanProperty logGameOutputProperty() {
+		return logGameOutput;
 	}
 
 	/**

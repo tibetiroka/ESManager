@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 
+import static tibetiroka.esmanager.config.Launcher.getLauncher;
 import static tibetiroka.esmanager.config.Launcher.localize;
 
 /**
@@ -94,8 +95,10 @@ public class SessionHelper {
 			try {
 				Process process = builder.start();
 				Platform.runLater(timer::play);
-				LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
-				LogUtils.logAsync(process.getErrorStream(), Level.WARN);
+				if(getLauncher().logGameOutputProperty().get()) {
+					LogUtils.logAsync(process.getInputStream(), Level.DEBUG);
+					LogUtils.logAsync(process.getErrorStream(), Level.WARN);
+				}
 				instance.getStatistics().advanceLaunchCounter();
 				process.waitFor();
 			} catch(IOException | InterruptedException e) {
@@ -106,6 +109,6 @@ public class SessionHelper {
 				Platform.runLater(timer::stop);
 				PluginManager.MANAGER.installAllPlugins();
 			}
-		}, "Instance manager thread for "+instance.getInternalName()).start();
+		}, "Instance manager thread for " + instance.getInternalName()).start();
 	}
 }
