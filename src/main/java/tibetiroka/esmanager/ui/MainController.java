@@ -107,8 +107,10 @@ public class MainController {
 
 	public void log(Text text) {
 		Platform.runLater(() -> {
+			if(logArea.getChildren().size() > 1000) {
+				logArea.getChildren().remove(0, 500);
+			}
 			logArea.getChildren().add(text);
-			logArea.applyCss();
 		});
 	}
 
