@@ -42,7 +42,7 @@ public class AppConfiguration {
 	 * The directory where configuration files should be stored.
 	 * <ul>
 	 *     <li>On Windows, this is {@code AppData/Local/ESManager/config}</li>
-	 *     <li>On Linux, this is {@code $XDG_CONFIG_HOME}</li>
+	 *     <li>On Linux, this is {@code $XDG_CONFIG_HOME}/ESManager</li>
 	 *     <li>On macOS, this is {@code Library/Application Support/ESManager/config}</li>
 	 * </ul>
 	 *
@@ -53,7 +53,7 @@ public class AppConfiguration {
 	 * The directory where data files are stored. These data files should generally be grouped into their own subdirectories.
 	 * <ul>
 	 *     <li>On Windows, this is {@code AppData/Local/ESManager/data}</li>
-	 *     <li>On Linux, this is {@code $XDG_DATA_HOME}</li>
+	 *     <li>On Linux, this is {@code $XDG_DATA_HOME}/ESManager</li>
 	 *     <li>On macOS, this is {@code Library/Application Support/ESManager/data}</li>
 	 * </ul>
 	 *

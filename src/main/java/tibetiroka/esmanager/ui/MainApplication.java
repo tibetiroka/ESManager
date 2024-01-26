@@ -50,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.FileSystemNotFoundException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -176,7 +177,7 @@ public class MainApplication extends Application {
 				log.debug(localize("log.launcher.theme.query.error", e.getMessage()));
 			}
 		}
-		File user = new File(AppConfiguration.CONFIG_HOME, "themes");
+		File user = new File(AppConfiguration.DATA_HOME, "themes");
 		if(user.isDirectory()) {
 			for(File file : user.listFiles()) {
 				if(file.isFile() && file.getName().endsWith(".css")) {
@@ -205,7 +206,7 @@ public class MainApplication extends Application {
 
 	public static void setTheme(String name) {
 		String sheet;
-		File customDir = new File(AppConfiguration.CONFIG_HOME, "themes");
+		File customDir = new File(AppConfiguration.DATA_HOME, "themes");
 		File custom = new File(customDir, name + ".css");
 		if(custom.isFile()) {
 			try {
@@ -214,7 +215,13 @@ public class MainApplication extends Application {
 				throw new RuntimeException(e);
 			}
 		} else {
-			sheet = MainApplication.class.getResource("themes/" + name + ".css").toString();
+			URL u = MainApplication.class.getResource("themes/" + name + ".css");
+			if(u != null) {
+				sheet = u.toString();
+			} else {
+				Platform.runLater(()->LAUNCHER.themeProperty().set((String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.theme")));
+				return;
+			}
 		}
 		for(ObservableList<String> styleSheets : STYLE_SHEET_LISTS) {
 			styleSheets.setAll(sheet);
