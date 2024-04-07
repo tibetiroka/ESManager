@@ -74,6 +74,8 @@ public class Main {
 	 * @param thread The thread to configure
 	 * @param severe Whether the failure of this thread is a severe issue
 	 * @see #panic(String)
+	 *
+	 * @since 0.1
 	 */
 	public static void configureThread(Thread thread, boolean severe) {
 		thread.setUncaughtExceptionHandler((t, e) -> {

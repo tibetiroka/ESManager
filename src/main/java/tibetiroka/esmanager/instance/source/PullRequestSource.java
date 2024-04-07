@@ -97,10 +97,13 @@ public class PullRequestSource extends Source {
 
 	@Override
 	public void create() {
+		URL downloadUrl = null;
+		String owner = null, repo = null;
+		long artifactId = -1;
+		long workflowId = -1;
 		try {
 			getInstance().getTracker().beginTask(0.5);
 			//getting repository info for github api
-			String owner, repo;
 			{
 				String s = remoteURI.substring(remoteURI.indexOf("github.com/") + "github.com/".length());
 				String[] parts = s.split("[/.]");
@@ -113,7 +116,6 @@ public class PullRequestSource extends Source {
 			getInstance().getTracker().endTask();
 			//query workflows for pr
 			getInstance().getTracker().beginTask(0.25);
-			long workflowId = -1;
 			{
 				String query = ((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.github.workflow.query")).replace("${OWNER}", owner).replace("${REPO}", repo).replace("${HASH}", hash);
 				URL url = new URL(query);
@@ -133,8 +135,7 @@ public class PullRequestSource extends Source {
 			}
 			getInstance().getTracker().endTask();
 			//query workflow artifacts
-			getInstance().getTracker().beginTask(0.25);
-			long artifactId = -1;
+			getInstance().getTracker().beginTask(0.5);
 			String fileName = getFileName();
 			{
 				String query = ((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.github.workflow.artifact.list")).replace("${OWNER}", owner).replace("${REPO}", repo).replace("${ID}", String.valueOf(workflowId));
@@ -155,23 +156,9 @@ public class PullRequestSource extends Source {
 			}
 			getInstance().getTracker().endTask();
 			//download workflow artifact
-			getInstance().getTracker().beginTask(0.25);
-			URL downloadUrl;
-			{
-				String query = ((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.github.workflow.artifact.download"));
-				URL url = new URL(query);
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-				connection.setRequestMethod("GET");
-				connection.setRequestProperty("owner", owner);
-				connection.setRequestProperty("repo", repo);
-				connection.setRequestProperty("id", String.valueOf(artifactId));
-				connection.connect();
-				if(connection.getResponseCode() != 200) {
-					throw new IOException(localize("log.github.response.error", connection.getResponseCode(), new String(connection.getInputStream().readAllBytes())));
-				}
-				downloadUrl = new URL(new String(connection.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
-			}
-			getInstance().getTracker().endTask();
+			String query = ((String) AppConfiguration.DEFAULT_CONFIGURATION.get("source.github.workflow.artifact.download"));
+			query = query.replace("${OWNER}", owner).replace("${REPO}", repo).replace("${ID}", String.valueOf(artifactId));
+			downloadUrl = new URL(query);
 			//
 			getInstance().getTracker().endTask();
 			//
@@ -196,6 +183,7 @@ public class PullRequestSource extends Source {
 			lastCommit = hash;
 		} catch(Exception e) {
 			log.error(localize("log.git.create.pr.fail", getName(), e.getMessage(), targetName));
+			log.debug("\nOwner: {} | Repository: {} | Workflow ID: {} | Artifact ID: {} | Download URL: {}", owner, repo, workflowId, artifactId, downloadUrl);
 			throw new RuntimeException(e);
 		}
 	}

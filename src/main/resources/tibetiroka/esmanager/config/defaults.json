@@ -11,7 +11,7 @@
 	"source.launcher.remoteRepositoryDownload": "https://github.com/tibetiroka/ESManager/releases/download/",
 	"source.github.workflow.query": "https://api.github.com/repos/${OWNER}/${REPO}/actions/runs?head_sha=${HASH}",
 	"source.github.workflow.artifact.list": "https://api.github.com/repos/${OWNER}/${REPO}/actions/runs/${ID}/artifacts",
-	"source.github.workflow.artifact.download": "https://services.tibetiroka.com/api/esmanager/pr_download_artifact",
+	"source.github.workflow.artifact.download": "https://services.tibetiroka.com/api/esmanager/artifact/${OWNER}/${REPO}/${ID}",
 	"launcher.audio.volume": 0.5,
 	"launcher.audio.mute": false,
 	"launcher.audio.autoPlay": true,
