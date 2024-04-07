@@ -19,7 +19,7 @@
 	"launcher.audio.builtin": true,
 	"launcher.audio.custom": true,
 	"launcher.theme": "dark",
-	"launcher.version": "1.2.0",
+	"launcher.version": "1.2.1",
 	"launcher.locale": "en",
 	"launcher.autoupdate": true,
 	"launcher.autoupdate.config.remote": "https://raw.githubusercontent.com/tibetiroka/esmanager/master/autoupdate.json",
