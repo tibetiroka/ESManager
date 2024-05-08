@@ -253,8 +253,10 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	public static void loadAudioPlayer() {
-		loadConfigFile("audio.json", AudioPlayer.class, () -> AudioPlayer.getPlayer() != null, AudioPlayer::new);
-		AUDIO_LOADED.set(true);
+		if(!AUDIO_LOADED.get()) {
+			loadConfigFile("audio.json", AudioPlayer.class, () -> AudioPlayer.getPlayer() != null, AudioPlayer::new);
+			AUDIO_LOADED.set(true);
+		}
 	}
 
 	/**
@@ -263,8 +265,10 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	public static void loadBuildConfiguration() {
-		loadConfigFile("build.json", BuildHelper.class, () -> BuildHelper.getBuilder() != null, BuildHelper::new);
-		BUILD_LOADED.set(true);
+		if(!BUILD_LOADED.get()) {
+			loadConfigFile("build.json", BuildHelper.class, () -> BuildHelper.getBuilder() != null, BuildHelper::new);
+			BUILD_LOADED.set(true);
+		}
 	}
 
 	/**
@@ -320,8 +324,10 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	public static void loadGitConfiguration() {
-		loadConfigFile("git.json", GitSettings.class, () -> GitSettings.getSettings() != null, GitSettings::new);
-		GIT_LOADED.set(true);
+		if(!GIT_LOADED.get()) {
+			loadConfigFile("git.json", GitSettings.class, () -> GitSettings.getSettings() != null, GitSettings::new);
+			GIT_LOADED.set(true);
+		}
 	}
 
 	/**
@@ -330,8 +336,10 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	public static void loadLauncherConfiguration() {
-		loadConfigFile("launcher.json", Launcher.class, () -> Launcher.getLauncher() != null, Launcher::new);
-		LAUNCHER_LOADED.set(true);
+		if(!LAUNCHER_LOADED.get()) {
+			loadConfigFile("launcher.json", Launcher.class, () -> Launcher.getLauncher() != null, Launcher::new);
+			LAUNCHER_LOADED.set(true);
+		}
 	}
 
 	/**
@@ -340,8 +348,10 @@ public class AppConfiguration {
 	 * @since 0.0.1
 	 */
 	public static void loadPluginConfiguration() {
-		loadConfigFile("plugins.json", PluginManager.class, () -> PluginManager.getManager() != null, PluginManager::new);
-		PLUGINS_LOADED.set(true);
+		if(!PLUGINS_LOADED.get()) {
+			loadConfigFile("plugins.json", PluginManager.class, () -> PluginManager.getManager() != null, PluginManager::new);
+			PLUGINS_LOADED.set(true);
+		}
 	}
 
 	/**
@@ -350,8 +360,10 @@ public class AppConfiguration {
 	 * @since 1.1.0
 	 */
 	public static void loadStatisticsConfiguration() {
-		loadConfigFile("statistics.json", GlobalStatistics.class, () -> GlobalStatistics.getGlobalStatistics() != null, GlobalStatistics::new);
-		STATISTICS_LOADED.set(true);
+		if(!STATISTICS_LOADED.get()) {
+			loadConfigFile("statistics.json", GlobalStatistics.class, () -> GlobalStatistics.getGlobalStatistics() != null, GlobalStatistics::new);
+			STATISTICS_LOADED.set(true);
+		}
 	}
 
 	/**

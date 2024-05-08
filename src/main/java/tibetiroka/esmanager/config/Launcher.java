@@ -61,7 +61,7 @@ public class Launcher {
 	 * @since 0.0.1
 	 */
 	@JsonIgnore
-	private final transient HashMap<@NotNull Locale, @NotNull ResourceBundle> builtinBundles;
+	protected final transient HashMap<@NotNull Locale, @NotNull ResourceBundle> builtinBundles;
 	/**
 	 * The map of user-provided resource bundles and their locales.
 	 *
