@@ -66,6 +66,18 @@
 				</Tooltip>
 			</tooltip>
 		</ChoiceBox>
+		<Label text="launcher.version.setting" GridPane.rowIndex="2">
+			<styleClass>
+				<String fx:value="setting-explanation-label"/>
+				<String fx:value="setting-launcher-version-explanation-label"/>
+			</styleClass>
+		</Label>
+		<Label cache="true" cacheHint="SPEED" text="launcher.version" GridPane.columnIndex="1" GridPane.rowIndex="2">
+			<styleClass>
+				<String fx:value="setting-value-label"/>
+				<String fx:value="setting-launcher-version-value-label"/>
+			</styleClass>
+		</Label>
 	</children>
 	<columnConstraints>
 		<ColumnConstraints/>
@@ -74,5 +86,6 @@
 	<rowConstraints>
 		<RowConstraints/>
 		<RowConstraints/>
+		<RowConstraints minHeight="10.0" prefHeight="30.0"/>
 	</rowConstraints>
 </GridPane>
