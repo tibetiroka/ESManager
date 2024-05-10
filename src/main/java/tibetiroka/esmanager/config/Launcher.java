@@ -26,6 +26,8 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.GensonFactory.LocalePropertyConverter;
 
 import java.io.File;
@@ -49,6 +51,7 @@ public class Launcher {
 	 * @since 0.0.1
 	 */
 	private static final Locale DEFAULT_LOCALE = Locale.forLanguageTag((String) AppConfiguration.DEFAULT_CONFIGURATION.get("launcher.locale"));
+	private static final Logger log = LoggerFactory.getLogger(Launcher.class);
 	/**
 	 * The active {@link Launcher} instance. After the configuration for the launcher is loaded, this field is effectively final.
 	 *
@@ -485,6 +488,7 @@ public class Launcher {
 	 *     <li>A custom bundle matching the current locale</li>
 	 *     <li>A built-in bundle matching the current locale</li>
 	 *     <li>The default bundle</li>
+	 *     <li>The default application configuration</li>
 	 * </ol>
 	 * The default bundle should provide an entry for every localization key.
 	 *
@@ -502,6 +506,15 @@ public class Launcher {
 				return new MessageFormat(builtinBundles.get(locale.get()).getString(name));
 			}
 		}
-		return new MessageFormat(builtinBundles.get(DEFAULT_LOCALE).getString(name));
+		if(builtinBundles.get(DEFAULT_LOCALE).containsKey(name)) {
+			return new MessageFormat(builtinBundles.get(DEFAULT_LOCALE).getString(name));
+		}
+		Object o = AppConfiguration.DEFAULT_CONFIGURATION.get(name);
+		if(o instanceof String s) {
+			return new MessageFormat(s);
+		} else {
+			log.warn(localize("log.locale.entry.error", name));
+			return new MessageFormat("");
+		}
 	}
 }
