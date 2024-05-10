@@ -58,6 +58,8 @@ public class VersioningUtils {
 			if(o2.startsWith("v")) {
 				o2 = o2.substring("v".length());
 			}
+			o1 = o1.replaceAll("\\.0+", "");
+			o2 = o2.replaceAll("\\.0+", "");
 			//
 			String[] firstParts = o1.split("\\.");
 			String[] secondParts = o2.split("\\.");

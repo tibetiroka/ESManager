@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SelfTest {
+class MainTest {
 	@Test
 	void versionTest() throws IOException {
 		if(!AppConfiguration.isNativeImage()) {
