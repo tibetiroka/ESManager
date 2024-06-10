@@ -18,6 +18,7 @@ import javafx.util.StringConverter;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.LsRemoteCommand;
 import org.eclipse.jgit.lib.Ref;
+import tibetiroka.esmanager.config.Launcher;
 import tibetiroka.esmanager.instance.InstanceUtils.InstanceBuilder;
 import tibetiroka.esmanager.instance.source.SourceType;
 import tibetiroka.esmanager.ui.MainApplication;
@@ -76,6 +77,8 @@ public class CustomSourceController {
 			}
 		});
 		type.setValue(type.getItems().get(0));
+		Launcher.LAUNCHER.localizeNode(url);
+		url.textProperty().unbind();
 	}
 
 	private boolean verify() {
