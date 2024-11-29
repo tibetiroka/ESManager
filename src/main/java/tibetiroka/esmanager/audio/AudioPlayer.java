@@ -10,6 +10,11 @@
 
 package tibetiroka.esmanager.audio;
 
+import com.goxr3plus.streamplayer.enums.Status;
+import com.goxr3plus.streamplayer.stream.StreamPlayer;
+import com.goxr3plus.streamplayer.stream.StreamPlayerEvent;
+import com.goxr3plus.streamplayer.stream.StreamPlayerException;
+import com.goxr3plus.streamplayer.stream.StreamPlayerListener;
 import com.owlike.genson.Genson;
 import com.owlike.genson.annotation.JsonIgnore;
 import javafx.application.Platform;
@@ -17,25 +22,24 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.MapChangeListener;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.SessionHelper;
+import tibetiroka.esmanager.utils.FxUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Objects;
 
 import static tibetiroka.esmanager.config.Launcher.LAUNCHER;
@@ -102,7 +106,7 @@ public class AudioPlayer {
 	 * @since 0.0.1
 	 */
 	@JsonIgnore
-	private transient MediaPlayer currentPlayer;
+	private transient StreamPlayer currentPlayer;
 	/**
 	 * Stores whether the player should play user-defined music. This value is stored in the configuration files.
 	 *
@@ -143,7 +147,7 @@ public class AudioPlayer {
 	public AudioPlayer() {
 		if(PLAYER != null) {
 			if(PLAYER.currentPlayer != null) {
-				PLAYER.currentPlayer.dispose();
+				PLAYER.currentPlayer.stop();
 				PLAYER.currentPlayer = null;
 			}
 		}
@@ -192,13 +196,16 @@ public class AudioPlayer {
 			}
 			if(PLAYER.currentPlayer == null) {
 				PLAYER.start();
+				PLAYING.set(true);
 			}
 			return;
 		}
 		if(PLAYER.currentPlayer.getStatus() == Status.PLAYING) {
 			PLAYER.currentPlayer.pause();
+			PLAYING.set(false);
 		} else {
-			PLAYER.currentPlayer.play();
+			PLAYER.currentPlayer.resume();
+			PLAYING.set(true);
 		}
 	}
 
@@ -308,10 +315,36 @@ public class AudioPlayer {
 						if(currentPlayer == null) {
 							start();
 						} else {
-							currentPlayer.play();
+							try {
+								currentPlayer.play();
+							} catch(StreamPlayerException e) {
+								throw new RuntimeException(e);
+							}
 						}
 					}
 				}
+			}
+		});
+		volume.addListener((observable, oldValue, newValue) -> {
+			float value = (float) (double) (oldValue);
+			if(currentPlayer != null) {
+				currentPlayer.setGain(value);
+			}
+		});
+		PLAYING.addListener((observable, oldValue, newValue) -> {
+			if(currentPlayer != null) {
+				if(currentPlayer.getStatus() != Status.PLAYING && newValue) {
+					toggleState();
+				} else if(currentPlayer.getStatus() == Status.PLAYING && !newValue) {
+					toggleState();
+				}
+			} else if(newValue) {
+				toggleState();
+			}
+		});
+		muted.addListener((observable, oldValue, newValue) -> {
+			if(currentPlayer != null) {
+				currentPlayer.setMute(newValue);
 			}
 		});
 	}
@@ -327,16 +360,17 @@ public class AudioPlayer {
 			if(!musicPaths.isEmpty()) {
 				URL path = musicPaths.get((int) (Math.random() * musicPaths.size()));
 				try {
-					String uri;
+					/*String uri;
 					if(AppConfiguration.isNativeImage()) {
 						uri = new URI(path.getProtocol(), path.getHost(), path.getPath(), path.getQuery(), null).toString();
 					} else {
 						uri = path.toString();
-					}
-					Media media = new Media(uri);
-					MapChangeListener<String, Object> listener = change -> {
-						String artist = (String) media.getMetadata().get("artist");
-						String title = (String) media.getMetadata().get("title");
+					}*/
+					// Metadata handling
+					try(InputStream input = path.openStream()) {
+						ID3Parser parser = new ID3Parser(input);
+						String artist = parser.getArtist();
+						String title = parser.getTitle();
 						CURRENT_TITLE_TEXT.unbind();
 						if(artist == null) {
 							if(title == null) {
@@ -351,25 +385,46 @@ public class AudioPlayer {
 								CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.both", getUrlFileName(path), artist, title), LAUNCHER.localeProperty()));
 							}
 						}
-					};
-					CURRENT_TITLE_TEXT.bind(Bindings.createStringBinding(() -> localize("audio.display.neither", getUrlFileName(path)), LAUNCHER.localeProperty()));
-					media.getMetadata().addListener(listener);
-					MediaPlayer player = new MediaPlayer(media);
-					player.setAutoPlay(false);
-					player.volumeProperty().bind(volume);
-					player.setOnEndOfMedia(() -> {
-						currentPlayer = null;
-						player.dispose();
-						media.getMetadata().removeListener(listener);
-						PLAYING.unbind();
-						Platform.runLater(AudioPlayer.PLAYER::start);
+					}
+
+					// Playback
+					java.util.logging.Logger dummy = java.util.logging.Logger.getAnonymousLogger();
+					dummy.setUseParentHandlers(false);
+					StreamPlayer player = new StreamPlayer(dummy);
+					player.setLineBufferSize(16384);
+					player.open(path.openStream());
+					player.setGain(volume.floatValue());
+					player.setMute(muted.get());
+					player.addStreamPlayerListener(new StreamPlayerListener() {
+						@Override
+						public void opened(Object dataSource, Map<String, Object> properties) {
+
+						}
+
+						@Override
+						public void progress(int nEncodedBytes, long microsecondPosition, byte[] pcmData, Map<String, Object> properties) {
+
+						}
+
+						@Override
+						public void statusUpdated(StreamPlayerEvent event) {
+							if(event.getPlayerStatus() == Status.EOM) {
+								currentPlayer = null;
+								player.stop();
+								Platform.runLater(AudioPlayer.PLAYER::start);
+							} else if(event.getPlayerStatus() == Status.PLAYING) {
+								FxUtils.runOnPlatform(() -> PLAYING.set(true));
+							} else if(event.getPlayerStatus() == Status.PAUSED) {
+								FxUtils.runOnPlatform(() -> PLAYING.set(false));
+							}
+						}
 					});
 					player.play();
+					player.setGain(volume.floatValue());
 					currentPlayer = player;
-					currentPlayer.muteProperty().bind(muted);
-					PLAYING.bind(Bindings.createBooleanBinding(() -> currentPlayer != null && currentPlayer.getStatus() == Status.PLAYING, currentPlayer.statusProperty()));
 					PLAYER_EXISTS.set(true);
 				} catch(Exception e) {
+					e.printStackTrace();
 					log.error(localize("log.audio.error", e.getMessage(), getUrlFileName(path)));
 					musicPaths.remove(path);
 					start();
@@ -378,7 +433,11 @@ public class AudioPlayer {
 				log.warn(localize("log.audio.missing"));
 			}
 		} else {
-			currentPlayer.play();
+			try {
+				currentPlayer.play();
+			} catch(StreamPlayerException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }
