@@ -26,6 +26,8 @@ module ESManager {
 	requires org.apache.commons.io;
 	requires org.jetbrains.annotations;
 	requires org.controlsfx.controls;
+	requires com.goxr3plus.streamplayer;
+	requires jaudiotagger;
 
 	exports tibetiroka.esmanager.audio to genson;
 	opens tibetiroka.esmanager.audio to genson;
