@@ -6,7 +6,9 @@
         <MavenRunnerSettings>
           <option name="delegateBuildToMaven" value="false" />
           <option name="environmentProperties">
-            <map />
+            <map>
+              <entry key="GRAALVM_HOME" value="$USER_HOME$/.jdks/graalvm-svm-java17-linux-gluon-22.1.0.1-Final" />
+            </map>
           </option>
           <option name="jreName" value="#USE_PROJECT_JDK" />
           <option name="mavenProperties">

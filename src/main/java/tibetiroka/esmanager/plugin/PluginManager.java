@@ -111,7 +111,7 @@ public class PluginManager {
 	 *
 	 * @since 0.0.1
 	 */
-	public static @NotNull PluginManager getManager() {
+	public static PluginManager getManager() {
 		return MANAGER;
 	}
 

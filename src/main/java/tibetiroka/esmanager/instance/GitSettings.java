@@ -60,7 +60,7 @@ public class GitSettings {
 	 * @return {@link #SETTINGS}
 	 * @since 0.0.1
 	 */
-	public static @NotNull GitSettings getSettings() {
+	public static GitSettings getSettings() {
 		return SETTINGS;
 	}
 

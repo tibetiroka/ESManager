@@ -31,6 +31,7 @@ import tibetiroka.esmanager.config.AppConfiguration;
 import tibetiroka.esmanager.instance.SessionHelper;
 import tibetiroka.esmanager.utils.FxUtils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -392,7 +393,7 @@ public class AudioPlayer {
 					dummy.setUseParentHandlers(false);
 					StreamPlayer player = new StreamPlayer(dummy);
 					player.setLineBufferSize(16384);
-					player.open(path.openStream());
+					player.open(new BufferedInputStream(path.openStream()));
 					player.setGain(volume.floatValue());
 					player.setMute(muted.get());
 					player.addStreamPlayerListener(new StreamPlayerListener() {

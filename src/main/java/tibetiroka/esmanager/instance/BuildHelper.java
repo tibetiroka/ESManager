@@ -67,7 +67,7 @@ public class BuildHelper {
 	 * @return {@link #BUILDER}
 	 * @since 0.0.1
 	 */
-	public static @NotNull BuildHelper getBuilder() {
+	public static BuildHelper getBuilder() {
 		return BUILDER;
 	}
 

@@ -119,6 +119,20 @@
 		]
 	},
 	{
+		"name": "org.eclipse.jgit.lib.CoreConfig$TrustLooseRefStat",
+		"condition": {
+			"typeReachable": "org.eclipse.jgit.lib.CoreConfig"
+		},
+		"methods": [
+			{
+				"name": "values",
+				"parameterTypes": [
+
+				]
+			}
+		]
+	},
+	{
 		"name": "org.eclipse.jgit.lib.CoreConfig$SymLinks",
 		"condition": {
 			"typeReachable": "org.eclipse.jgit.treewalk.WorkingTreeOptions"

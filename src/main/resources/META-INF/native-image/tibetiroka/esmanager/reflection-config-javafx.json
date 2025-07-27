@@ -1,5 +1,9 @@
 [
 	{
+		"name": "com.sun.javafx.tk.quantum.QuantumToolkit",
+		"allPublicConstructors": true
+	},
+	{
 		"name": "javafx.beans.property.SimpleBooleanProperty",
 		"allDeclaredConstructors": true,
 		"allPublicConstructors": true,

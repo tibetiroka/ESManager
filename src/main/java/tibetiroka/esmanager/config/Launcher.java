@@ -145,7 +145,7 @@ public class Launcher {
 	 * @return {@link #LAUNCHER}
 	 * @since 0.0.1
 	 */
-	public static @NotNull Launcher getLauncher() {
+	public static Launcher getLauncher() {
 		return LAUNCHER;
 	}
 
